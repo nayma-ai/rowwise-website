@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rowwise — The DB client that asks why</title>
-<meta name="description" content="The local-first database workspace with an AI analyst that investigates your data, shows its evidence, and learns your business.">
+<title>rowwise — Every database, one app, AI built in</title>
+<meta name="description" content="A fast, local desktop database client for PostgreSQL, MySQL, MongoDB, Redis and more, with your own AI keys and a built-in MCP server.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FF7433'/%3E%3Ccircle cx='13' cy='13' r='7' fill='none' stroke='%230F100E' stroke-width='3'/%3E%3Crect x='18.5' y='18.5' width='3.5' height='3.5' fill='%230F100E'/%3E%3Crect x='23' y='23' width='3.5' height='3.5' fill='%230F100E'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -180,6 +180,29 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .plan-card li::before{content:"✓  ";color:var(--ok);font-family:var(--mono)}
 .plan-card .btn{justify-content:center}
 @media (max-width:680px){.plans{grid-template-columns:1fr}}
+.dbgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:44px}
+.db{display:flex;align-items:center;gap:14px;height:64px;padding:0 20px;background:var(--ink);color:var(--fg);border:1px solid var(--line);border-radius:8px;font:500 16px var(--sans)}
+.db i{width:24px;height:24px;flex:none;background:var(--soft);-webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat}
+.soon{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px}
+.soon .label{color:var(--paper-dim);margin-right:6px}
+.soon span:not(.label){font:12px var(--mono);padding:6px 10px;border:1px dashed var(--paper-line);border-radius:6px;color:var(--paper-dim)}
+.feats{grid-template-columns:repeat(4,1fr)}
+.card.typical.dk{border-color:var(--line-2);color:var(--dim)}.card.typical.dk .num{color:var(--fg)}
+#investigate .h2h{margin-top:44px}
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chips span{font:13px var(--mono);padding:9px 14px;border:1px solid var(--paper-line);border-radius:6px;background:#fff6}
+.chips.dk{margin-top:28px}.chips.dk span{border-color:var(--line-2);background:transparent;color:var(--soft)}
+.mcpcard{background:var(--graphite);border:1px solid var(--line);border-radius:10px;padding:24px}
+.mcphead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.mcphead .label{color:var(--dim)}
+.mcpcard pre{margin-bottom:18px;color:var(--fg)}
+#pricing .plan-card{background:var(--paper);border-color:var(--paper-line)}
+#pricing .plan-card.rec{background:var(--ink);color:var(--fg);border-color:var(--ink)}
+#pricing .plan-card .label{color:var(--paper-dim)}#pricing .plan-card.rec .label{color:var(--dim)}
+#pricing .plan-card ul{color:var(--paper-dim)}#pricing .plan-card.rec ul{color:var(--soft)}
+#pricing .plan-card .price span{color:var(--paper-dim)}
+@media (max-width:960px){.dbgrid{grid-template-columns:1fr 1fr}.feats{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr;gap:32px}}
+@media (max-width:680px){.dbgrid{grid-template-columns:1fr 1fr;gap:8px}.db{height:54px;padding:0 14px;font-size:14px;gap:10px}.db i{width:20px;height:20px}.feats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -191,9 +214,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       rowwise
     </a>
     <ul>
-      <li><a href="#switch">Why switch</a></li>
-      <li><a href="#features">Features</a></li>
       <li><a href="#sources">Databases</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#ai">AI</a></li>
+      <li><a href="#mcp">MCP</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
@@ -203,21 +227,73 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <header class="hero">
   <div class="wrap">
-    <div class="label">macOS · Windows · 9 databases · Your own AI</div>
-    <h1>Your database client, <br>now it asks <em>why</em>.</h1>
-    <p class="lede">Everything you open a DB client for — browse tables, write SQL, export results — plus an AI analyst that investigates questions across your data and shows every query it ran.</p>
+    <div class="label">Desktop database client · macOS &amp; Windows</div>
+    <h1>Every database. <br>One app. AI that asks <em>why</em>.</h1>
+    <p class="lede">Connect, browse, query and analyze PostgreSQL, MySQL, MongoDB, Redis and more, in one fast local app, with your own AI keys and a built-in MCP server.</p>
     <div class="ctas">
       <a href="#download" class="btn btn-primary">Download free trial <span class="sfx">macOS · Windows</span></a>
-      <a href="#product" class="btn btn-secondary">See it investigate</a>
+      <a href="#investigate" class="btn btn-secondary">See it investigate</a>
     </div>
-    <div class="fine">14-day free trial · No account · Your own AI key or a local model · 0.1.0-beta.3</div>
+    <div class="fine">14-day free trial · No account · Stored offline · 0.1.0-beta.3</div>
+  </div>
+</header>
+
+<section id="sources" style="padding-top:8px">
+  <div class="wrap">
+    <div class="eyebrow">Connect</div>
+    <h2>One client for all your databases.</h2>
+    <p class="sub">SQL and NoSQL side by side, each in its own tab, on its own saved connection. Stop juggling a different tool for every engine.</p>
+    <div class="dbgrid">
+      <div class="db"><i style="--i:url(assets/db/postgresql.svg)"></i>PostgreSQL</div>
+      <div class="db"><i style="--i:url(assets/db/mysql.svg)"></i>MySQL</div>
+      <div class="db"><i style="--i:url(assets/db/mariadb.svg)"></i>MariaDB</div>
+      <div class="db"><i style="--i:url(assets/db/sqlserver.svg)"></i>SQL Server</div>
+      <div class="db"><i style="--i:url(assets/db/oracle.svg)"></i>Oracle</div>
+      <div class="db"><i style="--i:url(assets/db/sqlite.svg)"></i>SQLite</div>
+      <div class="db"><i style="--i:url(assets/db/duckdb.svg)"></i>DuckDB</div>
+      <div class="db"><i style="--i:url(assets/db/mongodb.svg)"></i>MongoDB</div>
+      <div class="db"><i style="--i:url(assets/db/redis.svg)"></i>Redis</div>
+    </div>
+    <div class="soon">
+      <span class="label">Coming soon</span>
+      <span>Elasticsearch</span><span>DynamoDB</span><span>BigQuery</span><span>Redshift</span><span>ClickHouse</span><span>Snowflake</span><span>CockroachDB</span><span>Cassandra</span><span>Databricks</span><span>Turso</span><span>Cloudflare D1</span><span>Local files</span>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="padding-top:24px">
+  <div class="wrap">
+    <div class="eyebrow">Everything you need in one place</div>
+    <h2>The things you do every day, without switching tools.</h2>
+    <div class="feats">
+      <div class="feat"><div class="label">Sources</div><h3>All databases in one app</h3><p>Nine engines today, SQL and NoSQL, with more on the way.</p></div>
+      <div class="feat"><div class="label">Explore</div><h3>Browse any table</h3><p>Open tables in tabs and page through rows fast. Nothing auto-runs on restart.</p></div>
+      <div class="feat"><div class="label">Query</div><h3>A real SQL editor</h3><p>Inline completion, formatting and query plans. Writes are reviewed before they run.</p></div>
+      <div class="feat"><div class="label">Ask</div><h3>Ask in plain English</h3><p>Turn questions into bounded read queries against your connected schema.</p></div>
+      <div class="feat"><div class="label">Investigate</div><h3>Answers with evidence</h3><p>Multi-step investigations that test hypotheses and show every query they ran.</p></div>
+      <div class="feat"><div class="label">Knowledge</div><h3>Define it once</h3><p>Save what “Revenue” means. The AI follows it every time. Share it as YAML.</p></div>
+      <div class="feat"><div class="label">Boards</div><h3>Live dashboards</h3><p>Pin saved queries to boards and keep an eye on the numbers that matter.</p></div>
+      <div class="feat"><div class="label">History</div><h3>Saved queries &amp; history</h3><p>Every query and question is kept locally, ready to reopen and re-run.</p></div>
+      <div class="feat"><div class="label">Export</div><h3>CSV &amp; JSON</h3><p>Export results, or save snapshots you can compare against a fresh run later.</p></div>
+      <div class="feat"><div class="label">MCP</div><h3>Works with your AI tools</h3><p>A local MCP server lets Claude, Cursor and other assistants query your connections.</p></div>
+      <div class="feat"><div class="label">Tabs</div><h3>Work in tabs</h3><p>Keep several tables and queries open at once, across different connections.</p></div>
+      <div class="feat"><div class="label">Offline</div><h3>Stored on your machine</h3><p>Connections, history and results live in a local workspace. No account.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="investigate" class="dark">
+  <div class="wrap">
+    <div class="eyebrow">Beyond the query</div>
+    <h2>Other clients answer <em>what</em>. rowwise finds <em>why</em>.</h2>
+    <p class="sub">Ask a question and rowwise plans an investigation, runs read-only queries, rules things out, and hands back a finding with the SQL, row counts and assumptions attached.</p>
 
     <div class="h2h">
-      <div class="card typical">
-        <div class="label">Your current DB client</div>
-        <p class="q" style="font-size:19px;margin:14px 0 0;color:var(--paper-ink)">“Why did revenue drop in August?”</p>
+      <div class="card typical dk">
+        <div class="label">A typical AI query</div>
+        <p class="q" style="font-size:19px;margin:14px 0 0;color:var(--fg)">“Why did revenue drop in August?”</p>
         <div class="num">−12.4%</div>
-        <div>You write five more queries, paste results into a spreadsheet, and guess.</div>
+        <div>One query. One number. Now what?</div>
       </div>
       <div class="card ours">
         <div class="label">rowwise · Investigation</div>
@@ -229,39 +305,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </ul>
       </div>
     </div>
-  </div>
-</header>
-
-<section id="switch" style="padding-top:24px">
-  <div class="wrap">
-    <div class="eyebrow">Sound familiar?</div>
-    <h2>Great at running queries. Silent on what they <em>mean</em>.</h2>
-    <p class="sub">DB clients were built to execute SQL. The hard part — deciding which query to run next — is still on you.</p>
-    <div class="pains">
-      <div><span class="mono">01</span><p>A stakeholder asks “why?” and you spend the afternoon writing throwaway joins.</p></div>
-      <div><span class="mono">02</span><p>You paste your schema into a chat window and hope the SQL it writes is right.</p></div>
-      <div><span class="mono">03</span><p>Everyone calculates “revenue” or “active customer” slightly differently.</p></div>
-      <div><span class="mono">04</span><p>One tool for SQL, another for charts, another for AI, a spreadsheet for the answer.</p></div>
-    </div>
-
-    <div class="compare">
-      <div class="row head"><span></span><span>Typical DB client</span><span>rowwise</span></div>
-      <div class="row"><span>Browse, edit &amp; query tables</span><span>✓</span><span class="y">✓</span></div>
-      <div class="row"><span>SQL editor with completion &amp; formatting</span><span>✓</span><span class="y">✓</span></div>
-      <div class="row"><span>Query plans, history, CSV / JSON export</span><span>✓</span><span class="y">✓</span></div>
-      <div class="row"><span>Plain-English questions, using your own AI key</span><span class="n">Varies</span><span class="y">✓</span></div>
-      <div class="row"><span>Multi-step investigations with evidence</span><span class="n">—</span><span class="y">✓</span></div>
-      <div class="row"><span>Shared business definitions the AI follows</span><span class="n">—</span><span class="y">✓</span></div>
-      <div class="row"><span>Cost shown before AI runs</span><span class="n">—</span><span class="y">✓</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="product" class="dark">
-  <div class="wrap">
-    <div class="eyebrow">Ask → Investigate → Evidence</div>
-    <h2>An analyst that shows its working.</h2>
-    <p class="sub">Ask in plain English. rowwise plans the investigation, runs read-only queries against your schema, and hands back a finding with the SQL, row counts and assumptions attached. Edit, cancel or re-run any step.</p>
 
     <div class="app" role="img" aria-label="rowwise app showing an investigation into a revenue decline">
       <div class="hazard"></div>
@@ -307,61 +350,53 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </section>
 
-<section id="features">
-  <div class="wrap">
-    <div class="eyebrow">Everything you need in one place</div>
-    <h2>The things you do every day, without switching tools.</h2>
-    <div class="feats">
-      <div class="feat"><div class="label">Explore</div><h3>Browse any table</h3><p>Open tables in tabs, each on its own saved connection. Nothing auto-runs on restart.</p></div>
-      <div class="feat"><div class="label">Query</div><h3>A real SQL editor</h3><p>Inline completion, formatting, query plans and saved queries. Writes are reviewed before they execute.</p></div>
-      <div class="feat"><div class="label">Ask</div><h3>Ask in plain English</h3><p>Turns questions into bounded read queries against your connected schema.</p></div>
-      <div class="feat"><div class="label">Knowledge</div><h3>Define it once</h3><p>Save what “Revenue” means. The AI uses it every time. Export and share as YAML.</p></div>
-      <div class="feat"><div class="label">Boards</div><h3>Live dashboards</h3><p>Pin saved queries to boards and revisit every past question in history.</p></div>
-      <div class="feat"><div class="label">Export</div><h3>Results you can cite</h3><p>CSV / JSON exports and saved snapshots you can re-run later for a fresh comparison.</p></div>
+<section id="ai">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow">Bring your own AI</div>
+      <h2>Your keys. Your model. Your cost.</h2>
+      <p class="sub">rowwise writes queries from plain questions and explains results. Add your own API key and pick any model, or keep everything on-device with a local one. The estimated cost is shown before each investigation runs.</p>
     </div>
-  </div>
-</section>
-
-<section id="sources" style="padding-top:0">
-  <div class="wrap">
-    <div class="eyebrow">Connect</div>
-    <h2>The databases you already use.</h2>
-    <p class="sub">Nine engines in one app, SQL and NoSQL side by side.</p>
-    <div class="sources">
-      <span>PostgreSQL</span><span>MySQL</span><span>MariaDB</span><span>SQL Server</span><span>Oracle</span><span>SQLite</span><span>DuckDB</span><span>MongoDB</span><span>Redis</span>
-    </div>
-    <div class="eyebrow" style="margin-top:56px">Bring your own AI</div>
-    <p class="sub" style="margin-top:10px">Add your own key and pick the model. Or keep everything on-device with a local model.</p>
-    <div class="sources">
+    <div class="chips">
       <span>OpenAI</span><span>Anthropic</span><span>Google Gemini</span><span>Ollama · local</span><span>OpenAI-compatible</span>
     </div>
   </div>
 </section>
 
-<section id="privacy" class="dark">
-  <div class="wrap">
-    <div class="eyebrow">Local-first</div>
-    <h2>Nothing leaves your machine <em>by surprise</em>.</h2>
-    <p class="sub">A desktop app, not a cloud dashboard. rowwise tells you plainly what an action will read, cost or change — before it happens.</p>
-    <ul class="facts">
-      <li><b>No account</b>Download, connect, go. Nothing to sign up for.</li>
-      <li><b>Read-only by default</b>AI queries are bounded reads. Data changes wait for your review.</li>
-      <li><b>Stays on disk</b>History, SQL and snapshots live in a local workspace. Follow-ups send prior SQL, never prior rows.</li>
-    </ul>
+<section id="mcp" class="dark">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow">MCP server</div>
+      <h2>Use your databases from <em>any</em> AI tool.</h2>
+      <p class="sub">Turn on rowwise’s built-in MCP server and your assistants can list schemas, search tables and run read-only queries across your saved connections, without you handing over a single credential.</p>
+      <div class="chips dk">
+        <span>Claude</span><span>Cursor</span><span>VS Code</span><span>Codex</span><span>Zed</span><span>Windsurf</span><span>+ any MCP client</span>
+      </div>
+    </div>
+    <div class="mcpcard">
+      <div class="mcphead"><span class="label">Local server</span><span class="tag ro">LISTENING</span></div>
+      <pre>http://127.0.0.1:4320/mcp</pre>
+      <ul class="checks">
+        <li><span class="ok">✓</span> Localhost only</li>
+        <li><span class="ok">✓</span> Read-only unless you enable writes</li>
+        <li><span class="ok">✓</span> Off each time rowwise opens</li>
+        <li><span class="ok">✓</span> Credentials stay inside rowwise</li>
+      </ul>
+    </div>
   </div>
 </section>
 
-<section id="pricing" class="dark">
+<section id="pricing">
   <div class="wrap">
     <div class="eyebrow">Pricing</div>
     <h2>Pay once. Own it.</h2>
-    <p class="sub">Try everything free for 14 days. Then a one-time license unlocks every feature and database — no subscription, lifetime updates.</p>
+    <p class="sub">Try everything free for 14 days. Then a one-time license unlocks every feature and database. No subscription, lifetime updates.</p>
     <div class="plans">
       <div class="plan-card">
         <div class="label">Single device</div>
         <div class="price">$49 <span>one-time</span></div>
         <ul><li>Activate on 1 device</li><li>Every feature &amp; database</li><li>Lifetime updates</li><li>License key works offline</li></ul>
-        <a href="https://rowwise.dev/buy/dummy-link" class="btn btn-ghost">Buy for $49</a>
+        <a href="https://rowwise.dev/buy/dummy-link" class="btn btn-secondary">Buy for $49</a>
       </div>
       <div class="plan-card rec">
         <div class="label">Three devices <span class="tag ro">RECOMMENDED</span></div>
@@ -370,33 +405,35 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <a href="https://rowwise.dev/buy/dummy-link" class="btn btn-primary">Buy for $99</a>
       </div>
     </div>
-    <p class="fine" style="color:var(--dim)">AI usage is billed by your own provider. rowwise never marks it up.</p>
+    <p class="fine">AI usage is billed by your own provider. rowwise never marks it up.</p>
   </div>
 </section>
 
-<section id="faq">
+<section id="faq" style="padding-top:0">
   <div class="wrap">
     <div class="eyebrow">FAQ</div>
     <h2>Frequently asked questions.</h2>
     <div class="faq">
-      <details><summary>Can it replace my current database client?</summary><p>For day-to-day browsing, querying and exporting on the supported databases, yes. Some advanced features you may rely on — like SSH tunnels — aren’t in the beta yet, so many people keep their old client alongside while they try it.</p></details>
-      <details><summary>Does my data leave my computer?</summary><p>Your data stays local. When you use Ask, schema details and your question go to the AI provider you configured. Result rows are not sent in follow-ups. Use Ollama to keep everything on-device.</p></details>
+      <details><summary>Which databases can I connect to?</summary><p>PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, SQLite, DuckDB, MongoDB and Redis today. More sources, including cloud warehouses, are on the way.</p></details>
+      <details><summary>Can it replace my current database client?</summary><p>For day-to-day browsing, querying and exporting on the supported databases, yes. Some advanced features, like SSH tunnels, aren’t in the beta yet.</p></details>
+      <details><summary>Does my data ever leave my computer?</summary><p>No, except when you use AI. Then schema details and your question go to the provider you configured, and follow-ups don’t include prior result rows. Use Ollama to keep everything on-device.</p></details>
       <details><summary>Can the AI change my data?</summary><p>No. AI-generated queries are bounded reads. Writes only happen from the SQL editor, after you review them.</p></details>
-      <details><summary>Do I need my own AI key?</summary><p>Yes — OpenAI, Anthropic, Gemini, any OpenAI-compatible endpoint, or a local model through Ollama. The rest of the client works without one.</p></details>
-      <details><summary>How much does it cost?</summary><p>Every download starts a 14-day free trial with no account. After that, a one-time license unlocks everything — no subscription. AI usage is billed by your own provider, and rowwise shows the estimated cost before each investigation.</p></details>
+      <details><summary>How does the MCP server work?</summary><p>Enable it in Settings and point your AI tool at the local endpoint. It listens on localhost only, is read-only unless you enable writes, and switches off each time rowwise opens.</p></details>
+      <details><summary>Do I need my own AI key?</summary><p>For AI features, yes. Use OpenAI, Anthropic, Gemini, any OpenAI-compatible endpoint, or a local model through Ollama. Everything else works without one.</p></details>
+      <details><summary>How much does it cost?</summary><p>Every download starts a 14-day free trial with no account. After that, a one-time license unlocks everything. AI usage is billed by your own provider.</p></details>
       <details><summary>Which platforms are supported?</summary><p>macOS and Windows.</p></details>
     </div>
   </div>
 </section>
 
-<section id="download" class="final">
+<section id="download" class="final dark">
   <div class="wrap">
-    <div class="eyebrow">Public beta · 0.1.0-beta.3</div>
-    <h2>Keep your queries. Add the <em>why</em>.</h2>
-    <p class="sub">Point rowwise at a database you already have. 14 days free, no account.</p>
+    <div class="eyebrow">Download · 0.1.0-beta.3</div>
+    <h2>All your databases. One app. <em>Try it</em> free.</h2>
+    <p class="sub">14-day free trial, runs on your machine, stored offline.</p>
     <div class="ctas">
       <a href="https://rowwise.dev/download/dummy-link" class="btn btn-primary">Download for macOS <span class="sfx">.dmg</span></a>
-      <a href="https://rowwise.dev/download/dummy-link" class="btn btn-secondary">Windows</a>
+      <a href="https://rowwise.dev/download/dummy-link" class="btn btn-ghost">Windows</a>
     </div>
   </div>
 </section>
@@ -404,7 +441,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <footer>
   <div class="wrap">
     <span>rowwise — wise about every row · rowwise.dev</span>
-    <span>© 2026 rowwise</span>
+    <span>Database names and logos are trademarks of their owners. © 2026 rowwise</span>
   </div>
 </footer>
 
