@@ -25,6 +25,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+[id]{scroll-margin-top:80px}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%;height:auto}
@@ -530,7 +531,8 @@ footer a:hover{color:var(--text)}
       <details><summary>Is it a subscription?</summary><p>Personal and Pro are not. You pay once and keep the version you buy forever, with a year of updates included. After that you can renew updates at a discount, or keep using what you have. Buy during the beta and your updates never expire. Team licenses are billed yearly per seat.</p></details>
       <details><summary>Which databases are in preview?</summary><p>Snowflake and BigQuery work today and are still being validated against more account setups. Everything else listed is fully supported.</p></details>
       <details><summary>How does the MCP server work?</summary><p>Enable it in Settings and point your AI tool at the local address. It listens on localhost only, is read-only unless you enable writes, and switches off each time rowwise starts.</p></details>
-      <details><summary>Which platforms are supported?</summary><p>macOS and Windows.</p></details>
+      <details><summary>Which platforms are supported?</summary><p>macOS (one download for Apple silicon and Intel Macs) and Windows.</p></details>
+      <details id="first-launch"><summary>My computer warns me when I first open rowwise. Is that expected?</summary><p>Yes, during the beta. The beta builds are not yet signed by Apple or Microsoft, so your computer asks you to confirm once. On a Mac, open rowwise, close the “could not verify” message, then go to <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b> next to rowwise. On Windows, click <b>More info</b>, then <b>Run anyway</b>. Signed builds will remove this step before 1.0.</p></details>
       <details><summary>Who makes rowwise, and how do I get help?</summary><p>rowwise is built by <a class="link" href="https://www.nayma.ai/">NAYMA</a>. Email <a class="link" href="mailto:support@nayma.ai">support@nayma.ai</a> for help, licensing or Team questions.</p></details>
     </div>
   </div>
@@ -545,6 +547,7 @@ footer a:hover{color:var(--text)}
       <a href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg" class="btn btn-primary"><svg><use href="#apple"/></svg>Download for macOS</a>
       <a href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-windows-setup.exe" class="btn btn-secondary"><svg><use href="#windows"/></svg>Download for Windows</a>
     </div>
+    <p style="margin-top:18px;color:var(--muted);font-size:13px">Beta builds ask you to confirm once on first launch. <a class="link" href="#first-launch">Here’s how.</a></p>
   </div>
 </section>
 
@@ -579,6 +582,13 @@ footer a:hover{color:var(--text)}
       render();
     });
   });
+  // Links to a FAQ answer open it.
+  const openFromHash = () => {
+    const target = location.hash && document.querySelector(location.hash);
+    if (target && target.tagName === "DETAILS") target.open = true;
+  };
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
   // Warm the cache so switching views is instant.
   for (const v of Object.keys(copy)) for (const t of ["dark", "light"]) new Image().src = `assets/screens/${v}-${t}.png`;
 })();
