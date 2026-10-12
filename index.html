@@ -3,469 +3,580 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rowwise — Every database, one app, AI that writes the query</title>
-<meta name="description" content="A fast, local desktop database client for PostgreSQL, MySQL, Oracle, SQL Server, MongoDB, Redis, ClickHouse and more. Ask in plain English: the AI sees your schema, never your rows.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FF7433'/%3E%3Ccircle cx='13' cy='13' r='7' fill='none' stroke='%230F100E' stroke-width='3'/%3E%3Crect x='18.5' y='18.5' width='3.5' height='3.5' fill='%230F100E'/%3E%3Crect x='23' y='23' width='3.5' height='3.5' fill='%230F100E'/%3E%3C/svg%3E">
+<title>rowwise — Every database, one fast app, AI that writes the SQL</title>
+<meta name="description" content="A fast desktop database client for PostgreSQL, MySQL, SQL Server, Oracle, MongoDB, Redis, ClickHouse and more. Ask in plain English and get SQL you can read and run. The AI sees your schema, never your rows. Pay once from $49.">
+<meta property="og:title" content="rowwise — Every database, one fast app">
+<meta property="og:description" content="Browse, query and edit every database in one app. AI writes the SQL; your rows never leave your machine.">
+<meta property="og:image" content="assets/screens/query-dark.png">
+<meta name="theme-color" content="#0A0B0F">
+<meta name="author" content="NAYMA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237C7CFF'/%3E%3Ccircle cx='13' cy='13' r='7' fill='none' stroke='%230B0B1F' stroke-width='3'/%3E%3Crect x='18.5' y='18.5' width='3.5' height='3.5' fill='%230B0B1F'/%3E%3Crect x='23' y='23' width='3.5' height='3.5' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --trace:#FF7433; --trace-hover:#FF8A52; --trace-deep:#E85A1C;
-  --ink:#0F100E; --graphite:#171815; --raised:#20221E; --line:#2E302B; --line-2:#3A3C36;
-  --mute:#5A5C55; --dim:#9A9C93; --soft:#B9B8B0; --fg:#ECEAE3;
-  --paper:#F3F0E8; --paper-line:#DAD6CA; --paper-ink:#171815; --paper-dim:#55554E;
-  --ok:#5CC98F; --assume:#A99CF5; --prod:#F2C94C; --blocked:#F0726E;
-  --serif:Newsreader,Georgia,serif; --sans:Geist,system-ui,sans-serif; --mono:'Geist Mono',ui-monospace,monospace;
+  --bg:#0A0B0F; --bg-2:#0E0F14; --surface:#12131A; --surface-2:#171922; --line:#1F2129; --line-2:#2B2E38;
+  --text:#ECEDF0; --body:#B4B7C0; --muted:#8B8F9A; --faint:#5C606C;
+  --accent:#7C7CFF; --accent-2:#A5A5FF; --accent-ink:#0B0B1F; --accent-soft:rgb(124 124 255 / .12);
+  --ok:#3DD68C; --cyan:#56C2E6; --amber:#F2C94C;
+  --sans:Geist,system-ui,-apple-system,sans-serif; --mono:'Geist Mono',ui-monospace,monospace;
+  --radius:14px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--paper-ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 .mono{font-family:var(--mono)}
-.label{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
-em,.q{font-family:var(--serif);font-style:italic;font-weight:400}
+h1,h2,h3{margin:0;letter-spacing:-.025em;font-weight:600}
+p{margin:0}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px;border-radius:6px;font:500 14px var(--sans);border:1px solid transparent;cursor:pointer;transition:background .15s,border-color .15s}
-.btn-primary{background:var(--trace);color:var(--ink)}
-.btn-primary:hover{background:var(--trace-hover)}
-.btn-secondary{border-color:var(--paper-line);color:var(--paper-ink);background:transparent}
-.btn-secondary:hover{border-color:var(--paper-dim)}
-.btn .sfx{font:12px var(--mono);opacity:.7}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 20px;border-radius:10px;font:500 15px var(--sans);border:1px solid transparent;cursor:pointer;transition:background .15s,border-color .15s,transform .15s;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:0 8px 30px -8px rgb(124 124 255 / .6),inset 0 1px 0 rgb(255 255 255 / .25)}
+.btn-primary:hover{background:#9393FF}
+.btn-secondary{background:rgb(255 255 255 / .04);border-color:var(--line-2);color:var(--text)}
+.btn-secondary:hover{border-color:#41444F;background:rgb(255 255 255 / .07)}
+.btn-sm{height:36px;padding:0 14px;font-size:14px;border-radius:8px}
+.btn svg{width:16px;height:16px;flex:none}
+.link{color:var(--accent-2);font-weight:500}
+.link:hover{color:#C4C4FF}
 
 /* nav */
-nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--paper-line)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
-.brand{display:flex;align-items:center;gap:9px;font:600 18px var(--sans);letter-spacing:-.02em}
-nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-size:14px;color:var(--paper-dim)}
-nav ul a:hover{color:var(--paper-ink)}
-nav .btn{height:34px;font-size:13px}
+nav{position:sticky;top:0;z-index:20;background:rgb(10 11 15 / .72);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid rgb(255 255 255 / .06)}
+nav .wrap{display:flex;align-items:center;gap:32px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font:600 18px var(--sans);letter-spacing:-.02em}
+nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:14px;color:var(--muted)}
+nav ul a:hover{color:var(--text)}
+nav .nav-cta{margin-left:auto;display:flex;gap:10px;align-items:center}
 
 /* hero */
-.hero{padding:88px 0 72px}
-.hero .label{color:var(--paper-dim)}
-h1{font:400 clamp(44px,7vw,80px)/.98 var(--serif);letter-spacing:-.025em;margin:22px 0 22px;max-width:900px}
-h1 em{color:inherit}
-.lede{font-size:19px;line-height:1.5;color:var(--paper-dim);max-width:600px;margin:0 0 32px}
-.ctas{display:flex;gap:12px;flex-wrap:wrap}
-.fine{margin-top:18px;font:12px var(--mono);color:var(--paper-dim)}
+.hero{position:relative;padding:96px 0 40px;text-align:center;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-120px 0 auto;height:720px;z-index:-1;background:radial-gradient(60% 55% at 50% 30%,rgb(124 124 255 / .28),transparent 70%),radial-gradient(35% 35% at 75% 20%,rgb(86 194 230 / .12),transparent 70%)}
+.hero::after{content:"";position:absolute;inset:0 0 auto;height:640px;z-index:-1;background-image:linear-gradient(rgb(255 255 255 / .035) 1px,transparent 1px),linear-gradient(90deg,rgb(255 255 255 / .035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(60% 60% at 50% 30%,#000,transparent)}
+.pill{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px 0 6px;border:1px solid var(--line-2);border-radius:999px;background:rgb(255 255 255 / .03);font-size:13px;color:var(--body)}
+.pill b{font:500 11px var(--mono);letter-spacing:.04em;background:var(--accent-soft);color:var(--accent-2);border-radius:999px;padding:4px 8px}
+h1{font-size:clamp(40px,6.4vw,74px);line-height:1.02;letter-spacing:-.04em;margin:26px auto 22px;max-width:960px}
+.grad{background:linear-gradient(92deg,#C9C9FF 0%,var(--accent) 45%,var(--cyan) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(17px,2vw,20px);line-height:1.55;color:var(--body);max-width:700px;margin:0 auto 34px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.assure{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;margin-top:22px;font-size:13px;color:var(--muted)}
+.assure span{display:inline-flex;align-items:center;gap:7px}
+.assure svg{width:14px;height:14px;color:var(--ok)}
 
-/* head-to-head */
-.h2h{display:grid;grid-template-columns:1fr 1.4fr;gap:16px;margin-top:64px}
-.card{border-radius:10px;padding:26px}
-.card.typical{border:1px dashed var(--paper-line);color:var(--paper-dim)}
-.card.typical .num{font:500 56px/1 var(--mono);color:var(--paper-ink);margin:18px 0 10px;letter-spacing:-.03em}
-.card.ours{background:var(--ink);color:var(--fg)}
-.card.ours .label{color:var(--dim)}
-.card.ours p.finding{font:400 26px/1.25 var(--serif);margin:16px 0 20px}
-.card.ours p.finding b{font-weight:500;color:var(--trace)}
-.checks{list-style:none;margin:0;padding:0;font:13px/2 var(--mono);color:var(--soft)}
-.checks .ok{color:var(--ok)} .checks .as{color:var(--assume)}
+/* product tour */
+.tour{margin-top:64px}
+.tour-controls{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.seg{display:inline-flex;padding:4px;border:1px solid var(--line-2);border-radius:12px;background:rgb(255 255 255 / .03)}
+.seg button{height:34px;padding:0 16px;border:0;border-radius:8px;background:transparent;color:var(--muted);font:500 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--text);box-shadow:0 1px 0 rgb(255 255 255 / .06) inset,0 4px 14px -6px #000}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.frame{position:relative;border-radius:16px;padding:10px;background:linear-gradient(180deg,rgb(255 255 255 / .09),rgb(255 255 255 / .02));box-shadow:0 40px 120px -40px rgb(124 124 255 / .45),0 30px 80px -30px #000}
+.frame img{border-radius:10px;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left;background:var(--surface)}
+.caption{margin-top:16px;text-align:center;color:var(--muted);font-size:14px;min-height:22px}
 
 /* sections */
-section{padding:96px 0}
-.eyebrow{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim)}
-h2{font:400 clamp(32px,4.5vw,48px)/1.08 var(--serif);letter-spacing:-.02em;margin:14px 0 16px;max-width:720px}
-.sub{color:var(--paper-dim);max-width:620px;font-size:17px;margin:0}
+section{padding:120px 0}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
+.eyebrow::before{content:"";width:18px;height:1px;background:currentColor;opacity:.6}
+h2{font-size:clamp(32px,4.4vw,52px);line-height:1.06;letter-spacing:-.035em;margin:16px 0 18px;max-width:820px}
+.sub{color:var(--body);max-width:660px;font-size:18px}
+.center{text-align:center}.center h2,.center .sub{margin-left:auto;margin-right:auto}
+.divider{border-top:1px solid var(--line)}
 
-/* product demo on Ink */
-.dark{background:var(--ink);color:var(--fg)}
-.dark .eyebrow,.dark .sub{color:var(--dim)}
-.app{margin-top:48px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--graphite);box-shadow:0 30px 80px -30px #000}
-.hazard{height:3px;background:repeating-linear-gradient(-45deg,var(--prod) 0 8px,var(--ink) 8px 16px)}
-.bar{display:flex;align-items:center;gap:22px;padding:10px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--dim)}
-.bar .dots{display:flex;gap:6px}.bar .dots i{width:11px;height:11px;border-radius:50%;background:var(--line-2)}
-.bar .tab.on{color:var(--fg)}
-.tag{font:500 10px var(--mono);letter-spacing:.06em;padding:3px 7px;border-radius:4px;border:1px solid}
-.tag.prod{color:var(--prod);border-color:color-mix(in srgb,var(--prod) 40%,transparent)}
-.tag.ro{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
-.tag.as{color:var(--assume);border-color:color-mix(in srgb,var(--assume) 40%,transparent)}
-.bar .right{margin-left:auto;display:flex;gap:8px;align-items:center}
-.body{display:grid;grid-template-columns:210px 1fr 320px;min-height:460px}
-.side{border-right:1px solid var(--line);padding:18px 14px;font:13px/2 var(--mono);color:var(--soft)}
-.side .label{color:var(--mute);display:block;margin:4px 0 6px}
-.side .k{color:var(--assume)}
-.main{padding:28px 30px}
-.ask{font:400 22px var(--serif);color:var(--fg);margin:0 0 6px}
-.ask em{color:var(--trace)}
-.plan{list-style:none;padding:0;margin:20px 0;font:13px/2.1 var(--mono)}
-.plan li{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}
-.plan .d{color:var(--ok)} .plan .r{color:var(--trace)} .plan .p{color:var(--mute)}
-.plan span.t{color:var(--dim)}
-.cost{display:flex;justify-content:space-between;font:12px var(--mono);color:var(--dim)}
-.meter{height:4px;background:var(--line);border-radius:2px;margin:8px 0 0;overflow:hidden}.meter i{display:block;height:100%;width:20%;background:var(--soft)}
-.evidence{border-left:1px solid var(--line);padding:22px;background:var(--raised)}
-.evidence p{font:400 20px/1.3 var(--serif);margin:10px 0 18px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
-.stats div{font:11px var(--mono);color:var(--dim)} .stats b{display:block;font:500 15px var(--mono);color:var(--fg)}
-pre{margin:0;padding:14px;background:var(--ink);border:1px solid var(--line);border-radius:6px;font:12px/1.7 var(--mono);color:var(--soft);white-space:pre-wrap}
-pre .kw{color:var(--trace)} pre .c{color:var(--mute)}
-
-/* principles */
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:52px;border-top:1px solid var(--paper-line)}
-.pr{padding:26px 22px 0 0}
-.pr .label{color:var(--trace-deep)}
-.pr h3{font:400 24px/1.2 var(--serif);margin:12px 0 10px}
-.pr p{margin:0;color:var(--paper-dim);font-size:14px}
-
-/* features */
-.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--paper-line);border:1px solid var(--paper-line);border-radius:10px;overflow:hidden;margin-top:52px}
-.feat{background:var(--paper);padding:28px}
-.feat .label{color:var(--paper-dim)}
-.feat h3{font:600 17px var(--sans);margin:12px 0 8px;letter-spacing:-.01em}
-.feat p{margin:0;color:var(--paper-dim);font-size:14px}
+/* logo marquee */
+.logos{padding:56px 0 0}
+.logos p{text-align:center;color:var(--muted);font-size:14px;margin-bottom:22px}
+.logo-row{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 30px;opacity:.85}
+.logo-row span{display:inline-flex;align-items:center;gap:9px;font-size:15px;color:var(--body)}
+.logo-row i,.db i{width:20px;height:20px;flex:none;background:var(--c,var(--body));-webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat}
+.logo-row i{background:var(--muted)}
 
 /* sources */
-.sources{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
-.sources span{font:13px var(--mono);padding:8px 14px;border:1px solid var(--paper-line);border-radius:6px;background:#fff6}
+.groups{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
+.group{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,var(--surface),var(--bg-2));padding:22px}
+.group h3{font-size:15px;letter-spacing:-.01em}
+.group > p{color:var(--muted);font-size:13px;margin:6px 0 16px;min-height:42px}
+.dbs{display:grid;gap:8px}
+.db{display:flex;align-items:center;gap:12px;height:48px;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:rgb(255 255 255 / .02);font-weight:500;font-size:15px;transition:border-color .15s,background .15s}
+.db:hover{border-color:var(--line-2);background:rgb(255 255 255 / .04)}
+.db small{margin-left:auto;font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--amber);border:1px solid rgb(242 201 76 / .35);border-radius:6px;padding:3px 6px}
+.conn-feats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.conn-feats div{display:flex;gap:12px;align-items:flex-start;padding:18px 20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);font-size:14px;color:var(--body)}
+.conn-feats b{display:block;color:var(--text);font-weight:500;margin-bottom:2px}
+.ico{flex:none;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-2)}
+.ico svg{width:18px;height:18px}
+.soon{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:28px;color:var(--muted);font-size:13px}
+.soon span:not(:first-child){font:12px var(--mono);padding:5px 10px;border:1px dashed var(--line-2);border-radius:999px}
 
-/* privacy */
-.say{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
-.say div{border:1px solid var(--line);border-radius:10px;padding:26px}
-.say .label{color:var(--dim)}
-.say p{font:400 21px/1.35 var(--serif);margin:14px 0 0}
-.facts{list-style:none;padding:0;margin:40px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font-size:14px;color:var(--soft)}
-.facts b{display:block;color:var(--fg);font-weight:500;margin-bottom:4px}
+/* feature rows */
+.row{display:grid;grid-template-columns:.9fr 1.3fr;gap:64px;align-items:center;margin-top:96px}
+.row.flip{grid-template-columns:1.3fr .9fr}
+.row.flip .copy{order:2}
+.row h3{font-size:clamp(26px,3vw,34px);line-height:1.12;letter-spacing:-.03em;margin:14px 0 14px}
+.row .copy > p{color:var(--body);font-size:17px}
+.ticks{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px;font-size:15px;color:var(--body)}
+.ticks li{display:flex;gap:12px;align-items:flex-start}
+.ticks li::before{content:"";flex:none;width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23A5A5FF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-5'/%3E%3C/svg%3E") center/12px no-repeat}
+.shot{border-radius:14px;padding:8px;background:linear-gradient(180deg,rgb(255 255 255 / .08),rgb(255 255 255 / .02));box-shadow:0 30px 80px -40px #000}
+.shot img{border-radius:9px;width:100%}
 
-/* cta */
-.final{text-align:center}
-.final h2{margin:14px auto 18px}
-.final .sub{margin:0 auto 32px}
-.final .ctas{justify-content:center}
+/* feature grid */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:72px}
+.card{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--bg-2);transition:border-color .2s}
+.card:hover{border-color:var(--line-2)}
+.card h4{margin:16px 0 6px;font-size:16px;font-weight:600;letter-spacing:-.01em}
+.card p{color:var(--muted);font-size:14px}
 
-footer{border-top:1px solid var(--paper-line);padding:28px 0;font:12px var(--mono);color:var(--paper-dim)}
+/* AI */
+.ai{position:relative;isolation:isolate;background:linear-gradient(180deg,var(--bg),#0D0E16 30%,var(--bg))}
+.ai::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(45% 30% at 50% 0%,rgb(124 124 255 / .16),transparent 70%)}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;counter-reset:step}
+.step{position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:var(--surface)}
+.step::before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:600 14px var(--sans)}
+.step h4{margin:18px 0 8px;font-size:18px;letter-spacing:-.015em}
+.step p{color:var(--body);font-size:15px}
+.step .mono{display:block;margin-top:16px;padding:12px 14px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:13px;color:var(--body);line-height:1.6}
+.k{color:#A5A5FF}.s{color:#86D9A4}.n{color:#FF9E7A}
+.privacy{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.privacy div{border-radius:var(--radius);padding:24px 26px;border:1px solid var(--line)}
+.privacy .sent{background:var(--surface)}
+.privacy .never{background:linear-gradient(135deg,rgb(61 214 140 / .08),transparent 60%),var(--surface);border-color:rgb(61 214 140 / .25)}
+.privacy h4{font-size:15px;margin:0 0 12px;display:flex;align-items:center;gap:10px}
+.privacy ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.privacy li{font:13px var(--mono);padding:6px 11px;border-radius:999px;border:1px solid var(--line-2);color:var(--body)}
+.privacy .never li{border-color:rgb(61 214 140 / .3);color:#9BE8C3}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}.never .dot{background:var(--ok)}
+.ai-shot{margin-top:56px}
+.helps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.models{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:40px;justify-content:center}
+.models span{font:500 14px var(--sans);padding:9px 16px;border:1px solid var(--line-2);border-radius:999px;background:rgb(255 255 255 / .03);color:var(--body)}
+.models .lbl{border:0;background:none;padding:0 4px 0 0;color:var(--muted);font-weight:400}
+.mcp{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;margin-top:72px;padding:36px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.mcp h3{font-size:26px;letter-spacing:-.03em;margin:12px 0 10px}
+.mcp p{color:var(--body)}
+.term{border-radius:12px;background:var(--bg);border:1px solid var(--line);padding:18px;font:13px/1.8 var(--mono);color:var(--body);overflow-x:auto}
+.term .p{color:var(--faint)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chips span{font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line-2);color:var(--body)}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;align-items:stretch}
+.plan{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;padding:30px;background:var(--bg-2)}
+.plan.rec{border-color:rgb(124 124 255 / .55);background:linear-gradient(180deg,rgb(124 124 255 / .12),transparent 50%),var(--surface);box-shadow:0 30px 80px -40px rgb(124 124 255 / .6)}
+.badge{position:absolute;top:-12px;left:30px;font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:5px 10px}
+.plan h3{font-size:17px}
+.plan .for{color:var(--muted);font-size:14px;margin-top:4px}
+.price{display:flex;align-items:baseline;gap:8px;height:64px;margin:22px 0 4px;font-size:52px;font-weight:600;letter-spacing:-.04em}
+.price span{font-size:15px;font-weight:400;color:var(--muted);letter-spacing:0}
+.plan .note{color:var(--muted);font-size:13px;margin-bottom:22px}
+.plan ul{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:10px;font-size:15px;color:var(--body);flex:1}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"✓";color:var(--ok);font-weight:600}
+.plan .btn{width:100%}
+.reassure{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+.reassure div{text-align:center;font-size:14px;color:var(--muted)}
+.reassure b{display:block;color:var(--text);font-weight:500;margin-bottom:2px}
+
+/* faq */
+.faq{max-width:820px;margin:48px auto 0;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line);padding:20px 4px}
+.faq summary{cursor:pointer;font:500 17px var(--sans);list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:400 22px/1 var(--sans);color:var(--muted);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:12px 0 0;color:var(--body);max-width:700px}
+
+/* final */
+.final{position:relative;isolation:isolate;text-align:center;padding:130px 0}
+.final::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(50% 60% at 50% 100%,rgb(124 124 255 / .25),transparent 70%)}
+.final h2{margin:16px auto 16px}
+.final .sub{margin:0 auto 34px}
+
+footer{border-top:1px solid var(--line);padding:32px 0;font-size:13px;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a:hover{color:var(--text)}
 
-@media (max-width:960px){
-  .body{grid-template-columns:1fr}.side{display:none}.evidence{border-left:0;border-top:1px solid var(--line)}
-  .grid4{grid-template-columns:1fr 1fr}.feats{grid-template-columns:1fr 1fr}
-}
-@media (max-width:680px){
-  .wrap{padding:0 16px}
+@media (max-width:1040px){
   nav ul{display:none}
-  .hero{padding:56px 0 48px}
-  h1 br{display:none}
-  .h2h,.say,.feats,.grid4,.facts{grid-template-columns:1fr}
-  section{padding:72px 0}
-  .bar .tab:not(.on){display:none}
-  .main{padding:22px 18px}
+  .groups{grid-template-columns:1fr 1fr}
+  .conn-feats{grid-template-columns:1fr 1fr}
+  .row,.row.flip{grid-template-columns:1fr;gap:36px;margin-top:80px}
+  .row.flip .copy{order:0}
+  .grid{grid-template-columns:1fr 1fr}
+  .flow,.helps{grid-template-columns:1fr}
+  .mcp{grid-template-columns:1fr}
+  .plans{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
+  .reassure{grid-template-columns:1fr 1fr}
 }
-.pains{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
-.pains div{border-top:1px solid var(--paper-line);padding-top:16px}
-.pains .mono{font-size:12px;color:var(--paper-dim)}
-.pains p{margin:8px 0 0;font:400 19px/1.35 var(--serif)}
-.compare{margin-top:56px;border:1px solid var(--paper-line);border-radius:10px;overflow:hidden;font-size:14px}
-.compare .row{display:grid;grid-template-columns:1fr 150px 150px;padding:13px 20px;border-top:1px solid var(--paper-line)}
-.compare .row:first-child{border-top:0}
-.compare .row span:not(:first-child){text-align:center;font-family:var(--mono)}
-.compare .head{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim);background:#0000000a}
-.compare .y{color:#2E8A5A;font-weight:600}.compare .n{color:var(--paper-dim)}
-.faq{margin-top:40px;border-top:1px solid var(--paper-line);max-width:820px}
-.faq details{border-bottom:1px solid var(--paper-line);padding:18px 0}
-.faq summary{cursor:pointer;font:500 16px var(--sans);list-style:none;display:flex;justify-content:space-between}
-.faq summary::after{content:"+";font-family:var(--mono);color:var(--paper-dim)}
-.faq details[open] summary::after{content:"−"}
-.faq p{margin:10px 0 0;color:var(--paper-dim);max-width:680px}
-.btn-ghost{border-color:var(--line-2);color:var(--fg)}.btn-ghost:hover{border-color:var(--dim)}
-@media (max-width:960px){.pains{grid-template-columns:1fr 1fr}}
-@media (max-width:680px){.pains{grid-template-columns:1fr}.compare .row{grid-template-columns:1fr 70px 70px;padding:12px 14px}.compare .head span{font-size:9px}}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px;max-width:1040px}
-.plan-card{border:1px solid var(--line);border-radius:10px;padding:28px;background:var(--graphite);display:flex;flex-direction:column}
-.plan-card.rec{border-color:var(--line-2);background:var(--raised)}
-.plan-card .label{color:var(--dim);display:flex;justify-content:space-between;align-items:center}
-.price{font:500 44px/1 var(--mono);letter-spacing:-.03em;margin:18px 0 20px}.price span{font-size:13px;color:var(--dim);letter-spacing:0}
-.plan-card ul{list-style:none;padding:0;margin:0 0 24px;font-size:14px;line-height:2;color:var(--soft);flex:1}
-.plan-card li::before{content:"✓  ";color:var(--ok);font-family:var(--mono)}
-.plan-card .btn{justify-content:center}
-@media (max-width:960px){.plans{grid-template-columns:1fr 1fr}}
-@media (max-width:680px){.plans{grid-template-columns:1fr}}
-.dbgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:44px}
-.db{display:flex;align-items:center;gap:14px;height:64px;padding:0 20px;background:var(--ink);color:var(--fg);border:1px solid var(--line);border-radius:8px;font:500 16px var(--sans)}
-.db i{width:24px;height:24px;flex:none;background:var(--soft);-webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat}
-.soon{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px}
-.soon .label{color:var(--paper-dim);margin-right:6px}
-.soon span:not(.label){font:12px var(--mono);padding:6px 10px;border:1px dashed var(--paper-line);border-radius:6px;color:var(--paper-dim)}
-.feats{grid-template-columns:repeat(4,1fr)}
-.card.typical.dk{border-color:var(--line-2);color:var(--dim)}.card.typical.dk .num{color:var(--fg)}
-#ask .h2h{margin-top:44px}
-.plan.res li span:first-child{color:var(--soft)}.plan.res .t{color:var(--fg)}
-.sent{display:flex;justify-content:space-between;font:12px var(--mono);color:var(--dim);margin-top:4px}.sent b{color:var(--ok);font-weight:500}
-.split{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
-.chips{display:flex;flex-wrap:wrap;gap:10px}
-.chips span{font:13px var(--mono);padding:9px 14px;border:1px solid var(--paper-line);border-radius:6px;background:#fff6}
-.chips.dk{margin-top:28px}.chips.dk span{border-color:var(--line-2);background:transparent;color:var(--soft)}
-.mcpcard{background:var(--graphite);border:1px solid var(--line);border-radius:10px;padding:24px}
-.mcphead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.mcphead .label{color:var(--dim)}
-.mcpcard pre{margin-bottom:18px;color:var(--fg)}
-#pricing .plan-card{background:var(--paper);border-color:var(--paper-line)}
-#pricing .plan-card.rec{background:var(--ink);color:var(--fg);border-color:var(--ink)}
-#pricing .plan-card .label{color:var(--paper-dim)}#pricing .plan-card.rec .label{color:var(--dim)}
-#pricing .plan-card ul{color:var(--paper-dim)}#pricing .plan-card.rec ul{color:var(--soft)}
-#pricing .plan-card .price span{color:var(--paper-dim)}
-@media (max-width:960px){.dbgrid{grid-template-columns:1fr 1fr}.feats{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr;gap:32px}}
-@media (max-width:680px){.dbgrid{grid-template-columns:1fr 1fr;gap:8px}.db{height:54px;padding:0 14px;font-size:14px;gap:10px}.db i{width:20px;height:20px}.feats{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  section{padding:84px 0}
+  .hero{padding:64px 0 24px}
+  nav .nav-cta .btn-secondary{display:none}
+  .groups,.conn-feats,.grid,.privacy{grid-template-columns:1fr}
+  .dbs{grid-template-columns:1fr 1fr}
+  .db{height:44px;padding:0 12px;font-size:14px;gap:9px}
+  .db small{display:none}
+  .group > p{min-height:0}
+  .seg button{padding:0 12px}
+  .frame{padding:6px;border-radius:12px}
+  .mcp{padding:22px}
+  .reassure{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="check" viewBox="0 0 16 16"><path d="m3.5 8.4 2.9 2.9 6-6.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM13.9 4.9c.7-.9 1.2-2.1 1.1-3.3-1 0-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.2 1.1.1 2.3-.6 3-1.5z"/></symbol>
+  <symbol id="windows" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.5 10.4 4.5v7H3zM11.4 4.4 21 3v8.5h-9.6zM3 12.5h7.4v7L3 18.5zM11.4 12.5H21V21l-9.6-1.4z"/></symbol>
+</svg>
+
 <nav>
   <div class="wrap">
     <a href="#" class="brand" aria-label="rowwise home">
-      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><circle cx="13" cy="13" r="9" fill="none" stroke="#171815" stroke-width="3.5"/><rect x="19.5" y="19.5" width="4" height="4" fill="#171815"/><rect x="25" y="25" width="4" height="4" fill="#FF7433"/></svg>
+      <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><circle cx="13" cy="13" r="9" fill="none" stroke="#ECEDF0" stroke-width="3.5"/><rect x="19.5" y="19.5" width="4" height="4" fill="#ECEDF0"/><rect x="25" y="25" width="4" height="4" fill="#7C7CFF"/></svg>
       rowwise
     </a>
     <ul>
-      <li><a href="#sources">Databases</a></li>
+      <li><a href="#databases">Databases</a></li>
       <li><a href="#features">Features</a></li>
-      <li><a href="#ask">Ask</a></li>
       <li><a href="#ai">AI</a></li>
-      <li><a href="#mcp">MCP</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#download" class="btn btn-secondary">Download</a>
+    <div class="nav-cta">
+      <a href="#pricing" class="btn btn-secondary btn-sm">Pricing</a>
+      <a href="#download" class="btn btn-primary btn-sm">Download free</a>
+    </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="label">Desktop database client · macOS &amp; Windows</div>
-    <h1>Every database. <br>One app. AI that writes the <em>query</em>.</h1>
-    <p class="lede">Connect, browse, edit and query PostgreSQL, MySQL, Oracle, SQL Server, MongoDB, Redis, ClickHouse and more in one fast local app. Ask in plain English: the AI sees your schema, never your rows.</p>
+    <span class="pill"><b>BETA 0.1</b> Now on macOS &amp; Windows</span>
+    <h1>Every database. One app.<br><span class="grad">AI writes the SQL.</span></h1>
+    <p class="lede">Browse, query and edit PostgreSQL, MySQL, SQL Server, Oracle, MongoDB, Redis, ClickHouse and more. Ask a question in plain English and get a query you can read and run. Your rows never leave your machine.</p>
     <div class="ctas">
-      <a href="#download" class="btn btn-primary">Download free trial <span class="sfx">macOS · Windows</span></a>
-      <a href="#ask" class="btn btn-secondary">See how Ask works</a>
+      <a href="https://rowwise.dev/download/dummy-link" class="btn btn-primary"><svg><use href="#apple"/></svg>Download for macOS</a>
+      <a href="https://rowwise.dev/download/dummy-link" class="btn btn-secondary"><svg><use href="#windows"/></svg>Download for Windows</a>
     </div>
-    <div class="fine">14-day free trial · No account · Stored offline · 0.1.0-beta.4</div>
+    <div class="assure">
+      <span><svg><use href="#check"/></svg>14-day free trial</span>
+      <span><svg><use href="#check"/></svg>No account, no card</span>
+      <span><svg><use href="#check"/></svg>Pay once from $49</span>
+    </div>
+
+    <div class="tour" id="tour">
+      <div class="tour-controls">
+        <div class="seg" role="group" aria-label="Product view">
+          <button type="button" data-view="query" aria-pressed="true">Query</button>
+          <button type="button" data-view="explore" aria-pressed="false">Explore</button>
+          <button type="button" data-view="ask" aria-pressed="false">Ask AI</button>
+        </div>
+        <div class="seg" role="group" aria-label="Theme">
+          <button type="button" data-theme="dark" aria-pressed="true">Dark</button>
+          <button type="button" data-theme="light" aria-pressed="false">Light</button>
+        </div>
+      </div>
+      <div class="frame">
+        <img id="tour-img" src="assets/screens/query-dark.png" width="2880" height="1800" alt="rowwise Query: a SQL editor with syntax colouring above a results grid of revenue by segment and plan">
+      </div>
+      <p class="caption" id="tour-caption">Write SQL with completion from your schema, then sort, filter and export the results.</p>
+    </div>
   </div>
 </header>
 
-<section id="sources" style="padding-top:8px">
+<div class="logos">
   <div class="wrap">
-    <div class="eyebrow">Connect</div>
-    <h2>One client for all your databases.</h2>
-    <p class="sub">SQL, NoSQL, warehouses and data files side by side, each in its own tab, on its own saved connection. Stop juggling a different tool for every engine.</p>
-    <div class="dbgrid">
-      <div class="db"><i style="--i:url(assets/db/postgresql.svg)"></i>PostgreSQL</div>
-      <div class="db"><i style="--i:url(assets/db/mysql.svg)"></i>MySQL</div>
-      <div class="db"><i style="--i:url(assets/db/mariadb.svg)"></i>MariaDB</div>
-      <div class="db"><i style="--i:url(assets/db/sqlserver.svg)"></i>SQL Server</div>
-      <div class="db"><i style="--i:url(assets/db/oracle.svg)"></i>Oracle</div>
-      <div class="db"><i style="--i:url(assets/db/sqlite.svg)"></i>SQLite</div>
-      <div class="db"><i style="--i:url(assets/db/duckdb.svg)"></i>DuckDB</div>
-      <div class="db"><i style="--i:url(assets/db/mongodb.svg)"></i>MongoDB</div>
-      <div class="db"><i style="--i:url(assets/db/redis.svg)"></i>Redis</div>
-      <div class="db"><i style="--i:url(assets/db/clickhouse.svg)"></i>ClickHouse</div>
-      <div class="db"><i style="--i:url(assets/db/snowflake.svg)"></i>Snowflake</div>
-      <div class="db"><i style="--i:url(assets/db/bigquery.svg)"></i>BigQuery</div>
-      <div class="db"><i style="--i:url(assets/db/file.svg)"></i>CSV · Parquet · XLSX</div>
-    </div>
-    <div class="soon">
-      <span class="label">Coming soon</span>
-      <span>Elasticsearch</span><span>DynamoDB</span><span>Redshift</span><span>CockroachDB</span><span>Cassandra</span><span>Databricks</span><span>Turso</span><span>Cloudflare D1</span>
+    <p>Connects to the databases your team already runs</p>
+    <div class="logo-row">
+      <span><i style="--i:url(assets/db/postgresql.svg)"></i>PostgreSQL</span>
+      <span><i style="--i:url(assets/db/mysql.svg)"></i>MySQL</span>
+      <span><i style="--i:url(assets/db/sqlserver.svg)"></i>SQL Server</span>
+      <span><i style="--i:url(assets/db/oracle.svg)"></i>Oracle</span>
+      <span><i style="--i:url(assets/db/mongodb.svg)"></i>MongoDB</span>
+      <span><i style="--i:url(assets/db/redis.svg)"></i>Redis</span>
+      <span><i style="--i:url(assets/db/clickhouse.svg)"></i>ClickHouse</span>
+      <span><i style="--i:url(assets/db/snowflake.svg)"></i>Snowflake</span>
     </div>
   </div>
-</section>
+</div>
 
-<section id="features" style="padding-top:24px">
-  <div class="wrap">
-    <div class="eyebrow">Everything you need in one place</div>
-    <h2>The things you do every day, without switching tools.</h2>
-    <div class="feats">
-      <div class="feat"><div class="label">Sources</div><h3>All databases in one app</h3><p>Twelve engines today, SQL, NoSQL and warehouses, plus CSV, Parquet, JSON and XLSX files.</p></div>
-      <div class="feat"><div class="label">Explore</div><h3>Browse any table</h3><p>Open tables in tabs, page through rows fast and sort the whole table by any column. Nothing auto-runs on restart.</p></div>
-      <div class="feat"><div class="label">Query</div><h3>A real SQL editor</h3><p>Completion, formatting, query plans and a time limit you choose. Cancel stops the query on the server, not just on screen.</p></div>
-      <div class="feat"><div class="label">Ask</div><h3>Ask in plain English</h3><p>Questions become one read query for your database, with the assumptions shown next to the numbers.</p></div>
-      <div class="feat"><div class="label">Edit</div><h3>Edit rows with review</h3><p>Stage changes in the grid, see each value before and after, and apply them only after you review them.</p></div>
-      <div class="feat"><div class="label">Knowledge</div><h3>Define it once</h3><p>Save what “Net revenue” means. Ask follows it every time and tells you when a draft definition wasn’t used. Share it as YAML.</p></div>
-      <div class="feat"><div class="label">Dashboards</div><h3>Live dashboards</h3><p>Pin saved queries to boards and keep an eye on the numbers that matter.</p></div>
-      <div class="feat"><div class="label">History</div><h3>Saved queries &amp; history</h3><p>Every query and question is kept locally, ready to reopen and re-run.</p></div>
-      <div class="feat"><div class="label">Transfer</div><h3>Export &amp; import</h3><p>Export results to CSV or JSON, import files, and copy tables between connections.</p></div>
-      <div class="feat"><div class="label">MCP</div><h3>Works with your AI tools</h3><p>A local MCP server lets Claude, Cursor and other assistants query your connections.</p></div>
-      <div class="feat"><div class="label">Connect</div><h3>Secure connections</h3><p>TLS verified by default, SSH tunnels, and a Test connection button that says exactly what to fix.</p></div>
-      <div class="feat"><div class="label">Offline</div><h3>Stored on your machine</h3><p>Connections, history and results live in a local workspace. No account.</p></div>
-    </div>
+<section id="databases">
+  <div class="wrap center">
+    <span class="eyebrow">Databases</span>
+    <h2>One client instead of five.</h2>
+    <p class="sub">SQL, NoSQL, warehouses and data files, side by side in tabs. Each connection keeps its own schema browser, editor and history, so switching engines doesn’t mean switching tools.</p>
   </div>
-</section>
-
-<section id="ask" class="dark">
   <div class="wrap">
-    <div class="eyebrow">Ask</div>
-    <h2>Ask in plain English. Get the <em>query</em>, not a guess.</h2>
-    <p class="sub">rowwise turns your question into one read-only query for your database, using its schema and your saved definitions. The query runs on your machine, and the result rows are never sent to the AI.</p>
-
-    <div class="h2h">
-      <div class="card typical dk">
-        <div class="label">A typical AI chat</div>
-        <p class="q" style="font-size:19px;margin:14px 0 0;color:var(--fg)">“What is our net revenue by segment?”</p>
-        <div class="num">Paste rows</div>
-        <div>Your data goes into someone else’s prompt, and you can’t see how the number was made.</div>
+    <div class="groups">
+      <div class="group">
+        <h3>Relational</h3>
+        <p>Browse tables, edit rows, run plans and transactions.</p>
+        <div class="dbs">
+          <div class="db"><i style="--i:url(assets/db/postgresql.svg);--c:#6B8FE8"></i>PostgreSQL</div>
+          <div class="db"><i style="--i:url(assets/db/mysql.svg);--c:#4FA3C9"></i>MySQL</div>
+          <div class="db"><i style="--i:url(assets/db/mariadb.svg);--c:#C98B6E"></i>MariaDB</div>
+          <div class="db"><i style="--i:url(assets/db/sqlserver.svg);--c:#E8595A"></i>SQL Server</div>
+          <div class="db"><i style="--i:url(assets/db/oracle.svg);--c:#F2545B"></i>Oracle</div>
+          <div class="db"><i style="--i:url(assets/db/sqlite.svg);--c:#5BA4D9"></i>SQLite</div>
+        </div>
       </div>
-      <div class="card ours">
-        <div class="label">rowwise · Ask</div>
-        <p class="finding"><b>Enterprise · USD 231,979.78</b>, from a query you can read, run and save.</p>
-        <ul class="checks">
-          <li><span class="ok">✓</span> Question and schema only, no rows sent</li>
-          <li><span class="ok">✓</span> Read-only query, run on your machine</li>
-          <li><span class="as">◆</span> Follows your definition: Net revenue</li>
+      <div class="group">
+        <h3>Analytics &amp; warehouses</h3>
+        <p>Fast aggregates over big tables, with server-side cancel.</p>
+        <div class="dbs">
+          <div class="db"><i style="--i:url(assets/db/clickhouse.svg);--c:#FFCC21"></i>ClickHouse</div>
+          <div class="db"><i style="--i:url(assets/db/duckdb.svg);--c:#FFF06B"></i>DuckDB</div>
+          <div class="db"><i style="--i:url(assets/db/snowflake.svg);--c:#29B5E8"></i>Snowflake<small>Preview</small></div>
+          <div class="db"><i style="--i:url(assets/db/bigquery.svg);--c:#7BA7F7"></i>BigQuery<small>Preview</small></div>
+        </div>
+      </div>
+      <div class="group">
+        <h3>NoSQL</h3>
+        <p>Documents and keys with editors built for them.</p>
+        <div class="dbs">
+          <div class="db"><i style="--i:url(assets/db/mongodb.svg);--c:#5FC167"></i>MongoDB</div>
+          <div class="db"><i style="--i:url(assets/db/redis.svg);--c:#FF5A4D"></i>Redis</div>
+        </div>
+      </div>
+      <div class="group">
+        <h3>Data files</h3>
+        <p>Open a file and query it like a table. No server needed.</p>
+        <div class="dbs">
+          <div class="db"><i style="--i:url(assets/db/file.svg);--c:var(--body)"></i>CSV</div>
+          <div class="db"><i style="--i:url(assets/db/file.svg);--c:var(--body)"></i>Parquet</div>
+          <div class="db"><i style="--i:url(assets/db/file.svg);--c:var(--body)"></i>JSON &amp; JSONL</div>
+          <div class="db"><i style="--i:url(assets/db/file.svg);--c:var(--body)"></i>Excel (XLSX)</div>
+        </div>
+      </div>
+    </div>
+    <div class="conn-feats">
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><span><b>TLS by default</b>Certificates and hostnames are verified unless you say otherwise.</span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg></span><span><b>SSH tunnels</b>Reach private databases through a bastion host.</span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></span><span><b>Paste a URL</b>Drop in a connection string and the form fills itself.</span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span><b>Clear errors</b>Test connection tells you exactly what to fix.</span></div>
+    </div>
+    <div class="soon"><span>Coming next:</span><span>Elasticsearch</span><span>DynamoDB</span><span>Redshift</span><span>CockroachDB</span><span>Cassandra</span><span>Databricks</span><span>Turso</span></div>
+  </div>
+</section>
+
+<section id="features" class="divider">
+  <div class="wrap center">
+    <span class="eyebrow">Features</span>
+    <h2>Everything you do every day, in one place.</h2>
+    <p class="sub">A desktop app that opens instantly, keeps your work between sessions and never runs anything you didn’t ask it to.</p>
+  </div>
+  <div class="wrap">
+    <div class="row">
+      <div class="copy">
+        <span class="eyebrow">Explore</span>
+        <h3>Browse any table in seconds.</h3>
+        <p>Open tables in tabs, page through rows, and jump to related records without writing a join.</p>
+        <ul class="ticks">
+          <li>Filter and sort the whole table, not just the page you loaded</li>
+          <li>Inspect any row as formatted JSON or a ready-made INSERT</li>
+          <li>Columns, keys, indexes and DDL in the Structure tab</li>
         </ul>
       </div>
+      <div class="shot"><img src="assets/screens/explore-dark.png" width="2880" height="1800" loading="lazy" alt="rowwise Explore showing the customers table with segment, region and channel columns"></div>
+    </div>
+    <div class="row flip">
+      <div class="copy">
+        <span class="eyebrow">Query</span>
+        <h3>A SQL editor that keeps up with you.</h3>
+        <p>Completion from your real schema, one-key formatting and syntax colouring tuned for long sessions.</p>
+        <ul class="ticks">
+          <li>Run a selection or the statement at the cursor with ⌘↵</li>
+          <li>Query plans, sessions and transactions when you need them</li>
+          <li>Cancel stops the query on the server, not just on screen</li>
+        </ul>
+      </div>
+      <div class="shot"><img src="assets/screens/query-light.png" width="2880" height="1800" loading="lazy" alt="rowwise Query in light theme with a SQL query and its results"></div>
     </div>
 
-    <div class="app" role="img" aria-label="rowwise Ask showing net revenue by customer segment and currency, the assumptions behind it and the SQL it ran">
-      <div class="hazard"></div>
-      <div class="bar">
-        <span class="dots"><i></i><i></i><i></i></span>
-        <span class="tab">Explore</span><span class="tab">Query</span><span class="tab on">Ask</span><span class="tab">Dashboards</span><span class="tab">Knowledge</span>
-        <span class="right"><span class="tag prod">▲ PRODUCTION</span><span class="tag ro">READ-ONLY</span></span>
-      </div>
-      <div class="body">
-        <aside class="side">
-          <span class="label">Connections</span>
-          analytics<br>&nbsp;&nbsp;customers<br>&nbsp;&nbsp;subscriptions<br>&nbsp;&nbsp;invoices<br>&nbsp;&nbsp;refunds
-          <span class="label" style="margin-top:18px">Knowledge</span>
-          <span class="k">◆</span> Net revenue<br><span class="k">◆</span> Churned customer
-        </aside>
-        <div class="main">
-          <div class="label" style="color:var(--mute)">Complete · 3 rows</div>
-          <p class="ask">What is our net revenue by <em>segment</em> and currency?</p>
-          <ul class="plan res">
-            <li><span>Enterprise · EUR</span><span class="t">49,000.00</span></li>
-            <li><span>Enterprise · USD</span><span class="t">231,979.78</span></li>
-            <li><span>SMB · USD</span><span class="t">167,099.64</span></li>
-          </ul>
-          <div class="label" style="color:var(--mute);margin-top:22px">How this was calculated</div>
-          <ul class="checks" style="margin-top:8px">
-            <li><span class="as">◆</span> Paid invoices only, from “Net revenue”</li>
-            <li><span class="ok">✓</span> Completed refunds subtracted, pending ones kept</li>
-            <li><span class="ok">✓</span> Internal test customers excluded</li>
-          </ul>
-          <div class="sent"><span>Sent to AI: question · schema · 2 definitions</span><span>Rows sent <b>0</b></span></div>
-        </div>
-        <div class="evidence">
-          <div class="label" style="color:var(--dim)">SQL</div>
-          <p>One read-only query you can open in the editor, save or pin to a dashboard.</p>
-          <div class="stats">
-            <div>Tables<b>4</b></div><div>Rows<b>3</b></div><div>Executed<b>29 ms</b></div>
-          </div>
-<pre><span class="kw">SELECT</span> c.segment, i.currency,
-  <span class="kw">SUM</span>(i.amount - <span class="kw">COALESCE</span>(r.refunded, 0))
-    <span class="kw">AS</span> net_revenue
-<span class="kw">FROM</span> invoices i
-<span class="kw">JOIN</span> subscriptions s <span class="kw">ON</span> s.id = i.subscription_id
-<span class="kw">JOIN</span> customers c <span class="kw">ON</span> c.id = s.customer_id
-<span class="kw">LEFT JOIN</span> completed_refunds r <span class="kw">ON</span> r.invoice_id = i.id
-<span class="kw">WHERE</span> i.status = 'paid' <span class="c">-- knowledge: Net revenue</span>
-  <span class="kw">AND NOT</span> c.is_test
-<span class="kw">GROUP BY</span> 1, 2;</pre>
-        </div>
-      </div>
+    <div class="grid">
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><h4>Edit with review</h4><p>Stage changes in the grid, see every value before and after, then apply.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span><h4>Dashboards</h4><p>Pin saved queries as charts and KPIs, with a shared date filter.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10M7 12h10M7 20h10M3 4h.01M3 12h.01M3 20h.01"/></svg></span><h4>Schema changes</h4><p>Add columns and indexes or compare two schemas, with the SQL shown first.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span><h4>Import &amp; export</h4><p>CSV, JSON and SQL out; files in; copy tables between connections.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h4>History &amp; recovery</h4><p>Every query is kept. Unsaved drafts come back after a crash.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span><h4>Knowledge</h4><p>Define “net revenue” once. Every AI query follows it.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><h4>Command search</h4><p>⌘K finds tables, saved queries, tabs and actions.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></span><h4>Light &amp; dark</h4><p>Both themes, adjustable UI and editor font sizes.</p></div>
     </div>
   </div>
 </section>
 
-<section id="ai">
-  <div class="wrap split">
-    <div>
-      <div class="eyebrow">Bring your own AI</div>
-      <h2>Your keys. Your model. Your cost.</h2>
-      <p class="sub">rowwise writes queries from plain questions, in Ask and in the SQL editor. Add your own API key and pick any model, or keep everything on-device with a local one. Only your question, the schema and your definitions are sent. Result rows never are.</p>
-    </div>
-    <div class="chips">
-      <span>OpenAI</span><span>Anthropic</span><span>Google Gemini</span><span>Ollama · local</span><span>OpenAI-compatible</span>
-    </div>
+<section id="ai" class="ai divider">
+  <div class="wrap center">
+    <span class="eyebrow">AI</span>
+    <h2>AI that writes your SQL, <span class="grad">without ever seeing your data.</span></h2>
+    <p class="sub">Ask a question in plain English. rowwise sends your question and schema to the model you choose, gets back one read-only query, and runs it on your machine.</p>
   </div>
-</section>
-
-<section id="mcp" class="dark">
-  <div class="wrap split">
-    <div>
-      <div class="eyebrow">MCP server</div>
-      <h2>Use your databases from <em>any</em> AI tool.</h2>
-      <p class="sub">Turn on rowwise’s built-in MCP server and your assistants can list schemas, search tables and run read-only queries across your saved connections, without you handing over a single credential.</p>
-      <div class="chips dk">
-        <span>Claude</span><span>Cursor</span><span>VS Code</span><span>Codex</span><span>Zed</span><span>Windsurf</span><span>+ any MCP client</span>
-      </div>
-    </div>
-    <div class="mcpcard">
-      <div class="mcphead"><span class="label">Local server</span><span class="tag ro">LISTENING</span></div>
-      <pre>http://127.0.0.1:4320/mcp</pre>
-      <ul class="checks">
-        <li><span class="ok">✓</span> Localhost only</li>
-        <li><span class="ok">✓</span> Read-only unless you enable writes</li>
-        <li><span class="ok">✓</span> Off each time rowwise opens</li>
-        <li><span class="ok">✓</span> Credentials stay inside rowwise</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="pricing">
   <div class="wrap">
-    <div class="eyebrow">Pricing</div>
+    <div class="flow">
+      <div class="step">
+        <h4>You ask</h4>
+        <p>Type a question, and mention tables with @ if you like.</p>
+        <span class="mono">How has net revenue changed by month over the last 12 months?</span>
+      </div>
+      <div class="step">
+        <h4>AI drafts the SQL</h4>
+        <p>From table and column names and your saved definitions. Nothing else.</p>
+        <span class="mono"><span class="k">SELECT</span> month, <span class="k">SUM</span>(amount) …<br><span class="k">WHERE</span> status = <span class="s">'paid'</span></span>
+      </div>
+      <div class="step">
+        <h4>It runs on your machine</h4>
+        <p>You get the result, a chart and the assumptions behind it. Save it or pin it.</p>
+        <span class="mono"><span class="n">12</span> rows · <span class="n">6</span> ms · rows sent to AI: <span class="s">0</span></span>
+      </div>
+    </div>
+    <div class="privacy">
+      <div class="sent"><h4><span class="dot"></span>What the AI sees</h4><ul><li>Your question</li><li>Table &amp; column names</li><li>Types &amp; relationships</li><li>Your definitions</li></ul></div>
+      <div class="never"><h4><span class="dot"></span>What it never sees</h4><ul><li>Rows</li><li>Query results</li><li>Passwords &amp; keys</li><li>Connection details</li></ul></div>
+    </div>
+
+    <div class="frame ai-shot"><img src="assets/screens/ask-dark.png" width="2880" height="1800" loading="lazy" alt="rowwise Ask: a question about net revenue by month answered with a line chart, the assumptions used and the query"></div>
+
+    <div class="helps">
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h4>Ask in plain English</h4><p>Questions become one read-only query, with a chart and the assumptions shown next to the numbers.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></span><h4>AI in the editor</h4><p>Explain a query, rewrite a selection, or fix one that failed. Changes are drafts you review. Nothing runs by itself.</p></div>
+      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/></svg></span><h4>Your definitions, every time</h4><p>Save what “active customer” means once. Ask follows it and tells you when it was used.</p></div>
+    </div>
+
+    <div class="models"><span class="lbl">Bring your own model:</span><span>OpenAI</span><span>Anthropic</span><span>Google Gemini</span><span>Ollama, fully local</span><span>Any OpenAI-compatible API</span></div>
+    <p class="center" style="color:var(--muted);font-size:14px;margin-top:14px">Use your own API key. rowwise never adds a markup or a monthly AI fee.</p>
+
+    <div class="mcp">
+      <div>
+        <span class="eyebrow">MCP server</span>
+        <h3>Query your databases from Claude, Cursor and more.</h3>
+        <p>Turn on the built-in MCP server and your AI tools can list schemas and run read-only queries on your saved connections, without you ever handing them a password.</p>
+        <div class="chips"><span>Claude</span><span>Cursor</span><span>VS Code</span><span>Codex</span><span>Zed</span><span>Windsurf</span></div>
+      </div>
+      <div class="term"><span class="p">$</span> claude mcp add --transport http rowwise \<br>&nbsp;&nbsp;http://127.0.0.1:4320/mcp<br><br><span class="p"># localhost only · read-only by default</span><br><span class="p"># off each time rowwise starts</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="divider">
+  <div class="wrap center">
+    <span class="eyebrow">Pricing</span>
     <h2>Pay once. Own it.</h2>
-    <p class="sub">Try everything free for 14 days. Then a one-time license unlocks every feature and database. No subscription, lifetime updates.</p>
+    <p class="sub">Try every feature free for 14 days. Then a one-time license unlocks everything, on every database, with updates included. No subscription.</p>
+  </div>
+  <div class="wrap">
     <div class="plans">
-      <div class="plan-card">
-        <div class="label">Single device</div>
-        <div class="price">$49 <span>one-time</span></div>
-        <ul><li>Activate on 1 device</li><li>Every feature &amp; database</li><li>Lifetime updates</li><li>License key works offline</li></ul>
+      <div class="plan">
+        <h3>Lifetime · 1 device</h3>
+        <p class="for">For your main computer</p>
+        <div class="price">$49<span>one-time</span></div>
+        <p class="note">One payment, no renewals.</p>
+        <ul><li>Activate on 1 device</li><li>Every feature and database</li><li>All future updates</li><li>Works offline</li></ul>
         <a href="https://rowwise.dev/buy/dummy-link" class="btn btn-secondary">Buy for $49</a>
       </div>
-      <div class="plan-card rec">
-        <div class="label">Three devices <span class="tag ro">RECOMMENDED</span></div>
-        <div class="price">$99 <span>one-time</span></div>
-        <ul><li>Activate on 3 devices</li><li>Everything in Single</li><li>Lifetime updates</li><li>License key works offline</li></ul>
+      <div class="plan rec">
+        <span class="badge">Best value</span>
+        <h3>Lifetime · 3 devices</h3>
+        <p class="for">For your laptop, desktop and home machine</p>
+        <div class="price">$99<span>one-time</span></div>
+        <p class="note">$33 per device.</p>
+        <ul><li>Activate on 3 devices</li><li>Every feature and database</li><li>All future updates</li><li>Works offline</li></ul>
         <a href="https://rowwise.dev/buy/dummy-link" class="btn btn-primary">Buy for $99</a>
       </div>
-      <div class="plan-card">
-        <div class="label">Enterprise</div>
-        <div class="price">Custom <span>for teams</span></div>
-        <ul><li>Keys for your whole team</li><li>Every feature &amp; database</li><li>Lifetime updates</li><li>License keys work offline</li></ul>
-        <a href="https://rowwise.dev/enterprise/dummy-link" class="btn btn-secondary">Contact us</a>
+      <div class="plan">
+        <h3>Enterprise</h3>
+        <p class="for">For engineering and data teams</p>
+        <div class="price" style="font-size:44px">Custom</div>
+        <p class="note">One key for your whole team.</p>
+        <ul><li>Keys for the whole team</li><li>Every feature and database</li><li>All future updates</li><li>Works offline</li></ul>
+        <a href="mailto:support@nayma.ai?subject=rowwise%20Enterprise" class="btn btn-secondary">Contact us</a>
       </div>
     </div>
-    <p class="fine">AI usage is billed by your own provider. rowwise never marks it up.</p>
-  </div>
-</section>
-
-<section id="faq" style="padding-top:0">
-  <div class="wrap">
-    <div class="eyebrow">FAQ</div>
-    <h2>Frequently asked questions.</h2>
-    <div class="faq">
-      <details><summary>Which databases can I connect to?</summary><p>PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, SQLite, DuckDB, MongoDB, Redis, ClickHouse, Snowflake and BigQuery, plus CSV, Parquet, JSON, JSONL and XLSX files. More sources are on the way.</p></details>
-      <details><summary>Can it replace my current database client?</summary><p>For day-to-day browsing, querying, editing rows, exporting and importing on the supported databases, yes, including connections through SSH tunnels. It’s a beta, so tell us what you miss.</p></details>
-      <details><summary>Does my data ever leave my computer?</summary><p>Your rows never do. When you use AI, your question, the schema (table and column names, types and relationships; for Redis, key names) and your saved definitions go to the provider you configured. Query results are never sent. Use Ollama to keep even that on-device.</p></details>
-      <details><summary>Can the AI change my data?</summary><p>Not on its own. Ask only writes read queries. In the SQL editor the AI can draft a change, but nothing runs until you review and confirm it.</p></details>
-      <details><summary>How does the MCP server work?</summary><p>Enable it in Settings and point your AI tool at the local endpoint. It listens on localhost only, is read-only unless you enable writes, and switches off each time rowwise opens.</p></details>
-      <details><summary>Do I need my own AI key?</summary><p>For AI features, yes. Use OpenAI, Anthropic, Gemini, any OpenAI-compatible endpoint, or a local model through Ollama. Everything else works without one.</p></details>
-      <details><summary>How much does it cost?</summary><p>Every download starts a 14-day free trial with no account. After that, a one-time license unlocks everything. AI usage is billed by your own provider.</p></details>
-      <details><summary>Which platforms are supported?</summary><p>macOS and Windows.</p></details>
+    <div class="reassure">
+      <div><b>No subscription</b>One payment, yours to keep</div>
+      <div><b>Updates included</b>Every new version, free</div>
+      <div><b>Works offline</b>Your license key needs no account</div>
+      <div><b>AI at cost</b>Billed by your provider, never marked up</div>
     </div>
   </div>
 </section>
 
-<section id="download" class="final dark">
+<section id="faq" class="divider">
+  <div class="wrap center">
+    <span class="eyebrow">FAQ</span>
+    <h2>Questions, answered.</h2>
+  </div>
   <div class="wrap">
-    <div class="eyebrow">Download · 0.1.0-beta.4</div>
-    <h2>All your databases. One app. <em>Try it</em> free.</h2>
-    <p class="sub">14-day free trial, runs on your machine, stored offline.</p>
+    <div class="faq">
+      <details><summary>Can rowwise replace my current database client?</summary><p>For everyday browsing, querying, editing rows, schema changes, exports and imports on the supported databases, yes, including connections through SSH tunnels. It’s a beta, so tell us what you miss.</p></details>
+      <details><summary>Does my data ever leave my computer?</summary><p>Your rows never do. When you use AI, your question, the schema (table and column names, types and relationships; for Redis, key names) and your saved definitions go to the provider you configured. Query results are never sent. Use Ollama to keep even that on your machine.</p></details>
+      <details><summary>Can the AI change my data?</summary><p>Not on its own. Ask only writes read-only queries. In the SQL editor the AI can draft a change, but nothing runs until you review and confirm it.</p></details>
+      <details><summary>Do I need my own AI key?</summary><p>Only for AI features. Use OpenAI, Anthropic, Gemini, any OpenAI-compatible endpoint, or a local model through Ollama. Everything else works without one.</p></details>
+      <details><summary>What happens when the trial ends?</summary><p>Your connections, queries and history stay where they are. Buy a license to keep using rowwise; there is no account to create and nothing to cancel.</p></details>
+      <details><summary>Is it a subscription?</summary><p>No. You pay once and keep the version you bought plus all future updates. AI usage, if you use it, is billed by your own provider.</p></details>
+      <details><summary>Which databases are in preview?</summary><p>Snowflake and BigQuery work today and are still being validated against more account setups. Everything else listed is fully supported.</p></details>
+      <details><summary>How does the MCP server work?</summary><p>Enable it in Settings and point your AI tool at the local address. It listens on localhost only, is read-only unless you enable writes, and switches off each time rowwise starts.</p></details>
+      <details><summary>Which platforms are supported?</summary><p>macOS and Windows.</p></details>
+      <details><summary>Who makes rowwise, and how do I get help?</summary><p>rowwise is built by <a class="link" href="https://www.nayma.ai/">NAYMA</a>. Email <a class="link" href="mailto:support@nayma.ai">support@nayma.ai</a> for help, licensing or Enterprise questions.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="download" class="final divider">
+  <div class="wrap">
+    <span class="eyebrow">Download · 0.1.0-beta.4</span>
+    <h2>All your databases. <span class="grad">One app.</span></h2>
+    <p class="sub">Free for 14 days. No account, no card. Your connections stay on your machine.</p>
     <div class="ctas">
-      <a href="https://rowwise.dev/download/dummy-link" class="btn btn-primary">Download for macOS <span class="sfx">.dmg</span></a>
-      <a href="https://rowwise.dev/download/dummy-link" class="btn btn-ghost">Windows</a>
+      <a href="https://rowwise.dev/download/dummy-link" class="btn btn-primary"><svg><use href="#apple"/></svg>Download for macOS</a>
+      <a href="https://rowwise.dev/download/dummy-link" class="btn btn-secondary"><svg><use href="#windows"/></svg>Download for Windows</a>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <span>rowwise — wise about every row · rowwise.dev</span>
-    <span>Database names and logos are trademarks of their owners. © 2026 rowwise</span>
+    <span>rowwise is a product of <a class="link" href="https://www.nayma.ai/">NAYMA</a> · © 2026 NAYMA</span>
+    <span><a href="#databases">Databases</a> · <a href="#features">Features</a> · <a href="#ai">AI</a> · <a href="#pricing">Pricing</a> · <a href="#faq">FAQ</a> · <a href="mailto:support@nayma.ai">Support</a></span>
+    <span>Database names and logos are trademarks of their owners.</span>
   </div>
 </footer>
 
+<script>
+(() => {
+  const img = document.getElementById("tour-img");
+  const caption = document.getElementById("tour-caption");
+  const copy = {
+    query: ["Write SQL with completion from your schema, then sort, filter and export the results.", "rowwise Query: a SQL editor with syntax colouring above a results grid of revenue by segment and plan"],
+    explore: ["Open any table in a tab, page through rows and jump to related records.", "rowwise Explore showing the customers table"],
+    ask: ["Ask in plain English. Get the query, a chart and the assumptions behind it.", "rowwise Ask answering a question about net revenue by month with a line chart"],
+  };
+  let view = "query", theme = "dark";
+  const render = () => {
+    img.src = `assets/screens/${view}-${theme}.png`;
+    img.alt = copy[view][1] + (theme === "light" ? ", light theme" : "");
+    caption.textContent = copy[view][0];
+  };
+  document.querySelectorAll("#tour .seg button").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (button.dataset.view) view = button.dataset.view;
+      if (button.dataset.theme) theme = button.dataset.theme;
+      button.parentElement.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+      render();
+    });
+  });
+  // Warm the cache so switching views is instant.
+  for (const v of Object.keys(copy)) for (const t of ["dark", "light"]) new Image().src = `assets/screens/${v}-${t}.png`;
+})();
+</script>
 </body>
 </html>
