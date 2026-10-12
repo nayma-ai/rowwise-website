@@ -532,7 +532,7 @@ footer a:hover{color:var(--text)}
       <details><summary>Which databases are in preview?</summary><p>Snowflake and BigQuery work today and are still being validated against more account setups. Everything else listed is fully supported.</p></details>
       <details><summary>How does the MCP server work?</summary><p>Enable it in Settings and point your AI tool at the local address. It listens on localhost only, is read-only unless you enable writes, and switches off each time rowwise starts.</p></details>
       <details><summary>Which platforms are supported?</summary><p>macOS (one download for Apple silicon and Intel Macs) and Windows.</p></details>
-      <details id="first-launch"><summary>My computer warns me when I first open rowwise. Is that expected?</summary><p>Yes, during the beta. The beta builds are not yet signed by Apple or Microsoft, so your computer asks you to confirm once. On a Mac, open rowwise, close the “could not verify” message, then go to <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b> next to rowwise. On Windows, click <b>More info</b>, then <b>Run anyway</b>. Signed builds will remove this step before 1.0.</p></details>
+      <details id="first-launch"><summary>Will my computer warn me when I open rowwise?</summary><p>Not on a Mac: rowwise is signed with an Apple Developer ID and notarized by Apple, so it opens like any other app. The Windows beta is not yet code-signed, so Windows may show a SmartScreen notice the first time; click <b>More info</b>, then <b>Run anyway</b>.</p></details>
       <details><summary>Who makes rowwise, and how do I get help?</summary><p>rowwise is built by <a class="link" href="https://www.nayma.ai/">NAYMA</a>. Email <a class="link" href="mailto:support@nayma.ai">support@nayma.ai</a> for help, licensing or Team questions.</p></details>
     </div>
   </div>
@@ -540,14 +540,14 @@ footer a:hover{color:var(--text)}
 
 <section id="download" class="final divider">
   <div class="wrap">
-    <span class="eyebrow">Download · 0.1.0-beta.4</span>
+    <span class="eyebrow">Download · Public beta</span>
     <h2>All your databases. <span class="grad">One app.</span></h2>
     <p class="sub">Free for 14 days. No account, no card. Your connections stay on your machine.</p>
     <div class="ctas">
       <a href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg" class="btn btn-primary"><svg><use href="#apple"/></svg>Download for macOS</a>
       <a href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-windows-setup.exe" class="btn btn-secondary"><svg><use href="#windows"/></svg>Download for Windows</a>
     </div>
-    <p style="margin-top:18px;color:var(--muted);font-size:13px">Beta builds ask you to confirm once on first launch. <a class="link" href="#first-launch">Here’s how.</a></p>
+    <p style="margin-top:18px;color:var(--muted);font-size:13px">Signed and notarized by Apple. One download for Apple silicon and Intel Macs.</p>
   </div>
 </section>
 
