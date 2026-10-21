@@ -1,0 +1,214 @@
+[
+  {
+    "name": "postgresql.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/postgresql/postgresql-original.svg",
+    "bytes": 9178,
+    "sha256": "f220a436258ed014c512ba4f9c0de6b9e5c2c4b55331a0a29f8c7a1a12c36443",
+    "viewBox": "0 0 128 128",
+    "colors": ["#336791", "#fff"],
+    "sourceId": "postgres",
+    "file": "postgresql.svg",
+    "deployedSha256": "f220a436258ed014c512ba4f9c0de6b9e5c2c4b55331a0a29f8c7a1a12c36443"
+  },
+  {
+    "name": "mysql.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/mysql/mysql-original.svg",
+    "bytes": 2765,
+    "sha256": "f73fa5d6b9da33fbf540ff96f5360c24b6d29d883ecfe6fcaecf89a8d3456067",
+    "viewBox": "0 0 128 128",
+    "colors": ["#00618A"],
+    "sourceId": "mysql",
+    "file": "mysql.svg",
+    "deployedSha256": "f73fa5d6b9da33fbf540ff96f5360c24b6d29d883ecfe6fcaecf89a8d3456067"
+  },
+  {
+    "name": "mariadb.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/mariadb/mariadb-original.svg",
+    "bytes": 1831,
+    "sha256": "90f14c26b478447171ad800791535f5f5ab0f9abf80387edefb410b6fc85cbdc",
+    "viewBox": "0 0 128 128",
+    "colors": ["#003545"],
+    "sourceId": "mariadb",
+    "file": "mariadb.svg",
+    "deployedSha256": "90f14c26b478447171ad800791535f5f5ab0f9abf80387edefb410b6fc85cbdc"
+  },
+  {
+    "name": "sqlserver.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/microsoftsqlserver/microsoftsqlserver-original.svg",
+    "bytes": 12102,
+    "sha256": "f52b63cb5ff8c17efc079ae93eb7e2f1a04ca34eb736310c3576b19c0b9db21d",
+    "viewBox": "0 0 128 128",
+    "colors": ["url(#a)", "url(#b)", "url(#c)"],
+    "sourceId": "sqlserver",
+    "file": "sqlserver.svg",
+    "deployedSha256": "f52b63cb5ff8c17efc079ae93eb7e2f1a04ca34eb736310c3576b19c0b9db21d"
+  },
+  {
+    "name": "oracle.svg",
+    "source": "Existing Devicon v2.17.0 Oracle O glyph",
+    "brandFill": "#EA1B22",
+    "geometryChanged": false,
+    "sha256": "436d617a609b1ae8b1d51a8fb9424e6229764b788ad66405a2a5ca82964722b2",
+    "bytes": 1276,
+    "sourceId": "oracle",
+    "file": "oracle.svg",
+    "deployedSha256": "436d617a609b1ae8b1d51a8fb9424e6229764b788ad66405a2a5ca82964722b2"
+  },
+  {
+    "name": "sqlite.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/sqlite/sqlite-original.svg",
+    "bytes": 2422,
+    "sha256": "2b91c30887d3602479ba845cc012ef6ae577fba71eb96705a05b12e35d2c5e7e",
+    "viewBox": "0 0 128 128",
+    "colors": ["#003956", "#0b7fcc", "url(#sqlite-original-a)"],
+    "sourceId": "sqlite",
+    "file": "sqlite.svg",
+    "deployedSha256": "2b91c30887d3602479ba845cc012ef6ae577fba71eb96705a05b12e35d2c5e7e"
+  },
+  {
+    "name": "clickhouse.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/clickhouse/clickhouse-original.svg",
+    "bytes": 763,
+    "sha256": "12cde67e9662314d8934293bc609875d111f761cb4ebb71a946f1a46cd66f841",
+    "viewBox": "0 0 128 128",
+    "colors": ["#f9ff69"],
+    "sourceId": "clickhouse",
+    "file": "clickhouse.svg",
+    "deployedSha256": "12cde67e9662314d8934293bc609875d111f761cb4ebb71a946f1a46cd66f841"
+  },
+  {
+    "name": "duckdb.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/duckdb/duckdb-original.svg",
+    "bytes": 361,
+    "sha256": "06be219668a471b16413677305b9765e41d56e927c7b72146f99e492bef36bcb",
+    "viewBox": "0 0 128 128",
+    "colors": ["#000000", "#fff100"],
+    "sourceId": "duckdb",
+    "file": "duckdb.svg",
+    "deployedSha256": "06be219668a471b16413677305b9765e41d56e927c7b72146f99e492bef36bcb"
+  },
+  {
+    "name": "snowflake.svg",
+    "url": "https://raw.githubusercontent.com/gilbarbara/logos/dafdf2df1334b2327497bfff40111aff0713c992/logos/snowflake-icon.svg",
+    "sha256": "49ac685600ece8ab1de4cde67f3d01244459084a0a7edd394804487594ce7fd2",
+    "bytes": 5529,
+    "sourceId": "snowflake",
+    "file": "snowflake.svg",
+    "deployedSha256": "49ac685600ece8ab1de4cde67f3d01244459084a0a7edd394804487594ce7fd2"
+  },
+  {
+    "name": "bigquery.svg",
+    "source": "Existing Simple Icons 16.33.0",
+    "brandFill": "#669DF6",
+    "geometryChanged": false,
+    "sha256": "a26f6aafc25bfab0ab984274eeca019e4562809e6d6b3464810a520b697e6e59",
+    "bytes": 717,
+    "sourceId": "bigquery",
+    "file": "bigquery.svg",
+    "deployedSha256": "a26f6aafc25bfab0ab984274eeca019e4562809e6d6b3464810a520b697e6e59"
+  },
+  {
+    "name": "redshift.png",
+    "url": "https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/e26e2c05daf8b6bc4c764669fc2be04c314ccb8c/dist/Analytics/Redshift.png",
+    "bytes": 1657,
+    "sha256": "36e927335d935fb3f624af32f858cadcc6f6c97a91e70344924f826e1f0e6e58",
+    "sourceId": "redshift",
+    "file": "redshift.png",
+    "deployedSha256": "36e927335d935fb3f624af32f858cadcc6f6c97a91e70344924f826e1f0e6e58"
+  },
+  {
+    "name": "databricks.png",
+    "url": "https://www.databricks.com/en-website-assets/icons/icon-192x192.png?v=c9b9916c3b27dc51866c46b79a6e9b88",
+    "bytes": 32403,
+    "sha256": "ecd81329dd9923816bc02a0d9c5ff6441b9d4ffb9a5e4f4db8a6270ca05411c3",
+    "sourceId": "databricks",
+    "file": "databricks.png",
+    "deployedSha256": "ecd81329dd9923816bc02a0d9c5ff6441b9d4ffb9a5e4f4db8a6270ca05411c3"
+  },
+  {
+    "name": "trino.svg",
+    "url": "https://raw.githubusercontent.com/trinodb/trino.io/6e0f37c50c4aa25337a4799107e43de08a6a8645/assets/images/trino-logo/trino-ko_tiny-alt.svg",
+    "bytes": 4030,
+    "sha256": "d1dd400467040aaa53d908d3ea743579874625d46d5223f6f1ea7568ae169caa",
+    "viewBox": "0 0 42.1 62.45",
+    "colors": [],
+    "sourceId": "trino",
+    "file": "trino.svg",
+    "deployedSha256": "d1dd400467040aaa53d908d3ea743579874625d46d5223f6f1ea7568ae169caa"
+  },
+  {
+    "name": "mongodb.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/mongodb/mongodb-original.svg",
+    "bytes": 5611,
+    "sha256": "d9f2bf7041264f4747e9969fb82ede0199c0ac97dfa8632aa0687d702ec05f7b",
+    "viewBox": "0 0 128 128",
+    "colors": [
+      "#409433",
+      "#439934",
+      "#45A538",
+      "#46A037",
+      "#4AA73C",
+      "#4FAA41",
+      "#57AE47",
+      "#60B24F",
+      "#A9AA88",
+      "#B6B598"
+    ],
+    "sourceId": "mongodb",
+    "file": "mongodb.svg",
+    "deployedSha256": "d9f2bf7041264f4747e9969fb82ede0199c0ac97dfa8632aa0687d702ec05f7b"
+  },
+  {
+    "name": "redis.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/redis/redis-original.svg",
+    "bytes": 1728,
+    "sha256": "4707378b190878f36f7e6e1c01fa3ee7e7884c76101809d191dddd943a2e6bdb",
+    "viewBox": "0 0 128 128",
+    "colors": ["#7A0C00", "#A41E11", "#AD2115", "#D82C20", "#fff"],
+    "sourceId": "redis",
+    "file": "redis.svg",
+    "deployedSha256": "4707378b190878f36f7e6e1c01fa3ee7e7884c76101809d191dddd943a2e6bdb"
+  },
+  {
+    "name": "dynamodb.png",
+    "url": "https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/e26e2c05daf8b6bc4c764669fc2be04c314ccb8c/dist/Database/DynamoDB.png",
+    "bytes": 2629,
+    "sha256": "e15ee090401abeafdfc4a3e3a31280354d1783c4170074f692796be330265b32",
+    "sourceId": "dynamodb",
+    "file": "dynamodb.png",
+    "deployedSha256": "e15ee090401abeafdfc4a3e3a31280354d1783c4170074f692796be330265b32"
+  },
+  {
+    "name": "elasticsearch.svg",
+    "url": "https://raw.githubusercontent.com/devicons/devicon/6a37858047b0e8d9c9c0e68f4a071fc410652e89/icons/elasticsearch/elasticsearch-original.svg",
+    "bytes": 552,
+    "sha256": "7efc44ea67eac2a877248c0502e498bca8f61de490852c1a5c572db0b5d3f84d",
+    "viewBox": "0 0 128 128",
+    "colors": ["#00bfb3", "#343741", "#fec514"],
+    "sourceId": "elasticsearch",
+    "file": "elasticsearch.svg",
+    "deployedSha256": "7efc44ea67eac2a877248c0502e498bca8f61de490852c1a5c572db0b5d3f84d"
+  },
+  {
+    "name": "opensearch.svg",
+    "url": "https://raw.githubusercontent.com/opensearch-project/project-website/db813009479f1c23b5b156de7c564ebbad35be35/assets/brand/SVG/Mark/opensearch_mark_default.svg",
+    "bytes": 1103,
+    "sha256": "d89d0555a75fa2c745bfdd782589cc17ce596d3fd41e5008bef8ff3fec695bc8",
+    "viewBox": "0 0 64 64",
+    "colors": ["#003B5C", "#005EB8", "none"],
+    "sourceId": "opensearch",
+    "file": "opensearch.svg",
+    "deployedSha256": "d89d0555a75fa2c745bfdd782589cc17ce596d3fd41e5008bef8ff3fec695bc8"
+  },
+  {
+    "name": "turso.svg",
+    "url": "https://turso.tech/logokit/turso-logomark-aqua.svg",
+    "bytes": 1144,
+    "sha256": "1f79806b29a75d813b52ccb5aaa3fc26e025af0c252d0692e08e94e8331d5b87",
+    "viewBox": "0 0 241 240",
+    "colors": ["#4FF8D2", "none"],
+    "sourceId": "libsql",
+    "file": "turso.svg",
+    "deployedSha256": "1f79806b29a75d813b52ccb5aaa3fc26e025af0c252d0692e08e94e8331d5b87"
+  }
+]

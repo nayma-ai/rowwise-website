@@ -1,675 +1,1748 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rowwise — Every database, one fast app, AI that writes the SQL</title>
-<meta name="description" content="A fast desktop database client for PostgreSQL, MySQL, SQL Server, Oracle, MongoDB, Redis, ClickHouse and more. Ask in plain English and get SQL you can read and run. The AI sees your schema, never your rows. Pay once from $49.">
-<meta property="og:title" content="rowwise — Every database, one fast app">
-<meta property="og:description" content="Browse, query and edit every database in one app. AI writes the SQL; your rows never leave your machine.">
-<meta property="og:image" content="assets/screens/query-dark.png">
-<meta name="theme-color" content="#0A0B0F" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="color-scheme" content="dark light">
-<meta name="author" content="NAYMA">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237C7CFF'/%3E%3Ccircle cx='13' cy='13' r='7' fill='none' stroke='%230B0B1F' stroke-width='3'/%3E%3Crect x='18.5' y='18.5' width='3.5' height='3.5' fill='%230B0B1F'/%3E%3Crect x='23' y='23' width='3.5' height='3.5' fill='%23fff'/%3E%3C/svg%3E">
-<script>
-  // Pick the theme before first paint: a saved choice, else the device's.
-  (() => {
-    let saved = null;
-    try { saved = localStorage.getItem("rowwise-theme"); } catch {}
-    const system = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-    document.documentElement.dataset.mode = saved === "light" || saved === "dark" ? saved : system;
-  })();
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0A0B0F; --bg-2:#0E0F14; --surface:#12131A; --surface-2:#171922; --line:#1F2129; --line-2:#2B2E38;
-  --text:#ECEDF0; --body:#B4B7C0; --muted:#8B8F9A; --faint:#5C606C;
-  --accent:#7C7CFF; --accent-2:#A5A5FF; --accent-ink:#0B0B1F; --accent-soft:rgb(124 124 255 / .12);
-  --ok:#3DD68C; --cyan:#56C2E6; --amber:#F2C94C;
-  --accent-hover:#9393FF; --link-hover:#C4C4FF; --nav-bg:rgb(10 11 15 / .86); --nav-line:rgb(255 255 255 / .06);
-  --shadow:#000; --glow:rgb(124 124 255 / .35); --k:#A5A5FF; --s:#86D9A4; --n:#FF9E7A;
-  --ok-line:rgb(61 214 140 / .3); --ok-text:#9BE8C3; --grad-from:#C9C9FF; --grad-to:#56C2E6;
-  color-scheme:dark;
-  --sans:Geist,system-ui,-apple-system,sans-serif; --mono:'Geist Mono',ui-monospace,monospace;
-  --radius:14px;
-}
-:root[data-mode="light"]{
-    --bg:#FFFFFF; --bg-2:#F7F8FA; --surface:#F7F8FA; --surface-2:#FFFFFF; --line:#E6E8EC; --line-2:#D6D9E0;
-    --text:#16181D; --body:#4A4F5C; --muted:#6B7080; --faint:#9AA0AC;
-    --accent:#4F46E5; --accent-2:#4338CA; --accent-ink:#FFFFFF; --accent-soft:rgb(79 70 229 / .08);
-    --ok:#15803D; --cyan:#0E7490; --amber:#A16207;
-    --accent-hover:#4338CA; --link-hover:#3730A3; --nav-bg:rgb(255 255 255 / .9); --nav-line:#E6E8EC;
-    --shadow:rgb(22 24 29 / .18); --glow:rgb(79 70 229 / .18); --k:#4338CA; --s:#15803D; --n:#C2410C;
-    --ok-line:rgb(21 128 61 / .3); --ok-text:#166534; --grad-from:#6366F1; --grad-to:#0E7490;
-    color-scheme:light;
-}
-/* Without JavaScript, follow the device. */
-@media (prefers-color-scheme:light){
-  :root:not([data-mode]){
-    --bg:#FFFFFF; --bg-2:#F7F8FA; --surface:#F7F8FA; --surface-2:#FFFFFF; --line:#E6E8EC; --line-2:#D6D9E0;
-    --text:#16181D; --body:#4A4F5C; --muted:#6B7080; --faint:#9AA0AC;
-    --accent:#4F46E5; --accent-2:#4338CA; --accent-ink:#FFFFFF; --accent-soft:rgb(79 70 229 / .08);
-    --ok:#15803D; --cyan:#0E7490; --amber:#A16207;
-    --accent-hover:#4338CA; --link-hover:#3730A3; --nav-bg:rgb(255 255 255 / .9); --nav-line:#E6E8EC;
-    --shadow:rgb(22 24 29 / .18); --glow:rgb(79 70 229 / .18); --k:#4338CA; --s:#15803D; --n:#C2410C;
-    --ok-line:rgb(21 128 61 / .3); --ok-text:#166534; --grad-from:#6366F1; --grad-to:#0E7490;
-    color-scheme:light;
-  }
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-[id]{scroll-margin-top:80px}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-img{display:block;max-width:100%;height:auto}
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
-.mono{font-family:var(--mono)}
-h1,h2,h3{margin:0;letter-spacing:-.025em;font-weight:600}
-p{margin:0}
-
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 20px;border-radius:10px;font:500 15px var(--sans);border:1px solid transparent;cursor:pointer;transition:background .15s,border-color .15s,transform .15s;white-space:nowrap}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:0 8px 24px -10px var(--glow)}
-.btn-primary:hover{background:var(--accent-hover)}
-.btn-secondary{background:var(--surface);border-color:var(--line-2);color:var(--text)}
-.btn-secondary:hover{border-color:var(--faint);background:var(--surface-2)}
-.btn-sm{height:36px;padding:0 14px;font-size:14px;border-radius:8px}
-.btn svg{width:16px;height:16px;flex:none}
-.link{color:var(--accent-2);font-weight:500}
-.link:hover{color:var(--link-hover)}
-
-/* nav */
-nav{position:sticky;top:0;z-index:20;background:var(--nav-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--nav-line)}
-nav .wrap{display:flex;align-items:center;gap:32px;height:64px}
-.brand{display:flex;align-items:center;gap:10px;font:600 18px var(--sans);letter-spacing:-.02em}
-nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:14px;color:var(--muted)}
-nav ul a:hover{color:var(--text)}
-nav .nav-cta{margin-left:auto;display:flex;gap:10px;align-items:center}
-
-/* hero */
-.hero{padding:136px 0 0;text-align:center}
-.pill{display:inline-flex;align-items:center;gap:10px;height:30px;padding:0 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--muted);transition:border-color .15s,color .15s}
-.pill:hover{border-color:var(--line-2);color:var(--text)}
-.pill i{width:6px;height:6px;border-radius:50%;background:var(--ok)}
-h1{font-size:clamp(42px,6.8vw,84px);line-height:1;letter-spacing:-.045em;margin:32px auto 28px;max-width:1000px}
-.nw{white-space:nowrap}
-.grad{background:linear-gradient(92deg,var(--grad-from) 0%,var(--accent) 45%,var(--grad-to) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lede{font-size:clamp(17px,1.8vw,19px);line-height:1.6;color:var(--muted);max-width:580px;margin:0 auto 40px}
-.ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-.ctas .btn{height:48px;padding:0 22px}
-.btn-ghost{background:transparent;border-color:var(--line-2);color:var(--text)}
-.btn-ghost:hover{border-color:var(--faint)}
-.hero .fine{margin-top:22px;font-size:13px;color:var(--muted);letter-spacing:.01em}
-
-/* product tour */
-.tour{margin-top:104px}
-.tabs{display:flex;justify-content:center;gap:32px;margin-bottom:28px}
-.tabs button{position:relative;padding:6px 0;border:0;background:none;color:var(--muted);font:500 15px var(--sans);cursor:pointer;transition:color .15s}
-.tabs button:hover{color:var(--text)}
-.tabs button[aria-selected="true"]{color:var(--text)}
-.tabs button[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;border-radius:2px;background:var(--accent)}
-.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
-.frame{border-radius:18px;padding:8px;background:var(--surface);border:1px solid var(--line);box-shadow:0 40px 100px -50px var(--shadow)}
-.frame img{border-radius:12px;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left;background:var(--surface)}
-
-/* theme switch */
-.theme-toggle{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--line-2);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;transition:color .15s,border-color .15s}
-.theme-toggle:hover{color:var(--text);border-color:var(--faint)}
-.theme-toggle svg{width:17px;height:17px}
-.theme-toggle .moon,:root[data-mode="light"] .theme-toggle .sun{display:none}
-:root[data-mode="light"] .theme-toggle .moon{display:block}
-
-/* sections */
-section{padding:120px 0}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
-.eyebrow::before{content:"";width:18px;height:1px;background:currentColor;opacity:.6}
-h2{font-size:clamp(32px,4.4vw,52px);line-height:1.06;letter-spacing:-.035em;margin:16px 0 18px;max-width:820px}
-.sub{color:var(--body);max-width:660px;font-size:18px}
-.center{text-align:center}.center h2,.center .sub{margin-left:auto;margin-right:auto}
-.divider{border-top:1px solid var(--line)}
-
-/* logo marquee */
-.logos{padding:56px 0 0}
-.logos p{text-align:center;color:var(--muted);font-size:14px;margin-bottom:22px}
-.logo-row{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 30px;opacity:.85}
-.logo-row span{display:inline-flex;align-items:center;gap:9px;font-size:15px;color:var(--body)}
-.logo-row i,.db i{width:20px;height:20px;flex:none;background:var(--c,var(--body));-webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat}
-.logo-row i{background:var(--muted)}
-
-/* sources */
-.groups{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
-.group{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:22px}
-.group h3{font-size:15px;letter-spacing:-.01em}
-.group > p{color:var(--muted);font-size:13px;margin:6px 0 16px;min-height:42px}
-.dbs{display:grid;gap:8px}
-.db{display:flex;align-items:center;gap:12px;height:48px;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-weight:500;font-size:15px;transition:border-color .15s,background .15s}
-.db:hover{border-color:var(--line-2)}
-.db small{margin-left:auto;font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--amber);border:1px solid currentColor;border-radius:6px;padding:3px 6px}
-.conn-feats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
-.conn-feats div{display:flex;gap:12px;align-items:flex-start;padding:18px 20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);font-size:14px;color:var(--body)}
-.conn-feats b{display:block;color:var(--text);font-weight:500;margin-bottom:2px}
-.ico{flex:none;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-2)}
-.ico svg{width:18px;height:18px}
-.soon{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:28px;color:var(--muted);font-size:13px}
-.soon span:not(:first-child){font:12px var(--mono);padding:5px 10px;border:1px dashed var(--line-2);border-radius:999px}
-
-/* feature rows */
-.row{display:grid;grid-template-columns:.9fr 1.3fr;gap:64px;align-items:center;margin-top:96px}
-.row.flip{grid-template-columns:1.3fr .9fr}
-.row.flip .copy{order:2}
-.row h3{font-size:clamp(26px,3vw,34px);line-height:1.12;letter-spacing:-.03em;margin:14px 0 14px}
-.row .copy > p{color:var(--body);font-size:17px}
-.ticks{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px;font-size:15px;color:var(--body)}
-.ticks li{display:flex;gap:12px;align-items:flex-start}
-.ticks li::before{content:"";flex:none;width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23A5A5FF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-5'/%3E%3C/svg%3E") center/12px no-repeat}
-.shot{border-radius:14px;padding:8px;background:var(--surface);border:1px solid var(--line);box-shadow:0 30px 80px -40px var(--shadow)}
-.shot img{border-radius:9px;width:100%}
-
-/* feature grid */
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:72px}
-.card{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--bg-2);transition:border-color .2s}
-.card:hover{border-color:var(--line-2)}
-.card h4{margin:16px 0 6px;font-size:16px;font-weight:600;letter-spacing:-.01em}
-.card p{color:var(--muted);font-size:14px}
-
-/* AI */
-.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;counter-reset:step}
-.step{position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:var(--surface)}
-.step::before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:600 14px var(--sans)}
-.step h4{margin:18px 0 8px;font-size:18px;letter-spacing:-.015em}
-.step p{color:var(--body);font-size:15px}
-.step .mono{display:block;margin-top:16px;padding:12px 14px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:13px;color:var(--body);line-height:1.6}
-.k{color:var(--k)}.s{color:var(--s)}.n{color:var(--n)}
-.privacy{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
-.privacy div{border-radius:var(--radius);padding:24px 26px;border:1px solid var(--line)}
-.privacy .sent{background:var(--surface)}
-.privacy .never{background:var(--surface);border-color:var(--ok-line)}
-.privacy h4{font-size:15px;margin:0 0 12px;display:flex;align-items:center;gap:10px}
-.privacy ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.privacy li{font:13px var(--mono);padding:6px 11px;border-radius:999px;border:1px solid var(--line-2);color:var(--body)}
-.privacy .never li{border-color:var(--ok-line);color:var(--ok-text)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}.never .dot{background:var(--ok)}
-.ai-shot{margin-top:56px}
-.helps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
-.models{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:40px;justify-content:center}
-.models span{font:500 14px var(--sans);padding:9px 16px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);color:var(--body)}
-.models .lbl{border:0;background:none;padding:0 4px 0 0;color:var(--muted);font-weight:400}
-.mcp{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;margin-top:72px;padding:36px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
-.mcp h3{font-size:26px;letter-spacing:-.03em;margin:12px 0 10px}
-.mcp p{color:var(--body)}
-.term{border-radius:12px;background:var(--bg);border:1px solid var(--line);padding:18px;font:13px/1.8 var(--mono);color:var(--body);overflow-x:auto}
-.term .p{color:var(--faint)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.chips span{font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line-2);color:var(--body)}
-
-/* pricing */
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;align-items:stretch}
-.plan{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;padding:30px;background:var(--bg-2)}
-.plan.rec{border:1.5px solid var(--accent);background:var(--surface);box-shadow:0 30px 80px -40px var(--glow)}
-.badge{position:absolute;top:-12px;left:30px;font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:5px 10px}
-.plan h3{font-size:17px}
-.plan .for{color:var(--muted);font-size:14px;margin-top:4px}
-.price{display:flex;align-items:baseline;gap:8px;height:64px;margin:22px 0 4px;font-size:52px;font-weight:600;letter-spacing:-.04em}
-.price span{font-size:15px;font-weight:400;color:var(--muted);letter-spacing:0}
-.plan .note{color:var(--muted);font-size:13px;margin-bottom:22px}
-.plan ul{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:10px;font-size:15px;color:var(--body);flex:1}
-.plan li{display:flex;gap:10px}
-.plan li::before{content:"✓";color:var(--ok);font-weight:600}
-.plan .btn{width:100%}
-.price s{font-size:22px;font-weight:500;color:var(--faint);letter-spacing:-.01em}
-.launch{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 12px;margin-top:26px;padding:10px 18px;border:1px solid var(--accent);border-radius:999px;background:var(--accent-soft);font-size:14px;color:var(--body)}
-.launch b{font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2)}
-.reassure{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
-.reassure div{text-align:center;font-size:14px;color:var(--muted)}
-.reassure b{display:block;color:var(--text);font-weight:500;margin-bottom:2px}
-
-/* faq */
-.faq{max-width:820px;margin:48px auto 0;border-top:1px solid var(--line)}
-.faq details{border-bottom:1px solid var(--line);padding:20px 4px}
-.faq summary{cursor:pointer;font:500 17px var(--sans);list-style:none;display:flex;justify-content:space-between;gap:16px}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font:400 22px/1 var(--sans);color:var(--muted);transition:transform .2s}
-.faq details[open] summary::after{transform:rotate(45deg)}
-.faq details p{margin:12px 0 0;color:var(--body);max-width:700px}
-
-/* final */
-.final{position:relative;isolation:isolate;text-align:center;padding:130px 0}
-.final h2{margin:16px auto 16px}
-.final .sub{margin:0 auto 34px}
-
-footer{border-top:1px solid var(--line);padding:32px 0;font-size:13px;color:var(--muted)}
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer a:hover{color:var(--text)}
-
-@media (max-width:1040px){
-  nav ul{display:none}
-  .groups{grid-template-columns:1fr 1fr}
-  .conn-feats{grid-template-columns:1fr 1fr}
-  .row,.row.flip{grid-template-columns:1fr;gap:36px;margin-top:80px}
-  .row.flip .copy{order:0}
-  .grid{grid-template-columns:1fr 1fr}
-  .flow,.helps{grid-template-columns:1fr}
-  .mcp{grid-template-columns:1fr}
-  .plans{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
-  .reassure{grid-template-columns:1fr 1fr}
-}
-@media (max-width:640px){
-  .wrap{padding:0 16px}
-  section{padding:84px 0}
-  .hero{padding:80px 0 0}
-  .tour{margin-top:64px}
-  nav .nav-cta .btn-secondary{display:none}
-  .groups,.conn-feats,.grid,.privacy{grid-template-columns:1fr}
-  .dbs{grid-template-columns:1fr 1fr}
-  .db{height:44px;padding:0 12px;font-size:14px;gap:9px}
-  .db small{display:none}
-  .group > p{min-height:0}
-  .tabs{gap:24px}
-  .frame{padding:6px;border-radius:12px}
-  .mcp{padding:22px}
-  .reassure{grid-template-columns:1fr}
-}
-:root[data-mode="light"] .ticks li::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%234338CA' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-5'/%3E%3C/svg%3E")}
-@media (prefers-color-scheme:light){:root:not([data-mode]) .ticks li::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%234338CA' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-5'/%3E%3C/svg%3E")}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
-</head>
-<body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM13.9 4.9c.7-.9 1.2-2.1 1.1-3.3-1 0-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.2 1.1.1 2.3-.6 3-1.5z"/></symbol>
-  <symbol id="windows" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.5 10.4 4.5v7H3zM11.4 4.4 21 3v8.5h-9.6zM3 12.5h7.4v7L3 18.5zM11.4 12.5H21V21l-9.6-1.4z"/></symbol>
-</svg>
-
-<nav>
-  <div class="wrap">
-    <a href="#" class="brand" aria-label="rowwise home">
-      <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><circle cx="13" cy="13" r="9" fill="none" stroke="currentColor" stroke-width="3.5"/><rect x="19.5" y="19.5" width="4" height="4" fill="currentColor"/><rect x="25" y="25" width="4" height="4" style="fill:var(--accent)"/></svg>
-      rowwise
-    </a>
-    <ul>
-      <li><a href="#databases">Databases</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#ai">AI</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-    <div class="nav-cta">
-      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-      <a href="#download" class="btn btn-primary btn-sm">Download free</a>
-    </div>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="wrap">
-    <a href="#download" class="pill"><i></i>Public beta · macOS and Windows</a>
-    <h1>Every database. <span class="nw">One app.</span><br><span class="grad">AI writes the SQL.</span></h1>
-    <p class="lede">A fast desktop client for PostgreSQL, MySQL, SQL Server, Oracle, MongoDB and more. Ask in plain English. The AI sees your schema, never your rows.</p>
-    <div class="ctas">
-      <a href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg" class="btn btn-primary"><svg><use href="#apple"/></svg>Download for macOS</a>
-      <a href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-windows-setup.exe" class="btn btn-ghost"><svg><use href="#windows"/></svg>Windows</a>
-    </div>
-    <p class="fine">Free for 14 days · No account or card · Pay once from $49</p>
-
-    <div class="tour" id="tour">
-      <div class="tabs" role="tablist" aria-label="Product view">
-        <button type="button" role="tab" data-view="query" aria-selected="true">Query</button>
-        <button type="button" role="tab" data-view="explore" aria-selected="false">Explore</button>
-        <button type="button" role="tab" data-view="ask" aria-selected="false">Ask AI</button>
-      </div>
-      <div class="frame">
-        <picture id="tour-pic"><source media="(prefers-color-scheme: light)" srcset="assets/screens/query-light-1440.png 1440w, assets/screens/query-light.png 2880w" sizes="(max-width: 1240px) 100vw, 1160px"><img id="tour-img" src="assets/screens/query-dark.png" srcset="assets/screens/query-dark-1440.png 1440w, assets/screens/query-dark.png 2880w" sizes="(max-width: 1240px) 100vw, 1160px" width="2880" height="1800" alt="rowwise Query: a SQL editor with syntax colouring above a results grid of revenue by segment and plan"></picture>
-      </div>
-    </div>
-  </div>
-</header>
-
-<div class="logos">
-  <div class="wrap">
-    <p>Connects to the databases your team already runs</p>
-    <div class="logo-row">
-      <span><i style="--i:url(assets/db/postgresql.svg)"></i>PostgreSQL</span>
-      <span><i style="--i:url(assets/db/mysql.svg)"></i>MySQL</span>
-      <span><i style="--i:url(assets/db/sqlserver.svg)"></i>SQL Server</span>
-      <span><i style="--i:url(assets/db/oracle.svg)"></i>Oracle</span>
-      <span><i style="--i:url(assets/db/mongodb.svg)"></i>MongoDB</span>
-      <span><i style="--i:url(assets/db/redis.svg)"></i>Redis</span>
-      <span><i style="--i:url(assets/db/clickhouse.svg)"></i>ClickHouse</span>
-      <span><i style="--i:url(assets/db/snowflake.svg)"></i>Snowflake</span>
-    </div>
-  </div>
-</div>
-
-<section id="databases">
-  <div class="wrap center">
-    <span class="eyebrow">Databases</span>
-    <h2>One client instead of five.</h2>
-    <p class="sub">SQL, NoSQL, warehouses and data files, side by side in tabs. Each connection keeps its own schema browser, editor and history, so switching engines doesn’t mean switching tools.</p>
-  </div>
-  <div class="wrap">
-    <div class="groups">
-      <div class="group">
-        <h3>Relational</h3>
-        <p>Browse tables, edit rows, run plans and transactions.</p>
-        <div class="dbs">
-          <div class="db"><i style="--i:url(assets/db/postgresql.svg);--c:#6B8FE8"></i>PostgreSQL</div>
-          <div class="db"><i style="--i:url(assets/db/mysql.svg);--c:#4FA3C9"></i>MySQL</div>
-          <div class="db"><i style="--i:url(assets/db/mariadb.svg);--c:#C98B6E"></i>MariaDB</div>
-          <div class="db"><i style="--i:url(assets/db/sqlserver.svg);--c:#E8595A"></i>SQL Server</div>
-          <div class="db"><i style="--i:url(assets/db/oracle.svg);--c:#F2545B"></i>Oracle</div>
-          <div class="db"><i style="--i:url(assets/db/sqlite.svg);--c:#5BA4D9"></i>SQLite</div>
-        </div>
-      </div>
-      <div class="group">
-        <h3>Analytics &amp; warehouses</h3>
-        <p>Fast aggregates over big tables, with server-side cancel.</p>
-        <div class="dbs">
-          <div class="db"><i style="--i:url(assets/db/clickhouse.svg);--c:#FFCC21"></i>ClickHouse</div>
-          <div class="db"><i style="--i:url(assets/db/duckdb.svg);--c:#FFF06B"></i>DuckDB</div>
-          <div class="db"><i style="--i:url(assets/db/snowflake.svg);--c:#29B5E8"></i>Snowflake<small>Preview</small></div>
-          <div class="db"><i style="--i:url(assets/db/bigquery.svg);--c:#7BA7F7"></i>BigQuery<small>Preview</small></div>
-        </div>
-      </div>
-      <div class="group">
-        <h3>NoSQL</h3>
-        <p>Documents and keys with editors built for them.</p>
-        <div class="dbs">
-          <div class="db"><i style="--i:url(assets/db/mongodb.svg);--c:#5FC167"></i>MongoDB</div>
-          <div class="db"><i style="--i:url(assets/db/redis.svg);--c:#FF5A4D"></i>Redis</div>
-        </div>
-      </div>
-      <div class="group">
-        <h3>Data files</h3>
-        <p>Open a file and query it like a table. No server needed.</p>
-        <div class="dbs">
-          <div class="db"><i style="--i:url(assets/db/file.svg);--c:var(--body)"></i>CSV</div>
-          <div class="db"><i style="--i:url(assets/db/file.svg);--c:var(--body)"></i>Parquet</div>
-          <div class="db"><i style="--i:url(assets/db/file.svg);--c:var(--body)"></i>JSON &amp; JSONL</div>
-          <div class="db"><i style="--i:url(assets/db/file.svg);--c:var(--body)"></i>Excel (XLSX)</div>
-        </div>
-      </div>
-    </div>
-    <div class="conn-feats">
-      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><span><b>TLS by default</b>Certificates and hostnames are verified unless you say otherwise.</span></div>
-      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg></span><span><b>SSH tunnels</b>Reach private databases through a bastion host.</span></div>
-      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></span><span><b>Paste a URL</b>Drop in a connection string and the form fills itself.</span></div>
-      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span><b>Clear errors</b>Test connection tells you exactly what to fix.</span></div>
-    </div>
-    <div class="soon"><span>Coming next:</span><span>Elasticsearch</span><span>DynamoDB</span><span>Redshift</span><span>CockroachDB</span><span>Cassandra</span><span>Databricks</span><span>Turso</span></div>
-  </div>
-</section>
-
-<section id="features" class="divider">
-  <div class="wrap center">
-    <span class="eyebrow">Features</span>
-    <h2>Everything you do every day, in one place.</h2>
-    <p class="sub">A desktop app that opens instantly, keeps your work between sessions and never runs anything you didn’t ask it to.</p>
-  </div>
-  <div class="wrap">
-    <div class="row">
-      <div class="copy">
-        <span class="eyebrow">Explore</span>
-        <h3>Browse any table in seconds.</h3>
-        <p>Open tables in tabs, page through rows, and jump to related records without writing a join.</p>
-        <ul class="ticks">
-          <li>Filter and sort the whole table, not just the page you loaded</li>
-          <li>Inspect any row as formatted JSON or a ready-made INSERT</li>
-          <li>Columns, keys, indexes and DDL in the Structure tab</li>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>rowwise — Your databases. One focused workspace.</title>
+    <meta
+      name="description"
+      content="Query databases, CSV, Parquet, JSON/JSONL and Excel files in one desktop workspace. 19 source connectors, business answers and built-in MCP for your AI tools. macOS beta available now."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rowwise.dev/" />
+    <meta
+      property="og:title"
+      content="rowwise — Your databases. One focused workspace."
+    />
+    <meta
+      property="og:description"
+      content="19 database connectors plus CSV, Parquet, JSON/JSONL and Excel files. Browse, query and connect your AI tools through built-in MCP."
+    />
+    <meta name="theme-color" content="#09090A" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="author" content="NAYMA" />
+    <link rel="canonical" href="https://rowwise.dev/" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="assets/brand/rowwise-mark.svg"
+    />
+    <script>
+      (() => {
+        let saved;
+        try {
+          saved = localStorage.getItem("rowwise-theme");
+        } catch {}
+        document.documentElement.dataset.mode = ["light", "dark"].includes(
+          saved,
+        )
+          ? saved
+          : matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark";
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=f8de17e68b57" />
+    <script src="script.js?v=f053f69fd24c" defer></script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14m-5-5 5 5-5 5" />
+      </symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24">
+        <path d="m9 5 7 7-7 7" />
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24">
+        <path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4" />
+      </symbol>
+      <symbol id="i-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="5" rx="8" ry="3" />
+        <path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0" />
+      </symbol>
+      <symbol id="i-query" viewBox="0 0 24 24">
+        <path d="m8 5-6 7 6 7m8-14 6 7-6 7m-2-16-4 18" />
+      </symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <path d="M3 10h18M9 4v16" />
+      </symbol>
+      <symbol id="i-ask" viewBox="0 0 24 24">
+        <path
+          d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"
+        />
+      </symbol>
+      <symbol id="i-plug" viewBox="0 0 24 24">
+        <path
+          d="m7 3 3 3m4-2 3 3M5 9l10-7m-9 6 7 7m-9-5 6 6 7-7M8 14l-4 4H2m12-6 4-4"
+        />
+      </symbol>
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="m3 10 9-7 9 7v10H3V10Zm6 10v-7h6v7" />
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24">
+        <path d="M4 7h16M4 17h16" />
+        <circle cx="9" cy="7" r="3" />
+        <circle cx="15" cy="17" r="3" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M4 3v18h17M8 16v-5m5 5V7m5 9V4" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="10.5" cy="10.5" r="6.5" />
+        <path d="m16 16 5 5" />
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24">
+        <path
+          d="M4 5a2 2 0 0 1 2-2h14v18H6a2 2 0 0 1-2-2V5Zm0 13a2 2 0 0 1 2-2h14"
+        />
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24">
+        <rect x="4" y="10" width="16" height="11" rx="2" />
+        <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24">
+        <path d="m15 4 5 5M4 20l1-6L16 3a2 2 0 0 1 5 5L10 19l-6 1Z" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1"
+        />
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24">
+        <path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10Z" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12 4 4L19 6" />
+      </symbol>
+    </svg>
+    <nav class="site-nav" aria-label="Main navigation">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#" aria-label="rowwise home"
+          ><img
+            src="assets/brand/rowwise-mark.svg"
+            width="32"
+            height="32"
+            alt=""
+          />rowwise</a
+        >
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#features">Product</a></li>
+          <li><a href="#mcp">MCP</a></li>
+          <li><a href="#sources">Sources</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
         </ul>
+        <div class="nav-actions">
+          <button
+            class="icon-button theme-toggle"
+            id="theme-toggle"
+            type="button"
+            aria-label="Switch to light theme"
+          >
+            <svg class="icon sun" aria-hidden="true"><use href="#i-sun" /></svg
+            ><svg class="icon moon" aria-hidden="true">
+              <use href="#i-moon" />
+            </svg></button
+          ><a class="btn btn-primary btn-small" href="#download"
+            >Download free</a
+          ><button
+            class="icon-button mobile-toggle"
+            id="mobile-toggle"
+            type="button"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="nav-links"
+          >
+            <svg class="icon" aria-hidden="true"><use href="#i-menu" /></svg>
+          </button>
+        </div>
       </div>
-      <div class="shot"><picture><source media="(prefers-color-scheme: light)" srcset="assets/screens/explore-light-1440.png 1440w, assets/screens/explore-light.png 2880w" sizes="(max-width: 1040px) 100vw, 680px"><img src="assets/screens/explore-dark.png" srcset="assets/screens/explore-dark-1440.png 1440w, assets/screens/explore-dark.png 2880w" sizes="(max-width: 1040px) 100vw, 680px" width="2880" height="1800" loading="lazy" alt="rowwise Explore showing the customers table with segment, region and channel columns"></picture></div>
-    </div>
-    <div class="row flip">
-      <div class="copy">
-        <span class="eyebrow">Query</span>
-        <h3>A SQL editor that keeps up with you.</h3>
-        <p>Completion from your real schema, one-key formatting and syntax colouring tuned for long sessions.</p>
-        <ul class="ticks">
-          <li>Run a selection or the statement at the cursor with ⌘↵</li>
-          <li>Query plans, sessions and transactions when you need them</li>
-          <li>Cancel stops the query on the server, not just on screen</li>
-        </ul>
+    </nav>
+    <main id="main" tabindex="-1">
+      <header class="hero">
+        <div class="wrap">
+          <a href="#download" class="release-pill"
+            ><span>Public beta</span>0.1.0-beta.9 · macOS universal
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron" /></svg
+          ></a>
+          <h1>
+            Your databases.<br /><span class="accent"
+              >One focused workspace.</span
+            >
+          </h1>
+          <p class="hero-lede">
+            Databases and data files, together. Work in SQL, ask a business
+            question, or connect your AI tools through built-in MCP.
+          </p>
+          <div class="ctas">
+            <a
+              href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg"
+              class="btn btn-primary"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-download" /></svg
+              >Download for macOS</a
+            ><a class="btn" href="#mcp"
+              ><svg class="icon" aria-hidden="true"><use href="#i-plug" /></svg
+              >Explore MCP
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ></a>
+          </div>
+          <p class="fine">14-day free trial · No card · Pay once from $49</p>
+          <div class="hero-shortcuts">
+            <a href="#sources"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-database" /></svg
+              >Databases &amp; data files</a
+            ><a href="#ai"
+              ><svg class="icon" aria-hidden="true"><use href="#i-ask" /></svg
+              >Business answers</a
+            ><a href="#mcp"
+              ><svg class="icon" aria-hidden="true"><use href="#i-plug" /></svg
+              >Local MCP server</a
+            >
+          </div>
+          <div class="tour" id="tour">
+            <div class="tour-heading">
+              <div class="tabs" role="tablist" aria-label="Product preview">
+                <button
+                  type="button"
+                  id="tab-ask"
+                  role="tab"
+                  aria-controls="panel-ask"
+                  aria-selected="true"
+                  tabindex="0"
+                  data-view="ask"
+                >
+                  Ask</button
+                ><button
+                  type="button"
+                  id="tab-query"
+                  role="tab"
+                  aria-controls="panel-query"
+                  aria-selected="false"
+                  tabindex="-1"
+                  data-view="query"
+                >
+                  Query</button
+                ><button
+                  type="button"
+                  id="tab-explore"
+                  role="tab"
+                  aria-controls="panel-explore"
+                  aria-selected="false"
+                  tabindex="-1"
+                  data-view="explore"
+                >
+                  Explore</button
+                ><button
+                  type="button"
+                  id="tab-mcp"
+                  role="tab"
+                  aria-controls="panel-mcp"
+                  aria-selected="false"
+                  tabindex="-1"
+                  data-view="mcp"
+                >
+                  MCP
+                </button>
+              </div>
+              <span class="preview-label"
+                >Interactive preview · sample data</span
+              >
+            </div>
+            <div class="workspace-demo">
+              <aside
+                class="demo-sidebar"
+                aria-label="Illustrative app navigation"
+              >
+                <div class="demo-logo">
+                  <img
+                    src="assets/brand/rowwise-mark.svg"
+                    alt=""
+                    width="25"
+                    height="25"
+                  /><span>rowwise</span>
+                </div>
+                <div class="demo-nav" data-demo-nav="home">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-home" /></svg
+                  ><span>Home</span>
+                </div>
+                <div class="demo-nav" data-demo-nav="dashboards">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-chart" /></svg
+                  ><span>Dashboards</span>
+                </div>
+                <div class="demo-nav" data-demo-nav="explore">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-grid" /></svg
+                  ><span>Explore</span>
+                </div>
+                <div class="demo-nav" data-demo-nav="query">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-query" /></svg
+                  ><span>Query</span>
+                </div>
+                <div class="demo-nav active" data-demo-nav="ask">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-ask" /></svg
+                  ><span>Ask</span>
+                </div>
+                <div class="demo-nav" data-demo-nav="knowledge">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-book" /></svg
+                  ><span>Knowledge</span>
+                </div>
+                <div class="demo-nav" data-demo-nav="history">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-clock" /></svg
+                  ><span>History</span>
+                </div>
+                <div class="demo-nav" data-demo-nav="connections">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-database" /></svg
+                  ><span>Connections</span>
+                </div>
+                <div class="demo-nav" data-demo-nav="mcp">
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-settings" /></svg
+                  ><span>Settings</span>
+                </div>
+                <div class="demo-connection">
+                  <i class="status-dot"></i>Sample workspace
+                </div>
+              </aside>
+              <div class="demo-main">
+                <div class="demo-tabs">
+                  <span class="current" id="demo-tab-title"
+                    ><svg class="icon" aria-hidden="true">
+                      <use href="#i-ask" /></svg
+                    >Ask · Sample data</span
+                  ><span>Query 1</span><span>customers</span
+                  ><span aria-hidden="true">+</span>
+                </div>
+                <section
+                  role="tabpanel"
+                  id="panel-ask"
+                  aria-labelledby="tab-ask"
+                  tabindex="0"
+                >
+                  <div class="demo-page-heading">
+                    <b>Ask</b><span class="demo-meta">Sample workspace</span>
+                  </div>
+                  <div class="demo-answer">
+                    <div class="demo-question">
+                      How has revenue changed over the last six months?
+                    </div>
+                    <div class="answer-label">
+                      <svg class="icon" aria-hidden="true">
+                        <use href="#i-check" /></svg
+                      >Complete
+                    </div>
+                    <h3>
+                      Revenue reached <strong>$128,400</strong> in September.
+                    </h3>
+                    <p>
+                      Up 7.7% from August. Based on paid invoices in USD,
+                      April–September 2026.
+                    </p>
+                    <div
+                      class="demo-chart"
+                      role="img"
+                      aria-label="Sample monthly revenue in USD: April 91,200; May 98,600; June 106,800; July 112,400; August 119,200; September 128,400."
+                    >
+                      <div class="chart-title">
+                        Monthly revenue <span>USD · Apr–Sep 2026</span>
+                      </div>
+                      <div class="chart-bars">
+                        <div class="chart-column">
+                          <span>$91.2k</span>
+                          <div class="bar" style="--height: 58.24%"></div>
+                        </div>
+                        <div class="chart-column">
+                          <span>$98.6k</span>
+                          <div class="bar" style="--height: 62.97%"></div>
+                        </div>
+                        <div class="chart-column">
+                          <span>$106.8k</span>
+                          <div class="bar" style="--height: 68.21%"></div>
+                        </div>
+                        <div class="chart-column">
+                          <span>$112.4k</span>
+                          <div class="bar" style="--height: 71.78%"></div>
+                        </div>
+                        <div class="chart-column">
+                          <span>$119.2k</span>
+                          <div class="bar" style="--height: 76.12%"></div>
+                        </div>
+                        <div class="chart-column">
+                          <span>$128.4k</span>
+                          <div class="bar" style="--height: 82%"></div>
+                        </div>
+                      </div>
+                      <div class="chart-labels">
+                        <span>Apr</span><span>May</span><span>Jun</span
+                        ><span>Jul</span><span>Aug</span><span>Sep</span>
+                      </div>
+                    </div>
+                    <details class="supporting">
+                      <summary>Supporting SQL</summary>
+                      <pre>
+SELECT date_trunc(&#x27;month&#x27;, issued_at)::date AS month,
+       SUM(amount_usd) AS revenue_usd
+FROM invoices
+WHERE status = &#x27;paid&#x27;
+  AND issued_at &gt;= DATE &#x27;2026-04-01&#x27;
+  AND issued_at &lt; DATE &#x27;2026-10-01&#x27;
+GROUP BY 1
+ORDER BY 1;</pre>
+                    </details>
+                  </div>
+                </section>
+                <section
+                  role="tabpanel"
+                  id="panel-query"
+                  aria-labelledby="tab-query"
+                  tabindex="0"
+                  hidden
+                >
+                  <div class="demo-page-heading">
+                    <b>Query</b
+                    ><span class="demo-meta">Sample data · PostgreSQL</span>
+                  </div>
+                  <pre
+                    class="demo-sql"
+                  ><span class="sql-keyword">SELECT</span> date_trunc(&#x27;month&#x27;, issued_at)::date<span class="sql-keyword"> AS </span>month,
+       <span class="sql-keyword">SUM</span>(amount_usd)<span class="sql-keyword"> AS </span>revenue_usd
+<span class="sql-keyword">FROM</span> invoices
+<span class="sql-keyword">WHERE</span> status = <span class="sql-string">&#x27;paid&#x27;</span>
+  <span class="sql-keyword">AND</span> issued_at &gt;= <span class="sql-keyword">DATE</span> &#x27;2026-04-01&#x27;
+  <span class="sql-keyword">AND</span> issued_at &lt; <span class="sql-keyword">DATE</span> &#x27;2026-10-01&#x27;
+<span class="sql-keyword">GROUP BY</span> 1
+<span class="sql-keyword">ORDER BY</span> 1;</pre>
+                  <div class="result-heading">
+                    <span>Results</span
+                    ><span class="demo-meta">6 sample rows · USD</span>
+                  </div>
+                  <div class="table-scroll">
+                    <table class="demo-table">
+                      <caption class="sr-only">
+                        Sample query results: monthly paid invoice revenue in US
+                        dollars
+                      </caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">
+                            month <span class="muted">date</span>
+                          </th>
+                          <th scope="col">
+                            revenue_usd <span class="muted">numeric</span>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>2026-04-01</td>
+                          <td>91,200.00</td>
+                        </tr>
+                        <tr>
+                          <td>2026-05-01</td>
+                          <td>98,600.00</td>
+                        </tr>
+                        <tr>
+                          <td>2026-06-01</td>
+                          <td>106,800.00</td>
+                        </tr>
+                        <tr>
+                          <td>2026-07-01</td>
+                          <td>112,400.00</td>
+                        </tr>
+                        <tr>
+                          <td>2026-08-01</td>
+                          <td>119,200.00</td>
+                        </tr>
+                        <tr>
+                          <td>2026-09-01</td>
+                          <td>128,400.00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+                <section
+                  role="tabpanel"
+                  id="panel-explore"
+                  aria-labelledby="tab-explore"
+                  tabindex="0"
+                  hidden
+                >
+                  <div class="demo-page-heading">
+                    <b>customers</b
+                    ><span class="demo-meta">public · Sample data</span>
+                  </div>
+                  <div class="demo-explore-tools">
+                    <span class="demo-tag green"
+                      >Saved view: Active customers</span
+                    ><span class="demo-tag">status = active</span
+                    ><span class="demo-tag">monthly_usd ↓</span>
+                  </div>
+                  <div class="table-scroll">
+                    <table class="demo-table">
+                      <caption class="sr-only">
+                        Illustrative active customers table
+                      </caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">id</th>
+                          <th scope="col">company</th>
+                          <th scope="col">plan</th>
+                          <th scope="col">status</th>
+                          <th scope="col">monthly_usd</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>101</td>
+                          <td>Northstar</td>
+                          <td>Business</td>
+                          <td>active</td>
+                          <td>2,400.00</td>
+                        </tr>
+                        <tr>
+                          <td>102</td>
+                          <td>Acme Studio</td>
+                          <td>Business</td>
+                          <td>active</td>
+                          <td>1,800.00</td>
+                        </tr>
+                        <tr>
+                          <td>103</td>
+                          <td>Juniper</td>
+                          <td>Pro</td>
+                          <td>active</td>
+                          <td>840.00</td>
+                        </tr>
+                        <tr>
+                          <td>104</td>
+                          <td>Forma</td>
+                          <td>Pro</td>
+                          <td>active</td>
+                          <td>640.00</td>
+                        </tr>
+                        <tr>
+                          <td>105</td>
+                          <td>Orbit Labs</td>
+                          <td>Pro</td>
+                          <td>active</td>
+                          <td>490.00</td>
+                        </tr>
+                        <tr>
+                          <td>106</td>
+                          <td>Linear Works</td>
+                          <td>Starter</td>
+                          <td>active</td>
+                          <td>190.00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p class="demo-footer">
+                    Sample view · Filters and sorting are remembered per table.
+                  </p>
+                </section>
+                <section
+                  role="tabpanel"
+                  id="panel-mcp"
+                  aria-labelledby="tab-mcp"
+                  tabindex="0"
+                  hidden
+                >
+                  <div class="demo-page-heading">
+                    <b>Settings / MCP</b
+                    ><span class="demo-meta">Illustrative local server</span>
+                  </div>
+                  <div class="demo-mcp-card">
+                    <h3>MCP server <span>Off by default</span></h3>
+                    <p>Connect assistants while Rowwise is open.</p>
+                    <code>http://127.0.0.1:4320/mcp</code
+                    ><span class="demo-tag">Enable in Settings → MCP</span>
+                    <p>Localhost only · Read-only by default</p>
+                    <p>Disabling cancels active requests.</p>
+                  </div>
+                </section>
+              </div>
+            </div>
+            <noscript
+              ><p class="fine">
+                Preview tabs and source filters require JavaScript. All source
+                connectors are listed below.
+              </p></noscript
+            >
+          </div>
+          <div class="trust-strip">
+            <span
+              ><svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg
+              >Your workspace stays local</span
+            ><span
+              ><svg class="icon" aria-hidden="true"><use href="#i-query" /></svg
+              >Read-only mode you control</span
+            ><span
+              ><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
+              >Signed &amp; notarized for macOS</span
+            >
+          </div>
+        </div>
+      </header>
+      <section class="page-section" id="mcp">
+        <div class="wrap split">
+          <div>
+            <span class="eyebrow">01 / Built-in MCP</span>
+            <h2>Your AI tools.<br />Your connected databases.</h2>
+            <p class="section-lede">
+              Give your assistant database tools through Rowwise’s local MCP
+              server. Discover schemas, run bounded queries and reuse saved work
+              without copying database credentials into each client.
+            </p>
+            <ul class="client-chips" aria-label="MCP clients">
+              <li>
+                <a
+                  class="client-chip"
+                  href="https://code.claude.com/docs/en/mcp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Claude Code MCP setup (opens in a new tab)"
+                  ><span class="client-icon" aria-hidden="true"
+                    ><img
+                      src="assets/clients/claude-code.png"
+                      width="30"
+                      height="30"
+                      alt=""
+                      class="" /></span
+                  ><span>Claude Code</span></a
+                >
+              </li>
+              <li>
+                <a
+                  class="client-chip"
+                  href="https://cursor.com/docs/context/mcp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Cursor MCP setup (opens in a new tab)"
+                  ><span class="client-icon" aria-hidden="true"
+                    ><img
+                      class="on-dark"
+                      src="assets/clients/cursor-dark.svg"
+                      width="30"
+                      height="30"
+                      alt="" /><img
+                      class="on-light"
+                      src="assets/clients/cursor-light.svg"
+                      width="30"
+                      height="30"
+                      alt="" /></span
+                  ><span>Cursor</span></a
+                >
+              </li>
+              <li>
+                <a
+                  class="client-chip"
+                  href="https://opencode.ai/docs/mcp-servers/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="OpenCode MCP setup (opens in a new tab)"
+                  ><span class="client-icon" aria-hidden="true"
+                    ><img
+                      class="on-dark"
+                      src="assets/clients/opencode-dark.svg"
+                      width="30"
+                      height="30"
+                      alt="" /><img
+                      class="on-light"
+                      src="assets/clients/opencode-light.svg"
+                      width="30"
+                      height="30"
+                      alt="" /></span
+                  ><span>OpenCode</span></a
+                >
+              </li>
+              <li>
+                <a
+                  class="client-chip"
+                  href="https://developers.openai.com/codex/mcp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Codex MCP setup (opens in a new tab)"
+                  ><span class="client-icon" aria-hidden="true"
+                    ><img
+                      src="assets/clients/codex.png"
+                      width="30"
+                      height="30"
+                      alt=""
+                      class="codex-logo" /></span
+                  ><span>Codex</span></a
+                >
+              </li>
+            </ul>
+            <ul class="feature-list">
+              <li>Discover currently connected sources, tables and columns.</li>
+              <li>
+                Run read-only queries, page through results and export them.
+              </li>
+              <li>Find saved queries and recent work from your workspace.</li>
+            </ul>
+
+            <p class="privacy-note">
+              Also works with VS Code and other clients that support MCP over
+              HTTP. Tools follow each source’s capabilities.
+            </p>
+          </div>
+          <div>
+            <div class="setup-card">
+              <div class="connection-flow">
+                <span class="flow-node"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-ask" /></svg
+                  >Your client</span
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+                ><span class="flow-node"
+                  ><img
+                    src="assets/brand/rowwise-mark.svg"
+                    alt=""
+                    width="23"
+                    height="23"
+                  />rowwise</span
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+                ><span class="flow-node"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-database" /></svg
+                  >Your sources</span
+                >
+              </div>
+              <div class="setup-inner">
+                <div class="setup-title">
+                  <span>Connect with Claude Code</span
+                  ><button
+                    type="button"
+                    id="copy-mcp"
+                    class="copy-button"
+                    aria-label="Copy Claude Code MCP setup command"
+                  >
+                    Copy
+                  </button>
+                </div>
+                <pre><span class="code-comment"># First: connect a source, then enable Settings → MCP</span>
+<code id="mcp-command">claude mcp add --transport http rowwise http://127.0.0.1:4320/mcp</code></pre>
+                <div class="setup-foot">
+                  <span>Localhost only</span><span>Read-only by default</span
+                  ><span>Off on each launch</span>
+                </div>
+                <p
+                  class="copy-status"
+                  id="copy-status"
+                  role="status"
+                  aria-live="polite"
+                ></p>
+              </div>
+            </div>
+            <p class="privacy-note">
+              <strong>Keep control of what is shared.</strong> Connected sources
+              become available to local MCP clients. Query results return to
+              that client and may go to its AI provider. Write tools need
+              explicit opt-in; saved read-only connections stay protected.
+            </p>
+            <details class="supporting" style="margin-top: 18px">
+              <summary>HTTP connection settings for other clients</summary>
+              <pre>{"type":"http","url":"http://127.0.0.1:4320/mcp"}</pre>
+              <p class="privacy-note">
+                Use your client’s MCP configuration format with this endpoint.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+      <section class="page-section" id="sources">
+        <div class="wrap">
+          <div class="section-heading">
+            <span class="eyebrow">02 / Source support</span>
+            <h2>One workspace.<br />A wider world of data.</h2>
+            <p class="section-lede">
+              19 database connectors, plus CSV, Parquet, JSON/JSONL and Excel.
+              All in one workspace.
+            </p>
+          </div>
+          <div class="source-toolbar">
+            <div
+              class="source-filters"
+              role="group"
+              aria-label="Filter sources"
+            >
+              <button type="button" data-filter="all" aria-pressed="true">
+                All sources</button
+              ><button type="button" data-filter="sql" aria-pressed="false">
+                SQL</button
+              ><button
+                type="button"
+                data-filter="analytics"
+                aria-pressed="false"
+              >
+                Analytics</button
+              ><button type="button" data-filter="nosql" aria-pressed="false">
+                NoSQL & search</button
+              ><button type="button" data-filter="remote" aria-pressed="false">
+                Remote SQLite</button
+              ><button type="button" data-filter="files" aria-pressed="false">
+                Files
+              </button>
+            </div>
+            <label class="source-search"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-search" /></svg
+              ><span class="sr-only">Search sources</span
+              ><input
+                id="source-search"
+                type="search"
+                placeholder="Find a source…"
+                autocomplete="off"
+            /></label>
+          </div>
+          <div class="source-grid" id="source-grid">
+            <div
+              class="source-card"
+              data-source="postgres"
+              data-category="sql"
+              data-search="postgresql sql database"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/postgresql.svg?v=f220a436258e"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">PostgreSQL</div>
+                <div class="source-detail">SQL database</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="mysql"
+              data-category="sql"
+              data-search="mysql sql database"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/mysql.svg?v=f73fa5d6b9da"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">MySQL</div>
+                <div class="source-detail">SQL database</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="mariadb"
+              data-category="sql"
+              data-search="mariadb sql database"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/mariadb.svg?v=90f14c26b478"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">MariaDB</div>
+                <div class="source-detail">SQL database</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="sqlserver"
+              data-category="sql"
+              data-search="sql server sql database"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/sqlserver.svg?v=f52b63cb5ff8"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">SQL Server</div>
+                <div class="source-detail">SQL database</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="oracle"
+              data-category="sql"
+              data-search="oracle instant client required"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/oracle.svg?v=436d617a609b"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Oracle</div>
+                <div class="source-detail">Instant Client required</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="sqlite"
+              data-category="sql"
+              data-search="sqlite local database file"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/sqlite.svg?v=2b91c30887d3"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">SQLite</div>
+                <div class="source-detail">Local database file</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="clickhouse"
+              data-category="analytics"
+              data-search="clickhouse analytics database"
+            >
+              <span class="source-icon source-icon--dark" aria-hidden="true"
+                ><img
+                  src="assets/db/clickhouse.svg?v=12cde67e9662"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">ClickHouse</div>
+                <div class="source-detail">Analytics database</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="duckdb"
+              data-category="analytics"
+              data-search="duckdb local analytics database"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/duckdb.svg?v=06be219668a4"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">DuckDB</div>
+                <div class="source-detail">Local analytics database</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="snowflake"
+              data-category="analytics"
+              data-search="snowflake cloud warehouse"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/snowflake.svg?v=49ac685600ec"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Snowflake</div>
+                <div class="source-detail">Cloud warehouse</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="bigquery"
+              data-category="analytics"
+              data-search="bigquery cloud warehouse"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/bigquery.svg?v=a26f6aafc25b"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">BigQuery</div>
+                <div class="source-detail">Cloud warehouse</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="redshift"
+              data-category="analytics"
+              data-search="amazon redshift read-only warehouse"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/redshift.png?v=36e927335d93"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Amazon Redshift</div>
+                <div class="source-detail">Read-only warehouse</div>
+                <span class="source-badge">Preview</span>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="databricks"
+              data-category="analytics"
+              data-search="databricks read-only sql warehouse"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/databricks.png?v=ecd81329dd99"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Databricks</div>
+                <div class="source-detail">Read-only SQL warehouse</div>
+                <span class="source-badge">Preview</span>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="trino"
+              data-category="analytics"
+              data-search="trino read-only distributed sql"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/trino.svg?v=d1dd40046704"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Trino</div>
+                <div class="source-detail">Read-only distributed SQL</div>
+                <span class="source-badge">Preview</span>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="mongodb"
+              data-category="nosql"
+              data-search="mongodb document database"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/mongodb.svg?v=d9f2bf704126"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">MongoDB</div>
+                <div class="source-detail">Document database</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="redis"
+              data-category="nosql"
+              data-search="redis key-value database"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/redis.svg?v=4707378b1908"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Redis</div>
+                <div class="source-detail">Key-value database</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="dynamodb"
+              data-category="nosql"
+              data-search="amazon dynamodb read-only · macos qualified"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/dynamodb.png?v=e15ee090401a"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Amazon DynamoDB</div>
+                <div class="source-detail">Read-only · macOS qualified</div>
+                <span class="source-badge qualified">macOS</span>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="elasticsearch"
+              data-category="nosql"
+              data-search="elasticsearch read-only search"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/elasticsearch.svg?v=7efc44ea67ea"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Elasticsearch</div>
+                <div class="source-detail">Read-only search</div>
+                <span class="source-badge">Preview</span>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="opensearch"
+              data-category="nosql"
+              data-search="opensearch read-only search"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/db/opensearch.svg?v=d89d0555a75f"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">OpenSearch</div>
+                <div class="source-detail">Read-only search</div>
+                <span class="source-badge">Preview</span>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="libsql"
+              data-category="remote"
+              data-search="libsql / turso read-only remote sqlite"
+            >
+              <span class="source-icon source-icon--dark" aria-hidden="true"
+                ><img
+                  src="assets/db/turso.svg?v=1f79806b29a7"
+                  width="28"
+                  height="28"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">libSQL / Turso</div>
+                <div class="source-detail">Read-only remote SQLite</div>
+                <span class="source-badge">Preview</span>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="file-csv"
+              data-category="files"
+              data-search="csv comma separated values flat files"
+            >
+              <span class="source-icon source-icon--csv" aria-hidden="true"
+                ><svg
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linejoin="round"
+                >
+                  <path d="M17 3H6v22h16V8l-5-5Zm0 0v5h5" />
+                  <path d="M9 12h10v9H9zM9 15h10M13 12v9" /></svg
+              ></span>
+              <div class="source-copy">
+                <div class="source-name">CSV</div>
+                <div class="source-detail">.csv</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="file-parquet"
+              data-category="files"
+              data-search="parquet columnar data files"
+            >
+              <span class="source-icon source-icon--parquet" aria-hidden="true"
+                ><svg
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 5h18v18H5zM5 11h18M11 5v18M17 5v18" />
+                  <path d="M8 15v5M14 15v5M20 15v5" /></svg
+              ></span>
+              <div class="source-copy">
+                <div class="source-name">Parquet</div>
+                <div class="source-detail">.parquet</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="file-json"
+              data-category="files"
+              data-search="json jsonl structured records data files"
+            >
+              <span class="source-icon source-icon--json" aria-hidden="true"
+                ><svg
+                  viewBox="0 0 28 28"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                >
+                  <path
+                    d="M10 5H8v6l-3 3 3 3v6h2M18 5h2v6l3 3-3 3v6h-2M14 10v1M14 17v1"
+                  /></svg
+              ></span>
+              <div class="source-copy">
+                <div class="source-name">JSON / JSONL</div>
+                <div class="source-detail">.json · .jsonl</div>
+              </div>
+            </div>
+            <div
+              class="source-card"
+              data-source="file-excel"
+              data-category="files"
+              data-search="excel xlsx spreadsheet workbook worksheet files"
+            >
+              <span class="source-icon" aria-hidden="true"
+                ><img
+                  src="assets/files/excel.svg?v=5bc26d575883"
+                  alt=""
+                  width="28"
+                  height="28"
+                  loading="lazy"
+                  decoding="async"
+              /></span>
+              <div class="source-copy">
+                <div class="source-name">Excel</div>
+                <div class="source-detail">.xlsx</div>
+              </div>
+            </div>
+          </div>
+          <p class="source-empty" id="source-empty" hidden>
+            No sources match. Try another name or choose All sources.
+          </p>
+          <p
+            class="source-count"
+            id="source-count"
+            role="status"
+            aria-live="polite"
+          >
+            19 connectors + local files
+          </p>
+          <div class="source-notes">
+            <p>
+              <b>Preview means available to try.</b> These connectors currently
+              provide read-only workflows with source-specific limits. Amazon
+              Redshift remains Preview.
+            </p>
+            <p>
+              <b>DynamoDB:</b> read-only support is qualified on macOS. Windows
+              and Linux remain Preview. Keyed reads, indexes and opt-in scans
+              have their own limits; SQL joins and aggregates are not supported.
+            </p>
+            <p><b>Neon &amp; Supabase:</b> connect through PostgreSQL.</p>
+          </div>
+        </div>
+      </section>
+      <section class="page-section" id="features">
+        <div class="wrap">
+          <div class="section-heading">
+            <span class="eyebrow">03 / Everyday work</span>
+            <h2>Less friction.<br />More time with your data.</h2>
+            <p class="section-lede">
+              A familiar editor, a calmer table view and the controls you need
+              to move carefully when it matters.
+            </p>
+          </div>
+          <div class="workflow-grid">
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg>
+              <h3>Explore without the friction.</h3>
+              <p>
+                Filter from a cell, inspect a row in the side panel and save
+                table views that remember your columns, filters and sorting.
+              </p>
+              <p class="small-note">
+                In-cell editing with F2 or double-click, plus Apply and Discard
+                on supported sources.
+              </p>
+            </article>
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-query" /></svg>
+              <h3>Stay in the flow of SQL.</h3>
+              <p>
+                Schema-aware completion, saved queries, query history and an
+                expandable result view. Run the statement or selection with ⌘ /
+                Ctrl + Enter.
+              </p>
+              <p class="small-note">
+                Plans, sessions and transactions are available where the source
+                supports them.
+              </p>
+            </article>
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg>
+              <h3>Keep production deliberate.</h3>
+              <p>
+                Save a connection as read-only. Organize connections with
+                favorites, groups and environment labels so you know where
+                you’re working.
+              </p>
+              <p class="small-note">
+                Read-only mode is enforced across queries, edits, imports,
+                schema changes and MCP.
+              </p>
+            </article>
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg>
+              <h3>Bring the numbers together.</h3>
+              <p>
+                Pin saved queries as charts and KPIs. Use dashboard date filters
+                to explore the same period across your metrics.
+              </p>
+              <p class="small-note">
+                Business definitions in Knowledge stay scoped to the relevant
+                database.
+              </p>
+            </article>
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-clock" /></svg>
+              <h3>Pick up where you left off.</h3>
+              <p>
+                Keep your tabs, drafts, saved queries and history in a local
+                workspace. Switch connections without rebuilding your setup.
+              </p>
+              <p class="small-note">
+                Light and dark themes share the same focused, keyboard-friendly
+                interface.
+              </p>
+            </article>
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-database" />
+              </svg>
+              <h3>Work beyond a single engine.</h3>
+              <p>
+                Query SQL databases, inspect documents and keys, connect cloud
+                warehouses, or open a local data file.
+              </p>
+              <p class="small-note">
+                Capabilities follow each source. Preview connectors are clearly
+                labelled and read-only.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="page-section ask-section" id="ai">
+        <div class="wrap split">
+          <div>
+            <span class="eyebrow">04 / Ask</span>
+            <h2>Start with a question.<br />Keep the evidence.</h2>
+            <p class="section-lede">
+              Turn a business question into a clear answer, with an inline chart
+              when it fits. Supporting data and SQL stay tucked away until you
+              need them.
+            </p>
+            <ul class="feature-list">
+              <li>Use relevant schema and database-scoped definitions.</li>
+              <li>Clarify missing details before answering.</li>
+              <li>Keep missing data distinct from a recorded zero.</li>
+            </ul>
+            <div class="privacy-pair">
+              <h4>Built-in AI uses schema, not result rows.</h4>
+              <p>
+                Your question, relevant schema metadata and applicable
+                definitions go to your chosen provider. Query result rows are
+                not sent through Rowwise’s built-in AI flow. MCP clients receive
+                the data their tools return.
+              </p>
+            </div>
+            <p class="models">
+              Bring your own provider: OpenAI · Anthropic · Google Gemini ·
+              OpenAI-compatible APIs · Ollama for local models. Provider usage
+              is billed separately, with no Rowwise markup.
+            </p>
+          </div>
+          <div class="answer-example">
+            <span class="eyebrow">Illustrative answer · Sample data</span>
+            <h3>September revenue was <span class="accent">$128,400.</span></h3>
+            <p>
+              Up 7.7% from August’s $119,200. Paid invoices in USD;
+              April–September 2026.
+            </p>
+            <div
+              class="demo-chart"
+              role="img"
+              aria-label="Sample monthly revenue in USD: April 91,200; May 98,600; June 106,800; July 112,400; August 119,200; September 128,400."
+            >
+              <div class="chart-title">
+                Monthly revenue <span>USD · Apr–Sep 2026</span>
+              </div>
+              <div class="chart-bars">
+                <div class="chart-column">
+                  <span>$91.2k</span>
+                  <div class="bar" style="--height: 58.24%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$98.6k</span>
+                  <div class="bar" style="--height: 62.97%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$106.8k</span>
+                  <div class="bar" style="--height: 68.21%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$112.4k</span>
+                  <div class="bar" style="--height: 71.78%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$119.2k</span>
+                  <div class="bar" style="--height: 76.12%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$128.4k</span>
+                  <div class="bar" style="--height: 82%"></div>
+                </div>
+              </div>
+              <div class="chart-labels">
+                <span>Apr</span><span>May</span><span>Jun</span><span>Jul</span
+                ><span>Aug</span><span>Sep</span>
+              </div>
+            </div>
+            <details class="supporting">
+              <summary>View supporting SQL</summary>
+              <pre>
+SELECT date_trunc(&#x27;month&#x27;, issued_at)::date AS month,
+       SUM(amount_usd) AS revenue_usd
+FROM invoices
+WHERE status = &#x27;paid&#x27;
+  AND issued_at &gt;= DATE &#x27;2026-04-01&#x27;
+  AND issued_at &lt; DATE &#x27;2026-10-01&#x27;
+GROUP BY 1
+ORDER BY 1;</pre>
+            </details>
+            <p class="privacy-note">
+              Explicit dates. Clear currency. A query you can inspect.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="page-section" id="pricing">
+        <div class="wrap">
+          <div class="plan-intro">
+            <div class="section-heading">
+              <span class="eyebrow">05 / Pricing</span>
+              <h2>Pay once.<br />Make it your workspace.</h2>
+              <p class="section-lede">
+                Every feature and source connector. Try it free for 14 days,
+                then choose the license that fits.
+              </p>
+            </div>
+            <p class="launch-note">
+              <strong>Beta launch offer</strong>Buy during the beta at the
+              launch price and your updates never expire.
+            </p>
+          </div>
+          <div class="plans">
+            <article class="plan">
+              <h3>Personal</h3>
+              <p class="for">For your laptop and desktop</p>
+              <div class="price">$49<s>$79</s><small> / one-time</small></div>
+              <p class="note">Launch price. Keep the version you buy.</p>
+              <ul>
+                <li>Activate on 2 devices</li>
+                <li>Every feature and source connector</li>
+                <li>1 year of updates; lifetime during beta</li>
+                <li>Works offline</li>
+              </ul>
+              <a
+                class="btn"
+                href="mailto:support@nayma.ai?subject=Rowwise%20Personal%20license"
+                >Contact to buy Personal
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+              ></a>
+            </article>
+            <article class="plan featured">
+              <h3>Pro <span>Most flexible</span></h3>
+              <p class="for">For every machine you work on</p>
+              <div class="price">$69<s>$99</s><small> / one-time</small></div>
+              <p class="note">Launch price. About $23 per device.</p>
+              <ul>
+                <li>Activate on 3 devices</li>
+                <li>Every feature and source connector</li>
+                <li>1 year of updates; lifetime during beta</li>
+                <li>Works offline</li>
+              </ul>
+              <a
+                class="btn btn-primary"
+                href="mailto:support@nayma.ai?subject=Rowwise%20Pro%20license"
+                >Contact to buy Pro
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+              ></a>
+            </article>
+            <article class="plan">
+              <h3>Team</h3>
+              <p class="for">For engineering and data teams</p>
+              <div class="price" style="font-size: 36px">Per seat</div>
+              <p class="note">Billed yearly, with invoices.</p>
+              <ul>
+                <li>Volume pricing per seat</li>
+                <li>Every feature and source connector</li>
+                <li>Updates included while active</li>
+                <li>Invoice and purchase-order billing</li>
+              </ul>
+              <a
+                class="btn"
+                href="mailto:support@nayma.ai?subject=Rowwise%20Team"
+                >Talk to us
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+              ></a>
+            </article>
+          </div>
+          <p class="pricing-foot">
+            Your connections and history stay in place when you activate. AI
+            provider usage is separate.
+          </p>
+        </div>
+      </section>
+      <section class="page-section" id="faq">
+        <div class="wrap faq-layout">
+          <div>
+            <span class="eyebrow">06 / Good to know</span>
+            <h2>A few details,<br />before you start.</h2>
+            <p class="section-lede">
+              More questions?
+              <a class="text-link" href="mailto:support@nayma.ai"
+                >Talk to us
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+              ></a>
+            </p>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>Which sources are in Preview?</summary>
+              <p>
+                libSQL / Turso, Elasticsearch, OpenSearch, Amazon Redshift,
+                Databricks and Trino are read-only Preview connectors. Amazon
+                DynamoDB read-only support is qualified on macOS; it remains
+                Preview on Windows and Linux. Snowflake and BigQuery are
+                available without a source Preview label. Capabilities vary by
+                engine.
+              </p>
+            </details>
+            <details>
+              <summary>How does the MCP server work?</summary>
+              <p>
+                Connect a source in Rowwise, then enable the server in Settings
+                → MCP. Add its local HTTP endpoint to your compatible client. It
+                exposes currently connected sources, discovered schemas, bounded
+                reads and query tools. It starts off each time Rowwise opens and
+                is read-only by default. Write tools require explicit opt-in,
+                and saved read-only connections remain protected.
+              </p>
+            </details>
+            <details>
+              <summary>What can my AI assistant see?</summary>
+              <p>
+                Rowwise’s built-in AI sends your prompt, relevant schema
+                metadata and applicable saved definitions to your configured
+                provider, without query result rows. MCP is different: its tools
+                return schema and query results to your connected client. That
+                client may send them to its model provider. Credentials remain
+                managed by Rowwise.
+              </p>
+            </details>
+            <details>
+              <summary>Can AI change my database?</summary>
+              <p>
+                Ask uses read-only queries. AI changes in the Query editor are
+                drafts you review and run yourself. MCP is read-only by default;
+                enabling write/delete tools lets clients make supported changes
+                without per-query approval. Saved read-only mode still applies.
+              </p>
+            </details>
+            <details>
+              <summary>Can I connect Neon or Supabase?</summary>
+              <p>
+                Yes. Use the PostgreSQL connection type with your provider’s
+                host, database and credentials. Neon and Supabase are
+                PostgreSQL-compatible services, rather than separate query
+                engines.
+              </p>
+            </details>
+            <details>
+              <summary>Do I need an AI subscription?</summary>
+              <p>
+                AI features use your own OpenAI, Anthropic, Gemini or compatible
+                API key, or a local model through Ollama. Provider charges are
+                separate; Rowwise adds no AI markup. Non-AI database workflows
+                work without an AI key.
+              </p>
+            </details>
+            <details>
+              <summary>What happens after the 14-day trial?</summary>
+              <p>
+                A license key is required to reopen your workspace. Your
+                connections, saved queries and history remain on your computer.
+                Personal and Pro are one-time licenses with one year of updates;
+                the beta launch offer includes lifetime updates. Team is billed
+                yearly per seat.
+              </p>
+            </details>
+            <details>
+              <summary>Which platforms can I use?</summary>
+              <p>
+                The current macOS beta is one universal download for Apple
+                Silicon and Intel. The app and DMG are signed with an Apple
+                Developer ID and notarized by Apple. Windows and Linux remain
+                Preview. Preview installer availability is separate from macOS.
+                Contact support for Windows or Linux Preview access.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+      <section class="page-section download" id="download">
+        <div class="wrap">
+          <span class="eyebrow">Your next query starts here</span>
+          <h2>A clearer view of your data.</h2>
+          <p class="section-lede">
+            One local workspace for your databases, business questions and AI
+            tools. Start with the free 14-day trial.
+          </p>
+          <div class="ctas">
+            <a
+              href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg"
+              class="btn btn-primary"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-download" /></svg
+              >Download for macOS</a
+            >
+          </div>
+          <p class="platform-note">
+            macOS beta.9 · One universal download for Apple Silicon and Intel ·
+            Signed &amp; notarized
+          </p>
+          <p class="platform-note">
+            Windows and Linux remain Preview.
+            <a href="#sources">Check source-specific status</a>.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-top">
+          <a class="brand" href="#" aria-label="rowwise home"
+            ><img
+              src="assets/brand/rowwise-mark.svg"
+              alt=""
+              width="32"
+              height="32"
+            />rowwise</a
+          >
+          <div class="footer-links">
+            <a href="#features">Product</a><a href="#mcp">MCP</a
+            ><a href="#sources">Sources</a><a href="#pricing">Pricing</a
+            ><a href="mailto:support@nayma.ai">Support</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span
+            >A product of <a href="https://www.nayma.ai/">NAYMA</a> · © 2026
+            NAYMA</span
+          ><span
+            >Database and client names and logos belong to their respective
+            owners.</span
+          >
+        </div>
       </div>
-      <div class="shot"><picture><source media="(prefers-color-scheme: light)" srcset="assets/screens/query-light-1440.png 1440w, assets/screens/query-light.png 2880w" sizes="(max-width: 1040px) 100vw, 680px"><img src="assets/screens/query-dark.png" srcset="assets/screens/query-dark-1440.png 1440w, assets/screens/query-dark.png 2880w" sizes="(max-width: 1040px) 100vw, 680px" width="2880" height="1800" loading="lazy" alt="rowwise Query with a SQL query and its results"></picture></div>
-    </div>
-
-    <div class="grid">
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><h4>Edit with review</h4><p>Stage changes in the grid, see every value before and after, then apply.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span><h4>Dashboards</h4><p>Pin saved queries as charts and KPIs, with a shared date filter.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10M7 12h10M7 20h10M3 4h.01M3 12h.01M3 20h.01"/></svg></span><h4>Schema changes</h4><p>Add columns and indexes or compare two schemas, with the SQL shown first.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span><h4>Import &amp; export</h4><p>CSV, JSON and SQL out; files in; copy tables between connections.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h4>History &amp; recovery</h4><p>Every query is kept. Unsaved drafts come back after a crash.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span><h4>Knowledge</h4><p>Define “net revenue” once. Every AI query follows it.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><h4>Command search</h4><p>⌘K finds tables, saved queries, tabs and actions.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></span><h4>Light &amp; dark</h4><p>Both themes, adjustable UI and editor font sizes.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="ai" class="ai divider">
-  <div class="wrap center">
-    <span class="eyebrow">AI</span>
-    <h2>AI that writes your SQL, <span class="grad">without ever seeing your data.</span></h2>
-    <p class="sub">Ask a question in plain English. rowwise sends your question and schema to the model you choose, gets back one read-only query, and runs it on your machine.</p>
-  </div>
-  <div class="wrap">
-    <div class="flow">
-      <div class="step">
-        <h4>You ask</h4>
-        <p>Type a question, and mention tables with @ if you like.</p>
-        <span class="mono">How has net revenue changed by month over the last 12 months?</span>
-      </div>
-      <div class="step">
-        <h4>AI drafts the SQL</h4>
-        <p>From table and column names and your saved definitions. Nothing else.</p>
-        <span class="mono"><span class="k">SELECT</span> month, <span class="k">SUM</span>(amount) …<br><span class="k">WHERE</span> status = <span class="s">'paid'</span></span>
-      </div>
-      <div class="step">
-        <h4>It runs on your machine</h4>
-        <p>You get the result, a chart and the assumptions behind it. Save it or pin it.</p>
-        <span class="mono"><span class="n">12</span> rows · <span class="n">6</span> ms · rows sent to AI: <span class="s">0</span></span>
-      </div>
-    </div>
-    <div class="privacy">
-      <div class="sent"><h4><span class="dot"></span>What the AI sees</h4><ul><li>Your question</li><li>Table &amp; column names</li><li>Types &amp; relationships</li><li>Your definitions</li></ul></div>
-      <div class="never"><h4><span class="dot"></span>What it never sees</h4><ul><li>Rows</li><li>Query results</li><li>Passwords &amp; keys</li><li>Connection details</li></ul></div>
-    </div>
-
-    <div class="frame ai-shot"><picture><source media="(prefers-color-scheme: light)" srcset="assets/screens/ask-light-1440.png 1440w, assets/screens/ask-light.png 2880w" sizes="(max-width: 1040px) 100vw, 680px"><img src="assets/screens/ask-dark.png" srcset="assets/screens/ask-dark-1440.png 1440w, assets/screens/ask-dark.png 2880w" sizes="(max-width: 1040px) 100vw, 680px" width="2880" height="1800" loading="lazy" alt="rowwise Ask: a question about net revenue by month answered with a line chart, the assumptions used and the query"></picture></div>
-
-    <div class="helps">
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h4>Ask in plain English</h4><p>Questions become one read-only query, with a chart and the assumptions shown next to the numbers.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></span><h4>AI in the editor</h4><p>Explain a query, rewrite a selection, or fix one that failed. Changes are drafts you review. Nothing runs by itself.</p></div>
-      <div class="card"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/></svg></span><h4>Your definitions, every time</h4><p>Save what “active customer” means once. Ask follows it and tells you when it was used.</p></div>
-    </div>
-
-    <div class="models"><span class="lbl">Bring your own model:</span><span>OpenAI</span><span>Anthropic</span><span>Google Gemini</span><span>Ollama, fully local</span><span>Any OpenAI-compatible API</span></div>
-    <p class="center" style="color:var(--muted);font-size:14px;margin-top:14px">Use your own API key. rowwise never adds a markup or a monthly AI fee.</p>
-
-    <div class="mcp">
-      <div>
-        <span class="eyebrow">MCP server</span>
-        <h3>Query your databases from Claude, Cursor and more.</h3>
-        <p>Turn on the built-in MCP server and your AI tools can list schemas and run read-only queries on your saved connections, without you ever handing them a password.</p>
-        <div class="chips"><span>Claude</span><span>Cursor</span><span>VS Code</span><span>Codex</span><span>Zed</span><span>Windsurf</span></div>
-      </div>
-      <div class="term"><span class="p">$</span> claude mcp add --transport http rowwise \<br>&nbsp;&nbsp;http://127.0.0.1:4320/mcp<br><br><span class="p"># localhost only · read-only by default</span><br><span class="p"># off each time rowwise starts</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="pricing" class="divider">
-  <div class="wrap center">
-    <span class="eyebrow">Pricing</span>
-    <h2>Pay once. Own it.</h2>
-    <p class="sub">Try every feature free for 14 days. Then a one-time license keeps rowwise working on your devices, with every database and feature included. No subscription.</p>
-    <div class="launch"><b>Beta launch offer</b>Buy during the beta at the launch price and your updates never expire.</div>
-  </div>
-  <div class="wrap">
-    <div class="plans">
-      <div class="plan">
-        <h3>Personal</h3>
-        <p class="for">For your laptop and desktop</p>
-        <div class="price">$49<s>$79</s><span>one-time</span></div>
-        <p class="note">Launch price. Keep it forever.</p>
-        <ul><li>Activate on 2 devices</li><li>Every feature and database</li><li>1 year of updates, then renew if you like</li><li>Works offline</li></ul>
-        <a href="https://rowwise.dev/buy/dummy-link" class="btn btn-secondary">Buy Personal</a>
-      </div>
-      <div class="plan rec">
-        <span class="badge">Best value</span>
-        <h3>Pro</h3>
-        <p class="for">For every machine you work on</p>
-        <div class="price">$69<s>$99</s><span>one-time</span></div>
-        <p class="note">Launch price. About $23 per device.</p>
-        <ul><li>Activate on 3 devices</li><li>Every feature and database</li><li>1 year of updates, then renew if you like</li><li>Works offline</li></ul>
-        <a href="https://rowwise.dev/buy/dummy-link" class="btn btn-primary">Buy Pro</a>
-      </div>
-      <div class="plan">
-        <h3>Team</h3>
-        <p class="for">For engineering and data teams</p>
-        <div class="price" style="font-size:44px">Per seat</div>
-        <p class="note">Billed yearly, with invoices.</p>
-        <ul><li>Volume pricing per seat</li><li>Every feature and database</li><li>Updates included while active</li><li>Invoice and purchase-order billing</li></ul>
-        <a href="mailto:support@nayma.ai?subject=rowwise%20Team" class="btn btn-secondary">Contact us</a>
-      </div>
-    </div>
-    <div class="reassure">
-      <div><b>No subscription</b>Keep the version you buy</div>
-      <div><b>A year of updates</b>Renew at a discount, only if you want</div>
-      <div><b>Your data stays put</b>Connections and history are kept when you activate</div>
-      <div><b>Works offline</b>Activate once, no account</div>
-    </div>
-    <p class="center" style="color:var(--muted);font-size:14px;margin-top:22px">AI usage is billed by your own provider. rowwise never marks it up.</p>
-  </div>
-</section>
-
-<section id="faq" class="divider">
-  <div class="wrap center">
-    <span class="eyebrow">FAQ</span>
-    <h2>Questions, answered.</h2>
-  </div>
-  <div class="wrap">
-    <div class="faq">
-      <details><summary>Can rowwise replace my current database client?</summary><p>For everyday browsing, querying, editing rows, schema changes, exports and imports on the supported databases, yes, including connections through SSH tunnels. It’s a beta, so tell us what you miss.</p></details>
-      <details><summary>Does my data ever leave my computer?</summary><p>Your rows never do. When you use AI, your question, the schema (table and column names, types and relationships; for Redis, key names) and your saved definitions go to the provider you configured. Query results are never sent. Use Ollama to keep even that on your machine.</p></details>
-      <details><summary>Can the AI change my data?</summary><p>Not on its own. Ask only writes read-only queries. In the SQL editor the AI can draft a change, but nothing runs until you review and confirm it.</p></details>
-      <details><summary>Do I need my own AI key?</summary><p>Only for AI features. Use OpenAI, Anthropic, Gemini, any OpenAI-compatible endpoint, or a local model through Ollama. Everything else works without one.</p></details>
-      <details><summary>What happens when the trial ends?</summary><p>rowwise asks for a license key before it opens your workspace again. Your connections, saved queries and history stay on your computer and come back as soon as you activate. There is no account to create and nothing to cancel.</p></details>
-      <details><summary>Is it a subscription?</summary><p>Personal and Pro are not. You pay once and keep the version you buy forever, with a year of updates included. After that you can renew updates at a discount, or keep using what you have. Buy during the beta and your updates never expire. Team licenses are billed yearly per seat.</p></details>
-      <details><summary>Which databases are in preview?</summary><p>Snowflake and BigQuery work today and are still being validated against more account setups. Everything else listed is fully supported.</p></details>
-      <details><summary>How does the MCP server work?</summary><p>Enable it in Settings and point your AI tool at the local address. It listens on localhost only, is read-only unless you enable writes, and switches off each time rowwise starts.</p></details>
-      <details><summary>Which platforms are supported?</summary><p>macOS (one download for Apple silicon and Intel Macs) and Windows.</p></details>
-      <details id="first-launch"><summary>Will my computer warn me when I open rowwise?</summary><p>Not on a Mac: rowwise is signed with an Apple Developer ID and notarized by Apple, so it opens like any other app. The Windows beta is not yet code-signed, so Windows may show a SmartScreen notice the first time; click <b>More info</b>, then <b>Run anyway</b>.</p></details>
-      <details><summary>Who makes rowwise, and how do I get help?</summary><p>rowwise is built by <a class="link" href="https://www.nayma.ai/">NAYMA</a>. Email <a class="link" href="mailto:support@nayma.ai">support@nayma.ai</a> for help, licensing or Team questions.</p></details>
-    </div>
-  </div>
-</section>
-
-<section id="download" class="final divider">
-  <div class="wrap">
-    <span class="eyebrow">Download · Public beta</span>
-    <h2>All your databases. <span class="grad">One app.</span></h2>
-    <p class="sub">Free for 14 days. No account, no card. Your connections stay on your machine.</p>
-    <div class="ctas">
-      <a href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg" class="btn btn-primary"><svg><use href="#apple"/></svg>Download for macOS</a>
-      <a href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-windows-setup.exe" class="btn btn-secondary"><svg><use href="#windows"/></svg>Download for Windows</a>
-    </div>
-    <p style="margin-top:18px;color:var(--muted);font-size:13px">Signed and notarized by Apple. One download for Apple silicon and Intel Macs.</p>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <span>rowwise is a product of <a class="link" href="https://www.nayma.ai/">NAYMA</a> · © 2026 NAYMA</span>
-    <span><a href="#databases">Databases</a> · <a href="#features">Features</a> · <a href="#ai">AI</a> · <a href="#pricing">Pricing</a> · <a href="#faq">FAQ</a> · <a href="mailto:support@nayma.ai">Support</a></span>
-    <span>Database names and logos are trademarks of their owners.</span>
-  </div>
-</footer>
-
-<script>
-(() => {
-  const root = document.documentElement;
-  const system = matchMedia("(prefers-color-scheme: light)");
-  const toggle = document.getElementById("theme-toggle");
-  const tourImg = document.getElementById("tour-img");
-  const alts = {
-    query: "rowwise Query: a SQL editor with syntax colouring above a results grid of revenue by segment and plan",
-    explore: "rowwise Explore showing the customers table",
-    ask: "rowwise Ask answering a question about net revenue by month with a line chart",
-  };
-  let view = "query";
-  let saved = null;
-  try { saved = localStorage.getItem("rowwise-theme"); } catch {}
-  const mode = () => root.dataset.mode;
-  const file = (shot, small) => `assets/screens/${shot}-${mode()}${small ? "-1440" : ""}.png`;
-
-  // Every screenshot shows the page's theme. The <source> elements only
-  // cover the first paint before this runs.
-  const paintShots = () => {
-    document.querySelectorAll("picture source").forEach((source) => source.remove());
-    document.querySelectorAll("picture img").forEach((img) => {
-      const shot = img === tourImg ? view : img.src.match(/screens\/([a-z]+)-/)[1];
-      img.src = file(shot, false);
-      img.srcset = `${file(shot, true)} 1440w, ${file(shot, false)} 2880w`;
-    });
-    tourImg.alt = alts[view];
-  };
-  const apply = (next) => {
-    root.dataset.mode = next;
-    toggle.setAttribute("aria-label", next === "light" ? "Switch to dark theme" : "Switch to light theme");
-    document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
-      meta.content = next === "light" ? "#FFFFFF" : "#0A0B0F";
-      meta.removeAttribute("media");
-    });
-    paintShots();
-  };
-
-  toggle.addEventListener("click", () => {
-    const next = mode() === "light" ? "dark" : "light";
-    saved = next;
-    try { localStorage.setItem("rowwise-theme", next); } catch {}
-    apply(next);
-  });
-  // Follow the device until someone picks a theme here.
-  system.addEventListener("change", (event) => {
-    if (!saved) apply(event.matches ? "light" : "dark");
-  });
-
-  document.querySelectorAll("#tour .tabs button").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      view = tab.dataset.view;
-      document.querySelectorAll("#tour .tabs button").forEach((other) => other.setAttribute("aria-selected", String(other === tab)));
-      paintShots();
-    });
-  });
-  apply(mode());
-
-  // Links to a FAQ answer open it.
-  const openFromHash = () => {
-    const target = location.hash && document.querySelector(location.hash);
-    if (target && target.tagName === "DETAILS") target.open = true;
-  };
-  window.addEventListener("hashchange", openFromHash);
-  openFromHash();
-
-  // Once the page has loaded, warm the other tour views in this theme at the
-  // size this screen uses. Preloading every full-size screenshot at once made
-  // mobile Safari drop the visible one.
-  window.addEventListener("load", () => {
-    const small = !tourImg.currentSrc || tourImg.currentSrc.includes("-1440");
-    const warm = () => {
-      for (const v of Object.keys(alts)) if (v !== view) new Image().src = file(v, small);
-    };
-    "requestIdleCallback" in window ? requestIdleCallback(warm) : setTimeout(warm, 1500);
-  });
-})();
-</script>
-</body>
+    </footer>
+  </body>
 </html>
