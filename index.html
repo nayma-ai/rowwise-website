@@ -50,6 +50,8 @@
     />
     <link rel="stylesheet" href="styles.css?v=f8de17e68b57" />
     <script src="script.js?v=f053f69fd24c" defer></script>
+    <script src="billing-config.js?v=d56a7538c89e" defer></script>
+    <script src="checkout.js?v=6750f5d5a8b8" defer></script>
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -1521,8 +1523,8 @@ ORDER BY 1;</pre>
               </p>
             </div>
             <p class="launch-note">
-              <strong>Beta launch offer</strong>Buy during the beta at the
-              launch price and your updates never expire.
+              <strong>Perpetual license</strong>Pay once. Includes 12 months of
+              updates. Your last eligible version keeps working afterward.
             </p>
           </div>
           <div class="plans">
@@ -1534,13 +1536,14 @@ ORDER BY 1;</pre>
               <ul>
                 <li>Activate on 2 devices</li>
                 <li>Every feature and source connector</li>
-                <li>1 year of updates; lifetime during beta</li>
+                <li>12 months of updates</li>
                 <li>Works offline</li>
               </ul>
               <a
                 class="btn"
+                data-checkout-plan="single"
                 href="mailto:support@nayma.ai?subject=Rowwise%20Personal%20license"
-                >Contact to buy Personal
+                ><span data-checkout-label>Contact to buy Personal</span>
                 <svg class="icon" aria-hidden="true">
                   <use href="#i-arrow" /></svg
               ></a>
@@ -1553,13 +1556,14 @@ ORDER BY 1;</pre>
               <ul>
                 <li>Activate on 3 devices</li>
                 <li>Every feature and source connector</li>
-                <li>1 year of updates; lifetime during beta</li>
+                <li>12 months of updates</li>
                 <li>Works offline</li>
               </ul>
               <a
                 class="btn btn-primary"
+                data-checkout-plan="three"
                 href="mailto:support@nayma.ai?subject=Rowwise%20Pro%20license"
-                >Contact to buy Pro
+                ><span data-checkout-label>Contact to buy Pro</span>
                 <svg class="icon" aria-hidden="true">
                   <use href="#i-arrow" /></svg
               ></a>
@@ -1584,6 +1588,13 @@ ORDER BY 1;</pre>
               ></a>
             </article>
           </div>
+          <p
+            id="checkout-status"
+            class="pricing-foot"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></p>
           <p class="pricing-foot">
             Your connections and history stay in place when you activate. AI
             provider usage is separate.
@@ -1671,8 +1682,8 @@ ORDER BY 1;</pre>
                 A license key is required to reopen your workspace. Your
                 connections, saved queries and history remain on your computer.
                 Personal and Pro are one-time licenses with one year of updates;
-                the beta launch offer includes lifetime updates. Team is billed
-                yearly per seat.
+                your last eligible version keeps working after update coverage
+                ends. Team is billed yearly per seat.
               </p>
             </details>
             <details>

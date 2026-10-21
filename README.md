@@ -16,7 +16,7 @@ The 19 engine connectors match the desktop `sources.ts` catalog at beta.9. libSQ
 
 Built-in AI uses schema context without result rows. MCP returns query data to the connected client; that client may send it to its provider. The local MCP server is off on launch and read-only by default.
 
-The macOS download points to the signed universal OCI stable installer. Windows/Linux are explicitly Preview; no installer links are advertised until public Preview builds are available. Paid purchase buttons open a sales inquiry because the previous links were dummy checkout URLs. Existing prices and beta lifetime-update terms are preserved.
+The macOS download points to the signed universal OCI stable installer. Windows/Linux are explicitly Preview; no installer links are advertised until public Preview builds are available. Personal/Pro purchase buttons use NAYMA Billing when its approved HTTPS origin is set in `billing-config.js`. Until then they keep the sales-contact fallback. Current prices are preserved; new purchases use perpetual access with 12 months of updates. Honor any previously sold lifetime-update grants separately.
 
 This change does not publish the site, alter release artifacts, or change GitHub Actions billing.
 
@@ -29,3 +29,7 @@ The macOS installer and live beta.9 manifest were verified. The previous Windows
 Source cards now use the original brand artwork with consistent image frames and independent status badges. Source snapshots and checksums are recorded in `assets/db/source-provenance.json`; image URLs include a content hash to avoid retaining the previous monochrome assets in browser caches. Logos are bundled locally and preserve their colors and proportions. Light/dark themes, 320px/390px mobile layouts, source filtering and unchanged qualification badges were verified.
 
 CSV, Parquet, JSON/JSONL and Excel appear as compact cards within the source catalog, using the same search and filters. The catalog count distinguishes the 19 database connectors from local files. File cards show extensions; Excel support is XLSX. There is no separate file section, hero shortcut or expanded import tutorial.
+
+## Checkout configuration
+
+Set only the qualified public HTTPS NAYMA Billing origin in `billing-config.js` after sandbox and deployment checks. No provider token, signing key or customer secret belongs in the website. `checkout.js` posts the server plan alias, verifies the returned Polar checkout host, shows pending/error feedback and prevents duplicate concurrent submissions. Update its asset URL content hash after edits. `node --test tests/*.test.mjs` validates the disabled fallback, selected plan and failed/untrusted redirect handling. Real purchases and live deployment remain disabled until configured.
