@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>rowwise — Your databases. One focused workspace.</title>
+    <title>rowwise — SQL, business answers and MCP. One workspace.</title>
     <meta
       name="description"
-      content="Query databases, CSV, Parquet, JSON/JSONL and Excel files in one desktop workspace. 19 source connectors, business answers and built-in MCP for your AI tools. macOS beta available now."
+      content="Work across 19 database connectors and local files. Ask business questions, generate and refine SQL with AI, and connect coding tools through MCP. Mac trial available; one-time licenses from $49 at launch."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rowwise.dev/" />
     <meta
       property="og:title"
-      content="rowwise — Your databases. One focused workspace."
+      content="rowwise — SQL, business answers and MCP. One workspace."
     />
     <meta
       property="og:description"
-      content="19 database connectors plus CSV, Parquet, JSON/JSONL and Excel files. Browse, query and connect your AI tools through built-in MCP."
+      content="From data to answers in one workspace: 19 database connectors, business Ask, AI-assisted SQL and built-in MCP. One-time licenses from $49 at launch."
     />
     <meta name="theme-color" content="#09090A" />
     <meta name="color-scheme" content="dark light" />
@@ -48,8 +48,8 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=f8de17e68b57" />
-    <script src="script.js?v=f053f69fd24c" defer></script>
+    <link rel="stylesheet" href="styles.css?v=fec4cebf309d" />
+    <script src="script.js?v=5c86defafe90" defer></script>
     <script src="billing-config.js?v=d56a7538c89e" defer></script>
     <script src="checkout.js?v=6750f5d5a8b8" defer></script>
   </head>
@@ -144,11 +144,11 @@
           />rowwise</a
         >
         <ul class="nav-links" id="nav-links">
-          <li><a href="#features">Product</a></li>
+          <li><a href="#ai">Ask</a></li>
+          <li><a href="#features">AI + SQL</a></li>
           <li><a href="#mcp">MCP</a></li>
           <li><a href="#sources">Sources</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#faq">FAQ</a></li>
         </ul>
         <div class="nav-actions">
           <button
@@ -161,8 +161,7 @@
             ><svg class="icon moon" aria-hidden="true">
               <use href="#i-moon" />
             </svg></button
-          ><a class="btn btn-primary btn-small" href="#download"
-            >Download free</a
+          ><a class="btn btn-primary btn-small" href="#download">Try for Mac</a
           ><button
             class="icon-button mobile-toggle"
             id="mobile-toggle"
@@ -184,13 +183,14 @@
             <svg class="icon" aria-hidden="true"><use href="#i-chevron" /></svg
           ></a>
           <h1>
-            Your databases.<br /><span class="accent"
-              >One focused workspace.</span
+            From data to answers.<br /><span class="accent"
+              >In one workspace.</span
             >
           </h1>
           <p class="hero-lede">
-            Databases and data files, together. Work in SQL, ask a business
-            question, or connect your AI tools through built-in MCP.
+            Work with 19 database connectors and local files. Ask business
+            questions, write SQL with AI, and connect your coding tools through
+            MCP.
           </p>
           <div class="ctas">
             <a
@@ -199,24 +199,30 @@
               ><svg class="icon" aria-hidden="true">
                 <use href="#i-download" /></svg
               >Download for macOS</a
-            ><a class="btn" href="#mcp"
-              ><svg class="icon" aria-hidden="true"><use href="#i-plug" /></svg
-              >Explore MCP
+            ><a class="btn" href="#tour"
+              ><svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg
+              >See it in action
               <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
             ></a>
           </div>
-          <p class="fine">14-day free trial · No card · Pay once from $49</p>
+          <p class="fine">
+            14-day trial · No card required · One-time licenses from $49 at
+            launch
+          </p>
           <div class="hero-shortcuts">
             <a href="#sources"
               ><svg class="icon" aria-hidden="true">
                 <use href="#i-database" /></svg
-              >Databases &amp; data files</a
+              >19 connectors + files</a
             ><a href="#ai"
               ><svg class="icon" aria-hidden="true"><use href="#i-ask" /></svg
-              >Business answers</a
+              >Business Ask</a
             ><a href="#mcp"
               ><svg class="icon" aria-hidden="true"><use href="#i-plug" /></svg
-              >Local MCP server</a
+              >Built-in MCP</a
+            ><a href="#features"
+              ><svg class="icon" aria-hidden="true"><use href="#i-query" /></svg
+              >AI-assisted SQL</a
             >
           </div>
           <div class="tour" id="tour">
@@ -241,7 +247,7 @@
                   tabindex="-1"
                   data-view="query"
                 >
-                  Query</button
+                  AI + SQL</button
                 ><button
                   type="button"
                   id="tab-explore"
@@ -428,6 +434,16 @@ ORDER BY 1;</pre>
                     <b>Query</b
                     ><span class="demo-meta">Sample data · PostgreSQL</span>
                   </div>
+                  <div class="ai-request">
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#i-ask" />
+                    </svg>
+                    <div>
+                      <span>Example AI request</span>Group paid invoice revenue
+                      by month, April through September 2026.
+                    </div>
+                    <b>Draft to review</b>
+                  </div>
                   <pre
                     class="demo-sql"
                   ><span class="sql-keyword">SELECT</span> date_trunc(&#x27;month&#x27;, issued_at)::date<span class="sql-keyword"> AS </span>month,
@@ -611,15 +627,202 @@ ORDER BY 1;</pre>
           </div>
         </div>
       </header>
+      <section class="page-section ask-section" id="ai">
+        <div class="wrap split">
+          <div>
+            <span class="eyebrow">01 / Business Ask</span>
+            <h2>Business questions.<br />Answers with evidence.</h2>
+            <p class="section-lede">
+              How much did we spend on AI? Which customers drive revenue? Turn
+              questions into business answers and inline charts, with supporting
+              data and SQL one click away.
+            </p>
+            <ul class="feature-list">
+              <li>
+                Give answers context with your saved business definitions.
+              </li>
+              <li>Ask can request clarification when details are missing.</li>
+              <li>See explicit dates, currencies and missing-data context.</li>
+            </ul>
+            <div class="privacy-pair">
+              <h4>Your model. Your business context.</h4>
+              <p>
+                Built-in AI sends your question, relevant schema and saved
+                definitions to your chosen provider. Query result rows stay out
+                of that AI flow. MCP sharing is explained below.
+              </p>
+            </div>
+            <p class="models">
+              Bring your own provider: OpenAI · Anthropic · Google Gemini ·
+              OpenAI-compatible APIs · Ollama for local models. Provider usage
+              is billed separately, with no Rowwise markup.
+            </p>
+          </div>
+          <div class="answer-example">
+            <span class="eyebrow">Illustrative answer · Sample data</span>
+            <p class="example-question">
+              “How is our paid invoice revenue trending?”
+            </p>
+            <h3>September revenue was <span class="accent">$128,400.</span></h3>
+            <p>
+              Up 7.7% from August’s $119,200. Paid invoices in USD;
+              April–September 2026.
+            </p>
+            <div
+              class="demo-chart"
+              role="img"
+              aria-label="Sample monthly revenue in USD: April 91,200; May 98,600; June 106,800; July 112,400; August 119,200; September 128,400."
+            >
+              <div class="chart-title">
+                Monthly revenue <span>USD · Apr–Sep 2026</span>
+              </div>
+              <div class="chart-bars">
+                <div class="chart-column">
+                  <span>$91.2k</span>
+                  <div class="bar" style="--height: 58.24%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$98.6k</span>
+                  <div class="bar" style="--height: 62.97%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$106.8k</span>
+                  <div class="bar" style="--height: 68.21%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$112.4k</span>
+                  <div class="bar" style="--height: 71.78%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$119.2k</span>
+                  <div class="bar" style="--height: 76.12%"></div>
+                </div>
+                <div class="chart-column">
+                  <span>$128.4k</span>
+                  <div class="bar" style="--height: 82%"></div>
+                </div>
+              </div>
+              <div class="chart-labels">
+                <span>Apr</span><span>May</span><span>Jun</span><span>Jul</span
+                ><span>Aug</span><span>Sep</span>
+              </div>
+            </div>
+            <details class="supporting">
+              <summary>View supporting SQL</summary>
+              <pre>
+SELECT date_trunc(&#x27;month&#x27;, issued_at)::date AS month,
+       SUM(amount_usd) AS revenue_usd
+FROM invoices
+WHERE status = &#x27;paid&#x27;
+  AND issued_at &gt;= DATE &#x27;2026-04-01&#x27;
+  AND issued_at &lt; DATE &#x27;2026-10-01&#x27;
+GROUP BY 1
+ORDER BY 1;</pre>
+            </details>
+            <p class="privacy-note">
+              Explicit dates. Clear currency. A query you can inspect.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="page-section" id="features">
+        <div class="wrap">
+          <div class="split sql-workflow">
+            <div>
+              <span class="eyebrow">02 / AI-assisted SQL</span>
+              <h2>Write SQL faster.<br />Keep the final say.</h2>
+              <p class="section-lede">
+                Describe the query you need, or ask AI to change the SQL you
+                already have. Use your connected schema to generate a draft,
+                explain a statement or fix a failed query.
+              </p>
+              <ul class="feature-list">
+                <li>Generate SQL from a plain-language request.</li>
+                <li>Refine an existing query or just the selected SQL.</li>
+                <li>Review the proposal before applying and running it.</li>
+              </ul>
+              <a class="text-link" href="#tour" data-preview-target="query"
+                >Explore the SQL preview
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+              ></a>
+            </div>
+            <div
+              class="sql-example"
+              aria-label="Illustrative AI-assisted SQL workflow"
+            >
+              <div class="example-heading">
+                <span
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-query" /></svg
+                  >Query assistant</span
+                ><span>Illustrative · PostgreSQL</span>
+              </div>
+              <div class="ai-request">
+                <svg class="icon" aria-hidden="true"><use href="#i-ask" /></svg>
+                <div>
+                  <span>Your request</span>Break down paid revenue by month for
+                  the last quarter.
+                </div>
+              </div>
+              <pre
+                class="demo-sql"
+              ><code><span class="sql-keyword">SELECT</span> date_trunc(<span class="sql-string">'month'</span>, issued_at) <span class="sql-keyword">AS</span> month,
+       <span class="sql-keyword">SUM</span>(amount_usd) <span class="sql-keyword">AS</span> revenue_usd
+<span class="sql-keyword">FROM</span> invoices
+<span class="sql-keyword">WHERE</span> status = <span class="sql-string">'paid'</span>
+  <span class="sql-keyword">AND</span> issued_at &gt;= <span class="sql-keyword">DATE</span> '2026-07-01'
+  <span class="sql-keyword">AND</span> issued_at &lt; <span class="sql-keyword">DATE</span> '2026-10-01'
+<span class="sql-keyword">GROUP BY</span> 1 <span class="sql-keyword">ORDER BY</span> 1;</code></pre>
+              <div class="example-foot">
+                <span
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-check" /></svg
+                  >Review before running</span
+                ><span>Jul–Sep 2026 · USD</span>
+              </div>
+            </div>
+          </div>
+          <div class="workflow-grid">
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg>
+              <h3>Explore. Filter. Edit.</h3>
+              <p>
+                Filter from a cell, inspect a row in the side panel and save
+                your table view. Review pending in-cell edits, then Apply or
+                Discard on supported sources.
+              </p>
+            </article>
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg>
+              <h3>Know where you’re working.</h3>
+              <p>
+                Organize connections with groups and environment labels. Saved
+                read-only mode protects a connection across queries, edits,
+                imports and MCP.
+              </p>
+            </article>
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-clock" /></svg>
+              <h3>Keep your work close.</h3>
+              <p>
+                Return to your tabs, drafts, saved queries and history in a
+                local workspace. Expand results when you need room, or pin saved
+                queries as dashboard charts.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
       <section class="page-section" id="mcp">
         <div class="wrap split">
           <div>
-            <span class="eyebrow">01 / Built-in MCP</span>
-            <h2>Your AI tools.<br />Your connected databases.</h2>
+            <span class="eyebrow">03 / Built-in MCP</span>
+            <h2>Your coding assistant.<br />Connected to your data.</h2>
             <p class="section-lede">
-              Give your assistant database tools through Rowwise’s local MCP
-              server. Discover schemas, run bounded queries and reuse saved work
-              without copying database credentials into each client.
+              Bring live database context into the tools you already use.
+              Rowwise connects your AI assistant to your schemas, query results
+              and saved queries through a built-in local MCP server.
             </p>
             <ul class="client-chips" aria-label="MCP clients">
               <li>
@@ -702,11 +905,9 @@ ORDER BY 1;</pre>
               </li>
             </ul>
             <ul class="feature-list">
-              <li>Discover currently connected sources, tables and columns.</li>
-              <li>
-                Run read-only queries, page through results and export them.
-              </li>
-              <li>Find saved queries and recent work from your workspace.</li>
+              <li>Explore schemas while building your next feature.</li>
+              <li>Investigate a bug with bounded, read-only queries.</li>
+              <li>Reuse saved queries and recent work from your workspace.</li>
             </ul>
 
             <p class="privacy-note">
@@ -783,11 +984,12 @@ ORDER BY 1;</pre>
       <section class="page-section" id="sources">
         <div class="wrap">
           <div class="section-heading">
-            <span class="eyebrow">02 / Source support</span>
-            <h2>One workspace.<br />A wider world of data.</h2>
+            <span class="eyebrow">04 / Sources &amp; files</span>
+            <h2>More sources.<br />Less switching.</h2>
             <p class="section-lede">
-              19 database connectors, plus CSV, Parquet, JSON/JSONL and Excel.
-              All in one workspace.
+              From PostgreSQL and MySQL to Snowflake, BigQuery and MongoDB.
+              Connect 19 database engines, or open CSV, Parquet, JSON/JSONL and
+              Excel files. Keep your connections, queries and history together.
             </p>
           </div>
           <div class="source-toolbar">
@@ -1327,199 +1529,15 @@ ORDER BY 1;</pre>
           </div>
         </div>
       </section>
-      <section class="page-section" id="features">
-        <div class="wrap">
-          <div class="section-heading">
-            <span class="eyebrow">03 / Everyday work</span>
-            <h2>Less friction.<br />More time with your data.</h2>
-            <p class="section-lede">
-              A familiar editor, a calmer table view and the controls you need
-              to move carefully when it matters.
-            </p>
-          </div>
-          <div class="workflow-grid">
-            <article class="workflow-card">
-              <svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg>
-              <h3>Explore without the friction.</h3>
-              <p>
-                Filter from a cell, inspect a row in the side panel and save
-                table views that remember your columns, filters and sorting.
-              </p>
-              <p class="small-note">
-                In-cell editing with F2 or double-click, plus Apply and Discard
-                on supported sources.
-              </p>
-            </article>
-            <article class="workflow-card">
-              <svg class="icon" aria-hidden="true"><use href="#i-query" /></svg>
-              <h3>Stay in the flow of SQL.</h3>
-              <p>
-                Schema-aware completion, saved queries, query history and an
-                expandable result view. Run the statement or selection with ⌘ /
-                Ctrl + Enter.
-              </p>
-              <p class="small-note">
-                Plans, sessions and transactions are available where the source
-                supports them.
-              </p>
-            </article>
-            <article class="workflow-card">
-              <svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg>
-              <h3>Keep production deliberate.</h3>
-              <p>
-                Save a connection as read-only. Organize connections with
-                favorites, groups and environment labels so you know where
-                you’re working.
-              </p>
-              <p class="small-note">
-                Read-only mode is enforced across queries, edits, imports,
-                schema changes and MCP.
-              </p>
-            </article>
-            <article class="workflow-card">
-              <svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg>
-              <h3>Bring the numbers together.</h3>
-              <p>
-                Pin saved queries as charts and KPIs. Use dashboard date filters
-                to explore the same period across your metrics.
-              </p>
-              <p class="small-note">
-                Business definitions in Knowledge stay scoped to the relevant
-                database.
-              </p>
-            </article>
-            <article class="workflow-card">
-              <svg class="icon" aria-hidden="true"><use href="#i-clock" /></svg>
-              <h3>Pick up where you left off.</h3>
-              <p>
-                Keep your tabs, drafts, saved queries and history in a local
-                workspace. Switch connections without rebuilding your setup.
-              </p>
-              <p class="small-note">
-                Light and dark themes share the same focused, keyboard-friendly
-                interface.
-              </p>
-            </article>
-            <article class="workflow-card">
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-database" />
-              </svg>
-              <h3>Work beyond a single engine.</h3>
-              <p>
-                Query SQL databases, inspect documents and keys, connect cloud
-                warehouses, or open a local data file.
-              </p>
-              <p class="small-note">
-                Capabilities follow each source. Preview connectors are clearly
-                labelled and read-only.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-      <section class="page-section ask-section" id="ai">
-        <div class="wrap split">
-          <div>
-            <span class="eyebrow">04 / Ask</span>
-            <h2>Start with a question.<br />Keep the evidence.</h2>
-            <p class="section-lede">
-              Turn a business question into a clear answer, with an inline chart
-              when it fits. Supporting data and SQL stay tucked away until you
-              need them.
-            </p>
-            <ul class="feature-list">
-              <li>Use relevant schema and database-scoped definitions.</li>
-              <li>Clarify missing details before answering.</li>
-              <li>Keep missing data distinct from a recorded zero.</li>
-            </ul>
-            <div class="privacy-pair">
-              <h4>Built-in AI uses schema, not result rows.</h4>
-              <p>
-                Your question, relevant schema metadata and applicable
-                definitions go to your chosen provider. Query result rows are
-                not sent through Rowwise’s built-in AI flow. MCP clients receive
-                the data their tools return.
-              </p>
-            </div>
-            <p class="models">
-              Bring your own provider: OpenAI · Anthropic · Google Gemini ·
-              OpenAI-compatible APIs · Ollama for local models. Provider usage
-              is billed separately, with no Rowwise markup.
-            </p>
-          </div>
-          <div class="answer-example">
-            <span class="eyebrow">Illustrative answer · Sample data</span>
-            <h3>September revenue was <span class="accent">$128,400.</span></h3>
-            <p>
-              Up 7.7% from August’s $119,200. Paid invoices in USD;
-              April–September 2026.
-            </p>
-            <div
-              class="demo-chart"
-              role="img"
-              aria-label="Sample monthly revenue in USD: April 91,200; May 98,600; June 106,800; July 112,400; August 119,200; September 128,400."
-            >
-              <div class="chart-title">
-                Monthly revenue <span>USD · Apr–Sep 2026</span>
-              </div>
-              <div class="chart-bars">
-                <div class="chart-column">
-                  <span>$91.2k</span>
-                  <div class="bar" style="--height: 58.24%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$98.6k</span>
-                  <div class="bar" style="--height: 62.97%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$106.8k</span>
-                  <div class="bar" style="--height: 68.21%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$112.4k</span>
-                  <div class="bar" style="--height: 71.78%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$119.2k</span>
-                  <div class="bar" style="--height: 76.12%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$128.4k</span>
-                  <div class="bar" style="--height: 82%"></div>
-                </div>
-              </div>
-              <div class="chart-labels">
-                <span>Apr</span><span>May</span><span>Jun</span><span>Jul</span
-                ><span>Aug</span><span>Sep</span>
-              </div>
-            </div>
-            <details class="supporting">
-              <summary>View supporting SQL</summary>
-              <pre>
-SELECT date_trunc(&#x27;month&#x27;, issued_at)::date AS month,
-       SUM(amount_usd) AS revenue_usd
-FROM invoices
-WHERE status = &#x27;paid&#x27;
-  AND issued_at &gt;= DATE &#x27;2026-04-01&#x27;
-  AND issued_at &lt; DATE &#x27;2026-10-01&#x27;
-GROUP BY 1
-ORDER BY 1;</pre>
-            </details>
-            <p class="privacy-note">
-              Explicit dates. Clear currency. A query you can inspect.
-            </p>
-          </div>
-        </div>
-      </section>
       <section class="page-section" id="pricing">
         <div class="wrap">
           <div class="plan-intro">
             <div class="section-heading">
               <span class="eyebrow">05 / Pricing</span>
-              <h2>Pay once.<br />Make it your workspace.</h2>
+              <h2>All the tools.<br />One purchase.</h2>
               <p class="section-lede">
-                Every feature and source connector. Try it free for 14 days,
-                then choose the license that fits.
+                Ask, AI-assisted SQL, MCP and every source connector in both
+                plans. Choose by device count, not feature limits.
               </p>
             </div>
             <p class="launch-note">
@@ -1531,19 +1549,17 @@ ORDER BY 1;</pre>
             <article class="plan">
               <h3>Personal</h3>
               <p class="for">For your laptop and desktop</p>
-              <div class="price">$49<s>$79</s><small> / one-time</small></div>
-              <p class="note">Launch price. Keep the version you buy.</p>
+              <div class="price">$49<small> USD / one-time</small></div>
+              <p class="note">Planned launch price · For one person</p>
               <ul>
                 <li>Activate on 2 devices</li>
-                <li>Every feature and source connector</li>
+                <li>Ask, AI SQL &amp; built-in MCP</li>
+                <li>Every source connector</li>
                 <li>12 months of updates</li>
-                <li>Works offline</li>
+                <li>Offline license use after activation</li>
               </ul>
-              <a
-                class="btn"
-                data-checkout-plan="single"
-                href="mailto:support@nayma.ai?subject=Rowwise%20Personal%20license"
-                ><span data-checkout-label>Contact to buy Personal</span>
+              <a class="btn" data-checkout-plan="single" href="#download"
+                ><span data-checkout-label>Try before buying</span>
                 <svg class="icon" aria-hidden="true">
                   <use href="#i-arrow" /></svg
               ></a>
@@ -1551,38 +1567,20 @@ ORDER BY 1;</pre>
             <article class="plan featured">
               <h3>Pro <span>Most flexible</span></h3>
               <p class="for">For every machine you work on</p>
-              <div class="price">$69<s>$99</s><small> / one-time</small></div>
-              <p class="note">Launch price. About $23 per device.</p>
+              <div class="price">$69<small> USD / one-time</small></div>
+              <p class="note">Planned launch price · For one person</p>
               <ul>
                 <li>Activate on 3 devices</li>
-                <li>Every feature and source connector</li>
+                <li>Ask, AI SQL &amp; built-in MCP</li>
+                <li>Every source connector</li>
                 <li>12 months of updates</li>
-                <li>Works offline</li>
+                <li>Offline license use after activation</li>
               </ul>
               <a
                 class="btn btn-primary"
                 data-checkout-plan="three"
-                href="mailto:support@nayma.ai?subject=Rowwise%20Pro%20license"
-                ><span data-checkout-label>Contact to buy Pro</span>
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
-              ></a>
-            </article>
-            <article class="plan">
-              <h3>Team</h3>
-              <p class="for">For engineering and data teams</p>
-              <div class="price" style="font-size: 36px">Per seat</div>
-              <p class="note">Billed yearly, with invoices.</p>
-              <ul>
-                <li>Volume pricing per seat</li>
-                <li>Every feature and source connector</li>
-                <li>Updates included while active</li>
-                <li>Invoice and purchase-order billing</li>
-              </ul>
-              <a
-                class="btn"
-                href="mailto:support@nayma.ai?subject=Rowwise%20Team"
-                >Talk to us
+                href="#download"
+                ><span data-checkout-label>Try before buying</span>
                 <svg class="icon" aria-hidden="true">
                   <use href="#i-arrow" /></svg
               ></a>
@@ -1596,8 +1594,19 @@ ORDER BY 1;</pre>
             hidden
           ></p>
           <p class="pricing-foot">
-            Your connections and history stay in place when you activate. AI
-            provider usage is separate.
+            <strong>Checkout opens with the stable Mac release.</strong> Try the
+            current Mac beta now. AI provider usage is separate; online AI and
+            remote databases still need a connection. Applicable taxes may be
+            added at checkout.
+          </p>
+          <p class="team-note">
+            Buying for a team?
+            <a
+              class="text-link"
+              href="mailto:support@nayma.ai?subject=Rowwise%20team%20licensing"
+              >Talk to NAYMA about team licensing
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ></a>
           </p>
         </div>
       </section>
@@ -1681,9 +1690,21 @@ ORDER BY 1;</pre>
               <p>
                 A license key is required to reopen your workspace. Your
                 connections, saved queries and history remain on your computer.
-                Personal and Pro are one-time licenses with one year of updates;
-                your last eligible version keeps working after update coverage
-                ends. Team is billed yearly per seat.
+                At stable launch, Personal ($49, two devices) and Pro ($69,
+                three devices) are one-time licenses for one person with 12
+                months of updates. Your last eligible version keeps working
+                after update coverage ends. Checkout stays closed until the
+                stable Mac release is ready.
+              </p>
+            </details>
+            <details>
+              <summary>What does offline use include?</summary>
+              <p>
+                First activation requires an internet connection. After
+                activation, the signed license can be verified locally. Work
+                with local databases and files offline; cloud AI providers and
+                remote databases need their own network access. A local Ollama
+                model is an option for AI without a cloud provider.
               </p>
             </details>
             <details>
@@ -1702,10 +1723,10 @@ ORDER BY 1;</pre>
       <section class="page-section download" id="download">
         <div class="wrap">
           <span class="eyebrow">Your next query starts here</span>
-          <h2>A clearer view of your data.</h2>
+          <h2>Make your next data task simpler.</h2>
           <p class="section-lede">
-            One local workspace for your databases, business questions and AI
-            tools. Start with the free 14-day trial.
+            Connect a database. Ask a question. Refine the SQL. Try Rowwise for
+            14 days with no card required.
           </p>
           <div class="ctas">
             <a

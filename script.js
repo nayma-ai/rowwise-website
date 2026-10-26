@@ -112,6 +112,20 @@
     });
   });
 
+  document.querySelectorAll("[data-preview-target]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const tab = tabs.find(
+        (item) => item.dataset.view === link.dataset.previewTarget,
+      );
+      if (!tab) return;
+      event.preventDefault();
+      selectTab(tab);
+      document.getElementById("tour").scrollIntoView({ block: "start" });
+      history.pushState(null, "", "#tour");
+      tab.focus({ preventScroll: true });
+    });
+  });
+
   const filters = [...document.querySelectorAll("[data-filter]")];
   const sources = [...document.querySelectorAll("[data-source]")];
   const connectorCount = sources.filter(
