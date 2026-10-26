@@ -284,10 +284,11 @@ kbd {
   display: none;
 }
 .hero {
-  padding-top: 82px;
+  padding-top: 60px;
   text-align: center;
 }
 .release-pill {
+  max-width: 100%;
   display: inline-flex;
   align-items: center;
   gap: 9px;
@@ -298,6 +299,8 @@ kbd {
   color: var(--body);
 }
 .release-pill span {
+  flex: none;
+  white-space: nowrap;
   background: var(--accent-soft);
   color: var(--accent);
   padding: 2px 6px;
@@ -308,7 +311,7 @@ kbd {
   height: 13px;
 }
 h1 {
-  font-size: clamp(42px, 5.8vw, 76px);
+  font-size: clamp(42px, 5.6vw, 72px);
   line-height: 1.06;
   letter-spacing: -0.055em;
   margin: 25px auto 22px;
@@ -356,7 +359,7 @@ h1 {
 }
 /* Interactive sample workspace; no live database or model calls. */
 .tour {
-  margin-top: 53px;
+  margin-top: 38px;
   text-align: left;
 }
 .tour-heading {
@@ -1175,9 +1178,10 @@ h2 {
 }
 .plans {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-top: 37px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 860px;
+  margin: 37px auto 0;
 }
 .plan {
   border: 1px solid var(--line);
@@ -1678,5 +1682,144 @@ h2 {
   }
   .source-badge {
     font-size: 10px;
+  }
+}
+
+/* Buyer-focused product story, using the existing brand and sample workspace. */
+.ai-request {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 22px;
+  background: var(--accent-soft);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.ai-request > .icon {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  margin-top: 3px;
+  color: var(--accent);
+}
+.ai-request div {
+  min-width: 0;
+}
+.ai-request div > span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+.ai-request > b {
+  margin-left: auto;
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+.sql-example {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--subtle);
+}
+.example-heading,
+.example-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.example-heading {
+  border-bottom: 1px solid var(--line);
+}
+.example-heading > span:first-child {
+  color: var(--text);
+  font-size: 12px;
+}
+.example-heading span,
+.example-foot span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.example-heading .icon,
+.example-foot .icon {
+  width: 14px;
+  height: 14px;
+}
+.example-foot {
+  border-top: 1px solid var(--line);
+}
+.example-foot .icon {
+  color: var(--accent);
+}
+.sql-example .demo-sql {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  font-size: 11px;
+}
+.sql-workflow {
+  align-items: center;
+}
+.sql-workflow + .workflow-grid {
+  margin-top: 56px;
+}
+.example-question {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  color: var(--text) !important;
+  font-size: 15px !important;
+}
+.pricing-foot {
+  max-width: 740px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.8;
+}
+.pricing-foot strong {
+  color: var(--body);
+  font-weight: 500;
+}
+.team-note {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--body);
+  font-size: 12px;
+  line-height: 1.9;
+}
+@media (max-width: 760px) {
+  .plans {
+    grid-template-columns: 1fr;
+  }
+  .ai-request {
+    padding: 16px;
+    font-size: 12px;
+  }
+  .ai-request > b {
+    display: none;
+  }
+  .example-heading,
+  .example-foot {
+    padding: 14px 16px;
+    flex-wrap: wrap;
+  }
+  .sql-example .demo-sql {
+    padding: 18px 16px;
+    font-size: 10px;
+  }
+  .sql-workflow + .workflow-grid {
+    margin-top: 34px;
+  }
+  .team-note .text-link {
+    display: inline;
   }
 }
