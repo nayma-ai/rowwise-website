@@ -32,7 +32,7 @@ CSV, Parquet, JSON/JSONL and Excel appear as compact cards within the source cat
 
 ## Checkout configuration
 
-Set only the qualified public HTTPS NAYMA Billing origin in `billing-config.js` after sandbox and deployment checks. No provider token, signing key or customer secret belongs in the website. `checkout.js` posts the server plan alias, verifies the returned Polar checkout host, shows pending/error feedback and prevents duplicate concurrent submissions. Update its asset URL content hash after edits. `node --test tests/*.test.mjs` validates the disabled checkout fallback, selected plan and failed/untrusted redirect handling. Real purchases and live deployment remain disabled until configured.
+The public origin in `billing-config.js` points to production NAYMA Billing. Pricing buttons use the download links until the public plans endpoint reports `checkoutEnabled: true`. Once open, the website sends the selected plan alias to Billing and follows the verified production Polar URL. Keep provider credentials server-side. Refresh the script URL content hashes after edits. Run `node --test tests/*.test.mjs` to verify closed and unavailable checkout fallback, plan selection, and redirect validation.
 
 ## Buyer-focused content (26 October 2026)
 

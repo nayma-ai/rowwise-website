@@ -1,9 +1,10 @@
-(() => {
+(async () => {
   let origin;
   try {
     const url = new URL(window.ROWWISE_BILLING_ORIGIN);
     if (
       url.protocol !== "https:" ||
+      url.port ||
       url.pathname !== "/" ||
       url.search ||
       url.hash ||
@@ -15,6 +16,23 @@
   } catch {
     return;
   }
+  try {
+    const response = await fetch(`${origin}/v1/products/rowwise/plans`, {
+      cache: "no-store",
+      credentials: "omit",
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok || (await response.json()).checkoutEnabled !== true)
+      return;
+  } catch {
+    return;
+  }
+  document.querySelectorAll("[data-checkout-closed]").forEach((element) => {
+    element.hidden = true;
+  });
+  document.querySelectorAll("[data-checkout-open]").forEach((element) => {
+    element.hidden = false;
+  });
   const status = document.getElementById("checkout-status");
   document.querySelectorAll("[data-checkout-plan]").forEach((link) => {
     const label = link.querySelector("[data-checkout-label]");
@@ -42,7 +60,8 @@
         const url = new URL(checkout.url);
         if (
           url.protocol !== "https:" ||
-          !["polar.sh", "sandbox.polar.sh"].includes(url.hostname) ||
+          url.hostname !== "polar.sh" ||
+          url.port ||
           url.username ||
           url.password
         )
@@ -51,7 +70,7 @@
       } catch {
         if (status)
           status.textContent =
-            "Checkout is temporarily unavailable. Try again or contact support@nayma.ai.";
+            "Checkout is temporarily unavailable. Try again or contact support@rowwise.dev.";
       } finally {
         link.removeAttribute("aria-busy");
       }
