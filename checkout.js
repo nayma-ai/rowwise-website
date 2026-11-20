@@ -22,7 +22,32 @@
       credentials: "omit",
       signal: AbortSignal.timeout(5000),
     });
-    if (!response.ok || (await response.json()).checkoutEnabled !== true)
+    if (!response.ok) return;
+    const catalog = await response.json();
+    if (catalog.checkoutEnabled !== true || !Array.isArray(catalog.plans))
+      return;
+    // Only offer the advertised lifetime plans after the matching Billing rollout.
+    // This also retains the download fallback during a partial deployment.
+    const expected = [
+      { id: "single", amount: 4900, devices: 2 },
+      { id: "three", amount: 6900, devices: 3 },
+    ];
+    if (
+      catalog.plans.length !== expected.length ||
+      !expected.every((plan) => {
+        const matches = catalog.plans.filter((value) => value.id === plan.id);
+        const actual = matches[0];
+        return (
+          matches.length === 1 &&
+          actual.amount === plan.amount &&
+          actual.devices === plan.devices &&
+          actual.currency === "usd" &&
+          actual.perpetual === true &&
+          actual.updates === "lifetime" &&
+          actual.updateMonths === null
+        );
+      })
+    )
       return;
   } catch {
     return;

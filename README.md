@@ -16,7 +16,7 @@ The 19 engine connectors match the desktop `sources.ts` catalog at beta.9. libSQ
 
 Built-in AI uses schema context without result rows. MCP returns query data to the connected client; that client may send it to its provider. The local MCP server is off on launch and read-only by default.
 
-The macOS download points to the signed universal OCI stable installer. Windows/Linux are explicitly Preview; no installer links are advertised until public Preview builds are available. Personal/Pro purchase buttons use NAYMA Billing when its approved HTTPS origin is set in `billing-config.js`. Until then they link to the Mac trial and make the closed checkout explicit. Planned launch prices are $49 Personal (two devices) and $69 Pro (three devices); new purchases use perpetual access with 12 months of updates. Honor any previously sold lifetime-update grants separately.
+The macOS download points to the signed universal OCI stable installer. Windows/Linux are explicitly Preview; no installer links are advertised until public Preview builds are available. Personal/Pro purchase buttons use NAYMA Billing when its approved HTTPS origin is set in `billing-config.js`. Until then they link to the Mac trial and make the closed checkout explicit. Planned launch prices are $49 Personal (two devices) and $69 Pro (three devices); Personal and Pro include perpetual access and lifetime updates for new and existing buyers. Publish this wording after Billing advertises the matching signed lifetime coverage.
 
 This change does not publish the site, alter release artifacts, or change GitHub Actions billing.
 
@@ -41,3 +41,18 @@ The page now leads with a concrete data-to-answer outcome and four buying reason
 Both Personal and Pro include all features, perpetual use and 12 months of updates; device count is the difference. Unverified reference prices and the unimplemented annual Team offer were removed. Team inquiries use a compact contact link. Pricing buttons lead to the trial while billing-config.js has an empty origin. Production checkout remains closed, beta.9 stays the current Mac download, and Windows/Linux and connector qualification labels are preserved. No live publication, billing changes or release uploads are part of this work.
 
 Local verification for this pass: all three checkout tests passed; JavaScript syntax, formatting, local asset paths and anchor targets passed. The source catalog still contains 19 database connectors and four file-format cards, with the six existing connector Preview badges retained. Browser checks at 320, 390, 932 and 1280px in both themes found no horizontal page overflow or broken images. Tested combined source search/filtering and empty recovery, mobile menu/Escape, preview arrow/Home keys, supporting SQL expansion, and the direct SQL link’s selected tab and focus. The Personal pricing CTA remained on the local trial section without creating a checkout. Browser console reported no warnings or errors. These are local usability checks, not conversion-rate measurements.
+
+## Lifetime-update checkout contract
+
+Personal remains US$49 for two devices and Pro US$69 for three devices, for one
+person. The pricing cards and FAQ promise lifetime updates; older policy notes
+above describe historical work. AI usage remains separately billed. Existing
+buyers refresh their signed license once to obtain the new offline coverage.
+
+The checkout script requires the exact two USD plans, device counts, perpetual
+rights, `updates: "lifetime"` and `updateMonths: null` from Billing before
+enabling purchase links. Old, missing, duplicated or mismatched metadata keeps
+the download fallback. This prevents a partial deployment from selling an
+unbacked lifetime promise. Deploy the scoped Billing change and update Polar
+descriptions before publishing this PR. No app release or download change is
+included; macOS stays at 1.0.4, Windows/Linux stay Preview and Actions stays US$0.
