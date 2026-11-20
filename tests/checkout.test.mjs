@@ -2,6 +2,29 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import vm from "node:vm";
 import fs from "node:fs";
+const lifetimeCatalog = () => ({
+  checkoutEnabled: true,
+  plans: [
+    {
+      id: "single",
+      amount: 4900,
+      devices: 2,
+      currency: "usd",
+      perpetual: true,
+      updates: "lifetime",
+      updateMonths: null,
+    },
+    {
+      id: "three",
+      amount: 6900,
+      devices: 3,
+      currency: "usd",
+      perpetual: true,
+      updates: "lifetime",
+      updateMonths: null,
+    },
+  ],
+});
 const source = fs.readFileSync(
   new URL("../checkout.js", import.meta.url),
   "utf8",
@@ -11,7 +34,7 @@ async function setup(
   fetcher,
   catalog = async () => ({
     ok: true,
-    json: async () => ({ checkoutEnabled: true }),
+    json: async () => lifetimeCatalog(),
   }),
 ) {
   const redirects = [];
@@ -125,4 +148,46 @@ test("failed or untrusted checkout responses remain on the website and permit re
   assert.equal(c.redirects.length, 0);
   assert.match(c.status.textContent, /temporarily unavailable/);
   assert.equal(c.attrs.has("aria-busy"), false);
+});
+
+test("an old or mismatched catalog cannot sell a plan under the lifetime promise", async () => {
+  const mutate = [
+    (c) => {
+      delete c.plans;
+    },
+    (c) => {
+      c.plans[0].updates = "annual";
+      c.plans[0].updateMonths = 12;
+    },
+    (c) => {
+      c.plans[1].amount = 9900;
+    },
+    (c) => {
+      c.plans[0].devices = 1;
+    },
+    (c) => {
+      c.plans[0].currency = "eur";
+    },
+    (c) => {
+      c.plans[0].perpetual = false;
+    },
+    (c) => {
+      c.plans.push({ ...c.plans[0] });
+    },
+    (c) => {
+      c.plans[1] = { ...c.plans[0] };
+    },
+  ];
+  for (const change of mutate) {
+    const catalog = lifetimeCatalog();
+    change(catalog);
+    const page = await setup(
+      "https://billing.example.com",
+      () => assert.fail("checkout must remain disabled"),
+      async () => ({ ok: true, json: async () => catalog }),
+    );
+    assert.equal(page.listeners.length, 0);
+    assert.equal(page.label.textContent, "Try before buying");
+    assert.equal(page.open.hidden, true);
+  }
 });
