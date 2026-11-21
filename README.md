@@ -16,7 +16,7 @@ The 19 engine connectors match the desktop `sources.ts` catalog at beta.9. libSQ
 
 Built-in AI uses schema context without result rows. MCP returns query data to the connected client; that client may send it to its provider. The local MCP server is off on launch and read-only by default.
 
-The macOS download points to the signed universal OCI stable installer. Windows/Linux are explicitly Preview; no installer links are advertised until public Preview builds are available. Personal/Pro purchase buttons use NAYMA Billing when its approved HTTPS origin is set in `billing-config.js`. Until then they link to the Mac trial and make the closed checkout explicit. Planned launch prices are $49 Personal (two devices) and $69 Pro (three devices); Personal and Pro include perpetual access and lifetime updates for new and existing buyers. Publish this wording after Billing advertises the matching signed lifetime coverage.
+The macOS download points to the signed universal OCI stable installer. Windows/Linux are explicitly Preview; no installer links are advertised until public Preview builds are available. Personal/Pro purchase buttons use NAYMA Billing when its approved HTTPS origin is set in `billing-config.js`. Until then they link to the Mac trial and make the closed checkout explicit. The current launch prices are $49 Personal (two devices) and $69 Pro (five devices). Purchases through 31 December 2026 include perpetual access and lifetime updates. Regular prices are $79/$99; purchases from 1 January 2027 include 12 months of updates and perpetual use of eligible releases. Existing launch buyers retain lifetime coverage.
 
 This change does not publish the site, alter release artifacts, or change GitHub Actions billing.
 
@@ -56,3 +56,10 @@ the download fallback. This prevents a partial deployment from selling an
 unbacked lifetime promise. Deploy the scoped Billing change and update Polar
 descriptions before publishing this PR. No app release or download change is
 included; macOS stays at 1.0.4, Windows/Linux stay Preview and Actions stays US$0.
+
+## macOS 1.0.5 — 21 November 2026
+
+The release chip, platform FAQ and download footer identify 1.0.5. Publish this
+version change only after the signed universal installer and updater are live
+and verified. Stable OCI download links, launch pricing, source qualification
+labels and Windows/Linux Preview remain unchanged. Actions stays US$0.
