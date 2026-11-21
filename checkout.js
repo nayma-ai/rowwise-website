@@ -30,7 +30,7 @@
     // This also retains the download fallback during a partial deployment.
     const expected = [
       { id: "single", amount: 4900, devices: 2 },
-      { id: "three", amount: 6900, devices: 3 },
+      { id: "three", amount: 6900, devices: 5 },
     ];
     if (
       catalog.plans.length !== expected.length ||

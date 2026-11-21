@@ -17,7 +17,7 @@ const lifetimeCatalog = () => ({
     {
       id: "three",
       amount: 6900,
-      devices: 3,
+      devices: 5,
       currency: "usd",
       perpetual: true,
       updates: "lifetime",
