@@ -3,20 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>rowwise — SQL, business answers and MCP. One workspace.</title>
+    <title>Rowwise — Explore databases, write SQL, and get answers</title>
     <meta
       name="description"
-      content="Work across 19 database connectors and local files. Ask business questions, generate and refine SQL with AI, and connect coding tools through MCP. Mac trial available; Launch price from $49 until 31 December 2026."
+      content="Explore databases, run and refine SQL, and get answers with charts and supporting data. Try Rowwise on macOS, Windows, or Linux."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rowwise.dev/" />
     <meta
       property="og:title"
-      content="rowwise — SQL, business answers and MCP. One workspace."
+      content="Rowwise — Explore databases, write SQL, and get answers"
     />
     <meta
       property="og:description"
-      content="From data to answers in one workspace: 19 database connectors, business Ask, AI-assisted SQL and built-in MCP. Launch price from $49 until 31 December 2026."
+      content="Explore databases, write SQL, and ask questions of your data in one desktop workspace for macOS, Windows, and Linux."
+    />
+    <meta
+      property="og:image"
+      content="https://rowwise.dev/assets/demos/ask-with-evidence.jpg"
     />
     <meta name="theme-color" content="#09090A" />
     <meta name="color-scheme" content="dark light" />
@@ -48,8 +52,8 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=8be577de733a" />
-    <script src="script.js?v=5c86defafe90" defer></script>
+    <link rel="stylesheet" href="styles.css?v=53f1b02b86c6" />
+    <script src="script.js?v=c4ea1cd3b563" defer></script>
     <script src="billing-config.js?v=92ca0e8623fe" defer></script>
     <script src="checkout.js?v=a35e40710782" defer></script>
   </head>
@@ -58,9 +62,6 @@
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <symbol id="i-arrow" viewBox="0 0 24 24">
         <path d="M5 12h14m-5-5 5 5-5 5" />
-      </symbol>
-      <symbol id="i-chevron" viewBox="0 0 24 24">
-        <path d="m9 5 7 7-7 7" />
       </symbol>
       <symbol id="i-download" viewBox="0 0 24 24">
         <path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4" />
@@ -81,41 +82,13 @@
           d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"
         />
       </symbol>
-      <symbol id="i-plug" viewBox="0 0 24 24">
-        <path
-          d="m7 3 3 3m4-2 3 3M5 9l10-7m-9 6 7 7m-9-5 6 6 7-7M8 14l-4 4H2m12-6 4-4"
-        />
-      </symbol>
-      <symbol id="i-home" viewBox="0 0 24 24">
-        <path d="m3 10 9-7 9 7v10H3V10Zm6 10v-7h6v7" />
-      </symbol>
-      <symbol id="i-settings" viewBox="0 0 24 24">
-        <path d="M4 7h16M4 17h16" />
-        <circle cx="9" cy="7" r="3" />
-        <circle cx="15" cy="17" r="3" />
-      </symbol>
-      <symbol id="i-chart" viewBox="0 0 24 24">
-        <path d="M4 3v18h17M8 16v-5m5 5V7m5 9V4" />
-      </symbol>
       <symbol id="i-search" viewBox="0 0 24 24">
         <circle cx="10.5" cy="10.5" r="6.5" />
         <path d="m16 16 5 5" />
       </symbol>
-      <symbol id="i-book" viewBox="0 0 24 24">
-        <path
-          d="M4 5a2 2 0 0 1 2-2h14v18H6a2 2 0 0 1-2-2V5Zm0 13a2 2 0 0 1 2-2h14"
-        />
-      </symbol>
-      <symbol id="i-clock" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 2" />
-      </symbol>
       <symbol id="i-lock" viewBox="0 0 24 24">
         <rect x="4" y="10" width="16" height="11" rx="2" />
         <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-      </symbol>
-      <symbol id="i-edit" viewBox="0 0 24 24">
-        <path d="m15 4 5 5M4 20l1-6L16 3a2 2 0 0 1 5 5L10 19l-6 1Z" />
       </symbol>
       <symbol id="i-sun" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="4" />
@@ -129,9 +102,6 @@
       <symbol id="i-menu" viewBox="0 0 24 24">
         <path d="M4 7h16M4 12h16M4 17h16" />
       </symbol>
-      <symbol id="i-check" viewBox="0 0 24 24">
-        <path d="m5 12 4 4L19 6" />
-      </symbol>
     </svg>
     <nav class="site-nav" aria-label="Main navigation">
       <div class="wrap nav-inner">
@@ -144,9 +114,8 @@
           />rowwise</a
         >
         <ul class="nav-links" id="nav-links">
-          <li><a href="#ai">Ask</a></li>
-          <li><a href="#features">AI + SQL</a></li>
-          <li><a href="#mcp">MCP</a></li>
+          <li><a href="#demos">Ask</a></li>
+          <li><a href="#features">Features</a></li>
           <li><a href="#sources">Sources</a></li>
           <li><a href="#pricing">Pricing</a></li>
         </ul>
@@ -161,7 +130,7 @@
             ><svg class="icon moon" aria-hidden="true">
               <use href="#i-moon" />
             </svg></button
-          ><a class="btn btn-primary btn-small" href="#download">Try for Mac</a
+          ><a class="btn btn-primary btn-small" href="#download">Download</a
           ><button
             class="icon-button mobile-toggle"
             id="mobile-toggle"
@@ -176,735 +145,86 @@
       </div>
     </nav>
     <main id="main" tabindex="-1">
-      <header class="hero">
-        <div class="wrap">
-          <a href="#download" class="release-pill"
-            ><span>Version 1.0.6</span>macOS + desktop previews
-            <svg class="icon" aria-hidden="true"><use href="#i-chevron" /></svg
-          ></a>
-          <h1>
-            From data to answers.<br /><span class="accent"
-              >In one workspace.</span
-            >
-          </h1>
-          <p class="hero-lede">
-            Work with 19 database connectors and local files. Ask business
-            questions, write SQL with AI, and connect your coding tools through
-            MCP.
-          </p>
-          <div class="ctas">
-            <a
-              href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg"
-              class="btn btn-primary"
-              ><svg class="icon" aria-hidden="true">
-                <use href="#i-download" /></svg
-              >Download for macOS</a
-            ><a class="btn" href="#demos"
-              ><svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg
-              >See it in action
-              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
-            ></a>
-          </div>
-          <p class="fine">
-            14-day trial · No card required · One-time licenses from $49 at
-            launch
-          </p>
-          <div class="hero-shortcuts">
-            <a href="#sources"
-              ><svg class="icon" aria-hidden="true">
-                <use href="#i-database" /></svg
-              >19 connectors + files</a
-            ><a href="#ai"
-              ><svg class="icon" aria-hidden="true"><use href="#i-ask" /></svg
-              >Business Ask</a
-            ><a href="#mcp"
-              ><svg class="icon" aria-hidden="true"><use href="#i-plug" /></svg
-              >Built-in MCP</a
-            ><a href="#features"
-              ><svg class="icon" aria-hidden="true"><use href="#i-query" /></svg
-              >AI-assisted SQL</a
-            >
-          </div>
-          <div class="tour" id="tour">
-            <div class="tour-heading">
-              <div class="tabs" role="tablist" aria-label="Product preview">
-                <button
-                  type="button"
-                  id="tab-ask"
-                  role="tab"
-                  aria-controls="panel-ask"
-                  aria-selected="true"
-                  tabindex="0"
-                  data-view="ask"
-                >
-                  Ask</button
-                ><button
-                  type="button"
-                  id="tab-query"
-                  role="tab"
-                  aria-controls="panel-query"
-                  aria-selected="false"
-                  tabindex="-1"
-                  data-view="query"
-                >
-                  AI + SQL</button
-                ><button
-                  type="button"
-                  id="tab-explore"
-                  role="tab"
-                  aria-controls="panel-explore"
-                  aria-selected="false"
-                  tabindex="-1"
-                  data-view="explore"
-                >
-                  Explore</button
-                ><button
-                  type="button"
-                  id="tab-mcp"
-                  role="tab"
-                  aria-controls="panel-mcp"
-                  aria-selected="false"
-                  tabindex="-1"
-                  data-view="mcp"
-                >
-                  MCP
-                </button>
-              </div>
-              <span class="preview-label"
-                >Interactive preview · sample data</span
+      <header class="hero" id="ai">
+        <div class="wrap hero-layout">
+          <div class="hero-copy">
+            <h1>
+              Explore your data.<br /><span class="accent"
+                >Get answers you can verify.</span
               >
+            </h1>
+            <p class="hero-lede">
+              Browse tables, run SQL and ask questions in plain language. With
+              Ask, you can inspect the rows and SQL behind an answer and refine
+              the query yourself.
+            </p>
+            <div class="ctas">
+              <a class="btn btn-primary" href="#download">
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-download" />
+                </svg>
+                Download Rowwise
+              </a>
             </div>
-            <div class="workspace-demo">
-              <aside
-                class="demo-sidebar"
-                aria-label="Illustrative app navigation"
+            <p class="fine">
+              macOS, Windows and Linux · 14-day trial ·
+              <a href="#pricing">One-time licenses from $49</a>
+            </p>
+          </div>
+          <figure class="ask-demo" id="tour">
+            <video
+              id="demos"
+              controls
+              playsinline
+              preload="none"
+              width="1200"
+              height="736"
+              poster="assets/demos/ask-with-evidence.jpg"
+              aria-label="Ask walkthrough with sample invoice data"
+              aria-describedby="ask-demo-caption"
+            >
+              <source
+                src="assets/demos/ask-with-evidence.mp4"
+                type="video/mp4"
+              />
+              <a href="assets/demos/ask-with-evidence.mp4"
+                >Download the Ask demo</a
               >
-                <div class="demo-logo">
-                  <img
-                    src="assets/brand/rowwise-mark.svg"
-                    alt=""
-                    width="25"
-                    height="25"
-                  /><span>rowwise</span>
-                </div>
-                <div class="demo-nav" data-demo-nav="home">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-home" /></svg
-                  ><span>Home</span>
-                </div>
-                <div class="demo-nav" data-demo-nav="dashboards">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-chart" /></svg
-                  ><span>Dashboards</span>
-                </div>
-                <div class="demo-nav" data-demo-nav="explore">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-grid" /></svg
-                  ><span>Explore</span>
-                </div>
-                <div class="demo-nav" data-demo-nav="query">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-query" /></svg
-                  ><span>Query</span>
-                </div>
-                <div class="demo-nav active" data-demo-nav="ask">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-ask" /></svg
-                  ><span>Ask</span>
-                </div>
-                <div class="demo-nav" data-demo-nav="knowledge">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-book" /></svg
-                  ><span>Knowledge</span>
-                </div>
-                <div class="demo-nav" data-demo-nav="history">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-clock" /></svg
-                  ><span>History</span>
-                </div>
-                <div class="demo-nav" data-demo-nav="connections">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-database" /></svg
-                  ><span>Connections</span>
-                </div>
-                <div class="demo-nav" data-demo-nav="mcp">
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-settings" /></svg
-                  ><span>Settings</span>
-                </div>
-                <div class="demo-connection">
-                  <i class="status-dot"></i>Sample workspace
-                </div>
-              </aside>
-              <div class="demo-main">
-                <div class="demo-tabs">
-                  <span class="current" id="demo-tab-title"
-                    ><svg class="icon" aria-hidden="true">
-                      <use href="#i-ask" /></svg
-                    >Ask · Sample data</span
-                  ><span>Query 1</span><span>customers</span
-                  ><span aria-hidden="true">+</span>
-                </div>
-                <section
-                  role="tabpanel"
-                  id="panel-ask"
-                  aria-labelledby="tab-ask"
-                  tabindex="0"
-                >
-                  <div class="demo-page-heading">
-                    <b>Ask</b><span class="demo-meta">Sample workspace</span>
-                  </div>
-                  <div class="demo-answer">
-                    <div class="demo-question">
-                      How has revenue changed over the last six months?
-                    </div>
-                    <div class="answer-label">
-                      <svg class="icon" aria-hidden="true">
-                        <use href="#i-check" /></svg
-                      >Complete
-                    </div>
-                    <h3>
-                      Revenue reached <strong>$128,400</strong> in September.
-                    </h3>
-                    <p>
-                      Up 7.7% from August. Based on paid invoices in USD,
-                      April–September 2026.
-                    </p>
-                    <div
-                      class="demo-chart"
-                      role="img"
-                      aria-label="Sample monthly revenue in USD: April 91,200; May 98,600; June 106,800; July 112,400; August 119,200; September 128,400."
-                    >
-                      <div class="chart-title">
-                        Monthly revenue <span>USD · Apr–Sep 2026</span>
-                      </div>
-                      <div class="chart-bars">
-                        <div class="chart-column">
-                          <span>$91.2k</span>
-                          <div class="bar" style="--height: 58.24%"></div>
-                        </div>
-                        <div class="chart-column">
-                          <span>$98.6k</span>
-                          <div class="bar" style="--height: 62.97%"></div>
-                        </div>
-                        <div class="chart-column">
-                          <span>$106.8k</span>
-                          <div class="bar" style="--height: 68.21%"></div>
-                        </div>
-                        <div class="chart-column">
-                          <span>$112.4k</span>
-                          <div class="bar" style="--height: 71.78%"></div>
-                        </div>
-                        <div class="chart-column">
-                          <span>$119.2k</span>
-                          <div class="bar" style="--height: 76.12%"></div>
-                        </div>
-                        <div class="chart-column">
-                          <span>$128.4k</span>
-                          <div class="bar" style="--height: 82%"></div>
-                        </div>
-                      </div>
-                      <div class="chart-labels">
-                        <span>Apr</span><span>May</span><span>Jun</span
-                        ><span>Jul</span><span>Aug</span><span>Sep</span>
-                      </div>
-                    </div>
-                    <details class="supporting">
-                      <summary>Supporting SQL</summary>
-                      <pre>
-SELECT date_trunc(&#x27;month&#x27;, issued_at)::date AS month,
-       SUM(amount_usd) AS revenue_usd
-FROM invoices
-WHERE status = &#x27;paid&#x27;
-  AND issued_at &gt;= DATE &#x27;2026-04-01&#x27;
-  AND issued_at &lt; DATE &#x27;2026-10-01&#x27;
-GROUP BY 1
-ORDER BY 1;</pre>
-                    </details>
-                  </div>
-                </section>
-                <section
-                  role="tabpanel"
-                  id="panel-query"
-                  aria-labelledby="tab-query"
-                  tabindex="0"
-                  hidden
-                >
-                  <div class="demo-page-heading">
-                    <b>Query</b
-                    ><span class="demo-meta">Sample data · PostgreSQL</span>
-                  </div>
-                  <div class="ai-request">
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#i-ask" />
-                    </svg>
-                    <div>
-                      <span>Example AI request</span>Group paid invoice revenue
-                      by month, April through September 2026.
-                    </div>
-                    <b>Draft to review</b>
-                  </div>
-                  <pre
-                    class="demo-sql"
-                  ><span class="sql-keyword">SELECT</span> date_trunc(&#x27;month&#x27;, issued_at)::date<span class="sql-keyword"> AS </span>month,
-       <span class="sql-keyword">SUM</span>(amount_usd)<span class="sql-keyword"> AS </span>revenue_usd
-<span class="sql-keyword">FROM</span> invoices
-<span class="sql-keyword">WHERE</span> status = <span class="sql-string">&#x27;paid&#x27;</span>
-  <span class="sql-keyword">AND</span> issued_at &gt;= <span class="sql-keyword">DATE</span> &#x27;2026-04-01&#x27;
-  <span class="sql-keyword">AND</span> issued_at &lt; <span class="sql-keyword">DATE</span> &#x27;2026-10-01&#x27;
-<span class="sql-keyword">GROUP BY</span> 1
-<span class="sql-keyword">ORDER BY</span> 1;</pre>
-                  <div class="result-heading">
-                    <span>Results</span
-                    ><span class="demo-meta">6 sample rows · USD</span>
-                  </div>
-                  <div class="table-scroll">
-                    <table class="demo-table">
-                      <caption class="sr-only">
-                        Sample query results: monthly paid invoice revenue in US
-                        dollars
-                      </caption>
-                      <thead>
-                        <tr>
-                          <th scope="col">
-                            month <span class="muted">date</span>
-                          </th>
-                          <th scope="col">
-                            revenue_usd <span class="muted">numeric</span>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>2026-04-01</td>
-                          <td>91,200.00</td>
-                        </tr>
-                        <tr>
-                          <td>2026-05-01</td>
-                          <td>98,600.00</td>
-                        </tr>
-                        <tr>
-                          <td>2026-06-01</td>
-                          <td>106,800.00</td>
-                        </tr>
-                        <tr>
-                          <td>2026-07-01</td>
-                          <td>112,400.00</td>
-                        </tr>
-                        <tr>
-                          <td>2026-08-01</td>
-                          <td>119,200.00</td>
-                        </tr>
-                        <tr>
-                          <td>2026-09-01</td>
-                          <td>128,400.00</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </section>
-                <section
-                  role="tabpanel"
-                  id="panel-explore"
-                  aria-labelledby="tab-explore"
-                  tabindex="0"
-                  hidden
-                >
-                  <div class="demo-page-heading">
-                    <b>customers</b
-                    ><span class="demo-meta">public · Sample data</span>
-                  </div>
-                  <div class="demo-explore-tools">
-                    <span class="demo-tag green"
-                      >Saved view: Active customers</span
-                    ><span class="demo-tag">status = active</span
-                    ><span class="demo-tag">monthly_usd ↓</span>
-                  </div>
-                  <div class="table-scroll">
-                    <table class="demo-table">
-                      <caption class="sr-only">
-                        Illustrative active customers table
-                      </caption>
-                      <thead>
-                        <tr>
-                          <th scope="col">id</th>
-                          <th scope="col">company</th>
-                          <th scope="col">plan</th>
-                          <th scope="col">status</th>
-                          <th scope="col">monthly_usd</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>101</td>
-                          <td>Northstar</td>
-                          <td>Business</td>
-                          <td>active</td>
-                          <td>2,400.00</td>
-                        </tr>
-                        <tr>
-                          <td>102</td>
-                          <td>Acme Studio</td>
-                          <td>Business</td>
-                          <td>active</td>
-                          <td>1,800.00</td>
-                        </tr>
-                        <tr>
-                          <td>103</td>
-                          <td>Juniper</td>
-                          <td>Pro</td>
-                          <td>active</td>
-                          <td>840.00</td>
-                        </tr>
-                        <tr>
-                          <td>104</td>
-                          <td>Forma</td>
-                          <td>Pro</td>
-                          <td>active</td>
-                          <td>640.00</td>
-                        </tr>
-                        <tr>
-                          <td>105</td>
-                          <td>Orbit Labs</td>
-                          <td>Pro</td>
-                          <td>active</td>
-                          <td>490.00</td>
-                        </tr>
-                        <tr>
-                          <td>106</td>
-                          <td>Linear Works</td>
-                          <td>Starter</td>
-                          <td>active</td>
-                          <td>190.00</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <p class="demo-footer">
-                    Sample view · Filters and sorting are remembered per table.
-                  </p>
-                </section>
-                <section
-                  role="tabpanel"
-                  id="panel-mcp"
-                  aria-labelledby="tab-mcp"
-                  tabindex="0"
-                  hidden
-                >
-                  <div class="demo-page-heading">
-                    <b>Settings / MCP</b
-                    ><span class="demo-meta">Illustrative local server</span>
-                  </div>
-                  <div class="demo-mcp-card">
-                    <h3>MCP server <span>Off by default</span></h3>
-                    <p>Connect assistants while Rowwise is open.</p>
-                    <code>http://127.0.0.1:4320/mcp</code
-                    ><span class="demo-tag">Enable in Settings → MCP</span>
-                    <p>Localhost only · Read-only by default</p>
-                    <p>Disabling cancels active requests.</p>
-                  </div>
-                </section>
-              </div>
-            </div>
-            <noscript
-              ><p class="fine">
-                Preview tabs and source filters require JavaScript. All source
-                connectors are listed below.
-              </p></noscript
-            >
-          </div>
-          <div class="trust-strip">
-            <span
-              ><svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg
-              >Your workspace stays local</span
-            ><span
-              ><svg class="icon" aria-hidden="true"><use href="#i-query" /></svg
-              >Read-only mode you control</span
-            ><span
-              ><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
-              >Signed &amp; notarized for macOS</span
-            >
-          </div>
+            </video>
+            <figcaption id="ask-demo-caption">
+              See Ask turn a question into a chart, supporting rows and SQL. ·
+              12 sec
+            </figcaption>
+          </figure>
         </div>
       </header>
-      <section
-        class="page-section workflow-clips"
-        id="demos"
-        aria-labelledby="demos-title"
-      >
-        <div class="wrap">
-          <div class="section-heading">
-            <h2 id="demos-title">See Rowwise in action</h2>
-            <p class="section-lede">
-              Short walkthroughs with sample invoice data.
-            </p>
-          </div>
-          <div class="workflow-clip-grid">
-            <figure class="workflow-clip workflow-clip--lead">
-              <video
-                controls
-                playsinline
-                preload="none"
-                width="1200"
-                height="736"
-                poster="assets/demos/ask-with-evidence.jpg"
-                aria-labelledby="ask-clip-title"
-                aria-describedby="ask-clip-description"
-              >
-                <source
-                  src="assets/demos/ask-with-evidence.mp4"
-                  type="video/mp4"
-                />
-                <a href="assets/demos/ask-with-evidence.mp4"
-                  >Download the Ask clip</a
-                >
-              </video>
-              <figcaption>
-                <h3 id="ask-clip-title">Ask a business question</h3>
-                <p id="ask-clip-description">
-                  Ask which customers brought in the most paid invoice revenue.
-                  Compare customers in a chart, check the supporting rows, and
-                  open the generated SQL in Query to refine it.
-                </p>
-                <a class="text-link" href="#ai">Explore Business Ask</a>
-              </figcaption>
-            </figure>
-            <figure class="workflow-clip">
-              <video
-                controls
-                playsinline
-                preload="none"
-                width="1200"
-                height="736"
-                poster="assets/demos/query-script.jpg"
-                aria-labelledby="query-clip-title"
-                aria-describedby="query-clip-description"
-              >
-                <source src="assets/demos/query-script.mp4" type="video/mp4" />
-                <a href="assets/demos/query-script.mp4"
-                  >Download the SQL script clip</a
-                >
-              </video>
-              <figcaption>
-                <h3 id="query-clip-title">Run a SQL script</h3>
-                <p id="query-clip-description">
-                  Run two statements, switch between their results, and expand
-                  the grid.
-                </p>
-              </figcaption>
-            </figure>
-            <figure class="workflow-clip">
-              <video
-                controls
-                playsinline
-                preload="none"
-                width="1200"
-                height="736"
-                poster="assets/demos/explore-row-details.jpg"
-                aria-labelledby="explore-clip-title"
-                aria-describedby="explore-clip-description"
-              >
-                <source
-                  src="assets/demos/explore-row-details.mp4"
-                  type="video/mp4"
-                />
-                <a href="assets/demos/explore-row-details.mp4"
-                  >Download the Row Details clip</a
-                >
-              </video>
-              <figcaption>
-                <h3 id="explore-clip-title">Inspect rows in place</h3>
-                <p id="explore-clip-description">
-                  Open Row Details, step to the next row, and return to Schema
-                  at the same scroll position.
-                </p>
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
-      <section class="page-section ask-section" id="ai">
-        <div class="wrap split">
-          <div>
-            <span class="eyebrow">01 / Business Ask</span>
-            <h2>Business questions.<br />Answers with evidence.</h2>
-            <p class="section-lede">
-              How much did we spend on AI? Which customers drive revenue? Turn
-              questions into business answers and inline charts, with supporting
-              data and SQL one click away.
-            </p>
-            <ul class="feature-list">
-              <li>
-                Give answers context with your saved business definitions.
-              </li>
-              <li>Ask can request clarification when details are missing.</li>
-              <li>See explicit dates, currencies and missing-data context.</li>
-            </ul>
-            <div class="privacy-pair">
-              <h4>Your model. Your business context.</h4>
-              <p>
-                Built-in AI sends your question, relevant schema and saved
-                definitions to your chosen provider. Query result rows stay out
-                of that AI flow. MCP sharing is explained below.
-              </p>
-            </div>
-            <p class="models">
-              Bring your own provider: OpenAI · Anthropic · Google Gemini ·
-              OpenAI-compatible APIs · Ollama for local models. Provider usage
-              is billed separately, with no Rowwise markup.
-            </p>
-          </div>
-          <div class="answer-example">
-            <span class="eyebrow">Illustrative answer · Sample data</span>
-            <p class="example-question">
-              “How is our paid invoice revenue trending?”
-            </p>
-            <h3>September revenue was <span class="accent">$128,400.</span></h3>
-            <p>
-              Up 7.7% from August’s $119,200. Paid invoices in USD;
-              April–September 2026.
-            </p>
-            <div
-              class="demo-chart"
-              role="img"
-              aria-label="Sample monthly revenue in USD: April 91,200; May 98,600; June 106,800; July 112,400; August 119,200; September 128,400."
-            >
-              <div class="chart-title">
-                Monthly revenue <span>USD · Apr–Sep 2026</span>
-              </div>
-              <div class="chart-bars">
-                <div class="chart-column">
-                  <span>$91.2k</span>
-                  <div class="bar" style="--height: 58.24%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$98.6k</span>
-                  <div class="bar" style="--height: 62.97%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$106.8k</span>
-                  <div class="bar" style="--height: 68.21%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$112.4k</span>
-                  <div class="bar" style="--height: 71.78%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$119.2k</span>
-                  <div class="bar" style="--height: 76.12%"></div>
-                </div>
-                <div class="chart-column">
-                  <span>$128.4k</span>
-                  <div class="bar" style="--height: 82%"></div>
-                </div>
-              </div>
-              <div class="chart-labels">
-                <span>Apr</span><span>May</span><span>Jun</span><span>Jul</span
-                ><span>Aug</span><span>Sep</span>
-              </div>
-            </div>
-            <details class="supporting">
-              <summary>View supporting SQL</summary>
-              <pre>
-SELECT date_trunc(&#x27;month&#x27;, issued_at)::date AS month,
-       SUM(amount_usd) AS revenue_usd
-FROM invoices
-WHERE status = &#x27;paid&#x27;
-  AND issued_at &gt;= DATE &#x27;2026-04-01&#x27;
-  AND issued_at &lt; DATE &#x27;2026-10-01&#x27;
-GROUP BY 1
-ORDER BY 1;</pre>
-            </details>
-            <p class="privacy-note">
-              Explicit dates. Clear currency. A query you can inspect.
-            </p>
-          </div>
-        </div>
-      </section>
       <section class="page-section" id="features">
         <div class="wrap">
-          <div class="split sql-workflow">
-            <div>
-              <span class="eyebrow">02 / AI-assisted SQL</span>
-              <h2>Write SQL faster.<br />Keep the final say.</h2>
-              <p class="section-lede">
-                Describe the query you need, or ask AI to change the SQL you
-                already have. Use your connected schema to generate a draft,
-                explain a statement or fix a failed query.
-              </p>
-              <ul class="feature-list">
-                <li>Generate SQL from a plain-language request.</li>
-                <li>Refine an existing query or just the selected SQL.</li>
-                <li>Review the proposal before applying and running it.</li>
-              </ul>
-              <a class="text-link" href="#tour" data-preview-target="query"
-                >Explore the SQL preview
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
-              ></a>
-            </div>
-            <div
-              class="sql-example"
-              aria-label="Illustrative AI-assisted SQL workflow"
-            >
-              <div class="example-heading">
-                <span
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#i-query" /></svg
-                  >Query assistant</span
-                ><span>Illustrative · PostgreSQL</span>
-              </div>
-              <div class="ai-request">
-                <svg class="icon" aria-hidden="true"><use href="#i-ask" /></svg>
-                <div>
-                  <span>Your request</span>Break down paid revenue by month for
-                  the last quarter.
-                </div>
-              </div>
-              <pre
-                class="demo-sql"
-              ><code><span class="sql-keyword">SELECT</span> date_trunc(<span class="sql-string">'month'</span>, issued_at) <span class="sql-keyword">AS</span> month,
-       <span class="sql-keyword">SUM</span>(amount_usd) <span class="sql-keyword">AS</span> revenue_usd
-<span class="sql-keyword">FROM</span> invoices
-<span class="sql-keyword">WHERE</span> status = <span class="sql-string">'paid'</span>
-  <span class="sql-keyword">AND</span> issued_at &gt;= <span class="sql-keyword">DATE</span> '2026-07-01'
-  <span class="sql-keyword">AND</span> issued_at &lt; <span class="sql-keyword">DATE</span> '2026-10-01'
-<span class="sql-keyword">GROUP BY</span> 1 <span class="sql-keyword">ORDER BY</span> 1;</code></pre>
-              <div class="example-foot">
-                <span
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#i-check" /></svg
-                  >Review before running</span
-                ><span>Jul–Sep 2026 · USD</span>
-              </div>
-            </div>
-          </div>
+          <h2>From browsing tables to running SQL</h2>
           <div class="workflow-grid">
             <article class="workflow-card">
               <svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg>
-              <h3>Explore. Filter. Edit.</h3>
+              <h3>Explore tables</h3>
               <p>
-                Filter from a cell, inspect a row in the side panel and save
-                your table view. Review pending in-cell edits, then Apply or
-                Discard on supported sources.
+                Filter from a cell and inspect rows or schema beside the grid.
+                Save your view and review pending edits on supported sources.
+              </p>
+            </article>
+            <article class="workflow-card">
+              <svg class="icon" aria-hidden="true"><use href="#i-query" /></svg>
+              <h3>Write and run SQL</h3>
+              <p>
+                Run a script and switch between statement results. Use AI to
+                draft, explain or fix SQL, then review it before running.
               </p>
             </article>
             <article class="workflow-card">
               <svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg>
-              <h3>Know where you’re working.</h3>
+              <h3>Keep work organized</h3>
               <p>
-                Organize connections with groups and environment labels. Saved
-                read-only mode protects a connection across queries, edits,
-                imports and MCP.
-              </p>
-            </article>
-            <article class="workflow-card">
-              <svg class="icon" aria-hidden="true"><use href="#i-clock" /></svg>
-              <h3>Keep your work close.</h3>
-              <p>
-                Return to your tabs, drafts, saved queries and history in a
-                local workspace. Expand results when you need room, or pin saved
-                queries as dashboard charts.
+                Group connections, label environments and set read-only access.
+                Return to saved queries, drafts and history in your local
+                workspace.
               </p>
             </article>
           </div>
@@ -913,8 +233,8 @@ ORDER BY 1;</pre>
       <section class="page-section" id="mcp">
         <div class="wrap split">
           <div>
-            <span class="eyebrow">03 / Built-in MCP</span>
-            <h2>Your coding assistant.<br />Connected to your data.</h2>
+            <span class="eyebrow">Built-in MCP</span>
+            <h2>Give your coding assistant database context</h2>
             <p class="section-lede">
               Bring live database context into the tools you already use.
               Rowwise connects your AI assistant to your schemas, query results
@@ -1080,566 +400,573 @@ ORDER BY 1;</pre>
       <section class="page-section" id="sources">
         <div class="wrap">
           <div class="section-heading">
-            <span class="eyebrow">04 / Sources &amp; files</span>
-            <h2>More sources.<br />Less switching.</h2>
+            <h2>Connect your databases and files</h2>
             <p class="section-lede">
               From PostgreSQL and MySQL to Snowflake, BigQuery and MongoDB.
               Connect 19 database engines, or open CSV, Parquet, JSON/JSONL and
               Excel files. Keep your connections, queries and history together.
             </p>
           </div>
-          <div class="source-toolbar">
-            <div
-              class="source-filters"
-              role="group"
-              aria-label="Filter sources"
-            >
-              <button type="button" data-filter="all" aria-pressed="true">
-                All sources</button
-              ><button type="button" data-filter="sql" aria-pressed="false">
-                SQL</button
-              ><button
-                type="button"
-                data-filter="analytics"
-                aria-pressed="false"
+          <details class="source-catalog">
+            <summary>Browse all sources and file formats</summary>
+            <div class="source-toolbar">
+              <div
+                class="source-filters"
+                role="group"
+                aria-label="Filter sources"
               >
-                Analytics</button
-              ><button type="button" data-filter="nosql" aria-pressed="false">
-                NoSQL & search</button
-              ><button type="button" data-filter="remote" aria-pressed="false">
-                Remote SQLite</button
-              ><button type="button" data-filter="files" aria-pressed="false">
-                Files
-              </button>
-            </div>
-            <label class="source-search"
-              ><svg class="icon" aria-hidden="true">
-                <use href="#i-search" /></svg
-              ><span class="sr-only">Search sources</span
-              ><input
-                id="source-search"
-                type="search"
-                placeholder="Find a source…"
-                autocomplete="off"
-            /></label>
-          </div>
-          <div class="source-grid" id="source-grid">
-            <div
-              class="source-card"
-              data-source="postgres"
-              data-category="sql"
-              data-search="postgresql sql database"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/postgresql.svg?v=f220a436258e"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">PostgreSQL</div>
-                <div class="source-detail">SQL database</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="mysql"
-              data-category="sql"
-              data-search="mysql sql database"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/mysql.svg?v=f73fa5d6b9da"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">MySQL</div>
-                <div class="source-detail">SQL database</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="mariadb"
-              data-category="sql"
-              data-search="mariadb sql database"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/mariadb.svg?v=90f14c26b478"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">MariaDB</div>
-                <div class="source-detail">SQL database</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="sqlserver"
-              data-category="sql"
-              data-search="sql server sql database"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/sqlserver.svg?v=f52b63cb5ff8"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">SQL Server</div>
-                <div class="source-detail">SQL database</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="oracle"
-              data-category="sql"
-              data-search="oracle instant client required"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/oracle.svg?v=436d617a609b"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Oracle</div>
-                <div class="source-detail">Instant Client required</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="sqlite"
-              data-category="sql"
-              data-search="sqlite local database file"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/sqlite.svg?v=2b91c30887d3"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">SQLite</div>
-                <div class="source-detail">Local database file</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="clickhouse"
-              data-category="analytics"
-              data-search="clickhouse analytics database"
-            >
-              <span class="source-icon source-icon--dark" aria-hidden="true"
-                ><img
-                  src="assets/db/clickhouse.svg?v=12cde67e9662"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">ClickHouse</div>
-                <div class="source-detail">Analytics database</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="duckdb"
-              data-category="analytics"
-              data-search="duckdb local analytics database"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/duckdb.svg?v=06be219668a4"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">DuckDB</div>
-                <div class="source-detail">Local analytics database</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="snowflake"
-              data-category="analytics"
-              data-search="snowflake cloud warehouse"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/snowflake.svg?v=49ac685600ec"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Snowflake</div>
-                <div class="source-detail">Cloud warehouse</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="bigquery"
-              data-category="analytics"
-              data-search="bigquery cloud warehouse"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/bigquery.svg?v=a26f6aafc25b"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">BigQuery</div>
-                <div class="source-detail">Cloud warehouse</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="redshift"
-              data-category="analytics"
-              data-search="amazon redshift read-only warehouse"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/redshift.png?v=36e927335d93"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Amazon Redshift</div>
-                <div class="source-detail">Read-only warehouse</div>
-                <span class="source-badge">Preview</span>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="databricks"
-              data-category="analytics"
-              data-search="databricks read-only sql warehouse"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/databricks.png?v=ecd81329dd99"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Databricks</div>
-                <div class="source-detail">Read-only SQL warehouse</div>
-                <span class="source-badge">Preview</span>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="trino"
-              data-category="analytics"
-              data-search="trino read-only distributed sql"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/trino.svg?v=d1dd40046704"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Trino</div>
-                <div class="source-detail">Read-only distributed SQL</div>
-                <span class="source-badge">Preview</span>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="mongodb"
-              data-category="nosql"
-              data-search="mongodb document database"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/mongodb.svg?v=d9f2bf704126"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">MongoDB</div>
-                <div class="source-detail">Document database</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="redis"
-              data-category="nosql"
-              data-search="redis key-value database"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/redis.svg?v=4707378b1908"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Redis</div>
-                <div class="source-detail">Key-value database</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="dynamodb"
-              data-category="nosql"
-              data-search="amazon dynamodb read-only · macos qualified"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/dynamodb.png?v=e15ee090401a"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Amazon DynamoDB</div>
-                <div class="source-detail">Read-only · macOS qualified</div>
-                <span class="source-badge qualified">macOS</span>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="elasticsearch"
-              data-category="nosql"
-              data-search="elasticsearch read-only search"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/elasticsearch.svg?v=7efc44ea67ea"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Elasticsearch</div>
-                <div class="source-detail">Read-only search</div>
-                <span class="source-badge">Preview</span>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="opensearch"
-              data-category="nosql"
-              data-search="opensearch read-only search"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/db/opensearch.svg?v=d89d0555a75f"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">OpenSearch</div>
-                <div class="source-detail">Read-only search</div>
-                <span class="source-badge">Preview</span>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="libsql"
-              data-category="remote"
-              data-search="libsql / turso read-only remote sqlite"
-            >
-              <span class="source-icon source-icon--dark" aria-hidden="true"
-                ><img
-                  src="assets/db/turso.svg?v=1f79806b29a7"
-                  width="28"
-                  height="28"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">libSQL / Turso</div>
-                <div class="source-detail">Read-only remote SQLite</div>
-                <span class="source-badge">Preview</span>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="file-csv"
-              data-category="files"
-              data-search="csv comma separated values flat files"
-            >
-              <span class="source-icon source-icon--csv" aria-hidden="true"
-                ><svg
-                  viewBox="0 0 28 28"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linejoin="round"
+                <button type="button" data-filter="all" aria-pressed="true">
+                  All sources</button
+                ><button type="button" data-filter="sql" aria-pressed="false">
+                  SQL</button
+                ><button
+                  type="button"
+                  data-filter="analytics"
+                  aria-pressed="false"
                 >
-                  <path d="M17 3H6v22h16V8l-5-5Zm0 0v5h5" />
-                  <path d="M9 12h10v9H9zM9 15h10M13 12v9" /></svg
-              ></span>
-              <div class="source-copy">
-                <div class="source-name">CSV</div>
-                <div class="source-detail">.csv</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="file-parquet"
-              data-category="files"
-              data-search="parquet columnar data files"
-            >
-              <span class="source-icon source-icon--parquet" aria-hidden="true"
-                ><svg
-                  viewBox="0 0 28 28"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linejoin="round"
+                  Analytics</button
+                ><button type="button" data-filter="nosql" aria-pressed="false">
+                  NoSQL & search</button
+                ><button
+                  type="button"
+                  data-filter="remote"
+                  aria-pressed="false"
                 >
-                  <path d="M5 5h18v18H5zM5 11h18M11 5v18M17 5v18" />
-                  <path d="M8 15v5M14 15v5M20 15v5" /></svg
-              ></span>
-              <div class="source-copy">
-                <div class="source-name">Parquet</div>
-                <div class="source-detail">.parquet</div>
+                  Remote SQLite</button
+                ><button type="button" data-filter="files" aria-pressed="false">
+                  Files
+                </button>
+              </div>
+              <label class="source-search"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-search" /></svg
+                ><span class="sr-only">Search sources</span
+                ><input
+                  id="source-search"
+                  type="search"
+                  placeholder="Find a source…"
+                  autocomplete="off"
+              /></label>
+            </div>
+            <div class="source-grid" id="source-grid">
+              <div
+                class="source-card"
+                data-source="postgres"
+                data-category="sql"
+                data-search="postgresql sql database"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/postgresql.svg?v=f220a436258e"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">PostgreSQL</div>
+                  <div class="source-detail">SQL database</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="mysql"
+                data-category="sql"
+                data-search="mysql sql database"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/mysql.svg?v=f73fa5d6b9da"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">MySQL</div>
+                  <div class="source-detail">SQL database</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="mariadb"
+                data-category="sql"
+                data-search="mariadb sql database"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/mariadb.svg?v=90f14c26b478"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">MariaDB</div>
+                  <div class="source-detail">SQL database</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="sqlserver"
+                data-category="sql"
+                data-search="sql server sql database"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/sqlserver.svg?v=f52b63cb5ff8"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">SQL Server</div>
+                  <div class="source-detail">SQL database</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="oracle"
+                data-category="sql"
+                data-search="oracle instant client required"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/oracle.svg?v=436d617a609b"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Oracle</div>
+                  <div class="source-detail">Instant Client required</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="sqlite"
+                data-category="sql"
+                data-search="sqlite local database file"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/sqlite.svg?v=2b91c30887d3"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">SQLite</div>
+                  <div class="source-detail">Local database file</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="clickhouse"
+                data-category="analytics"
+                data-search="clickhouse analytics database"
+              >
+                <span class="source-icon source-icon--dark" aria-hidden="true"
+                  ><img
+                    src="assets/db/clickhouse.svg?v=12cde67e9662"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">ClickHouse</div>
+                  <div class="source-detail">Analytics database</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="duckdb"
+                data-category="analytics"
+                data-search="duckdb local analytics database"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/duckdb.svg?v=06be219668a4"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">DuckDB</div>
+                  <div class="source-detail">Local analytics database</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="snowflake"
+                data-category="analytics"
+                data-search="snowflake cloud warehouse"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/snowflake.svg?v=49ac685600ec"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Snowflake</div>
+                  <div class="source-detail">Cloud warehouse</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="bigquery"
+                data-category="analytics"
+                data-search="bigquery cloud warehouse"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/bigquery.svg?v=a26f6aafc25b"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">BigQuery</div>
+                  <div class="source-detail">Cloud warehouse</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="redshift"
+                data-category="analytics"
+                data-search="amazon redshift read-only warehouse"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/redshift.png?v=36e927335d93"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Amazon Redshift</div>
+                  <div class="source-detail">Read-only warehouse</div>
+                  <span class="source-badge">Preview</span>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="databricks"
+                data-category="analytics"
+                data-search="databricks read-only sql warehouse"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/databricks.png?v=ecd81329dd99"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Databricks</div>
+                  <div class="source-detail">Read-only SQL warehouse</div>
+                  <span class="source-badge">Preview</span>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="trino"
+                data-category="analytics"
+                data-search="trino read-only distributed sql"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/trino.svg?v=d1dd40046704"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Trino</div>
+                  <div class="source-detail">Read-only distributed SQL</div>
+                  <span class="source-badge">Preview</span>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="mongodb"
+                data-category="nosql"
+                data-search="mongodb document database"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/mongodb.svg?v=d9f2bf704126"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">MongoDB</div>
+                  <div class="source-detail">Document database</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="redis"
+                data-category="nosql"
+                data-search="redis key-value database"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/redis.svg?v=4707378b1908"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Redis</div>
+                  <div class="source-detail">Key-value database</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="dynamodb"
+                data-category="nosql"
+                data-search="amazon dynamodb read-only · macos qualified"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/dynamodb.png?v=e15ee090401a"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Amazon DynamoDB</div>
+                  <div class="source-detail">Read-only · macOS qualified</div>
+                  <span class="source-badge qualified">macOS</span>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="elasticsearch"
+                data-category="nosql"
+                data-search="elasticsearch read-only search"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/elasticsearch.svg?v=7efc44ea67ea"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Elasticsearch</div>
+                  <div class="source-detail">Read-only search</div>
+                  <span class="source-badge">Preview</span>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="opensearch"
+                data-category="nosql"
+                data-search="opensearch read-only search"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/db/opensearch.svg?v=d89d0555a75f"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">OpenSearch</div>
+                  <div class="source-detail">Read-only search</div>
+                  <span class="source-badge">Preview</span>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="libsql"
+                data-category="remote"
+                data-search="libsql / turso read-only remote sqlite"
+              >
+                <span class="source-icon source-icon--dark" aria-hidden="true"
+                  ><img
+                    src="assets/db/turso.svg?v=1f79806b29a7"
+                    width="28"
+                    height="28"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">libSQL / Turso</div>
+                  <div class="source-detail">Read-only remote SQLite</div>
+                  <span class="source-badge">Preview</span>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="file-csv"
+                data-category="files"
+                data-search="csv comma separated values flat files"
+              >
+                <span class="source-icon source-icon--csv" aria-hidden="true"
+                  ><svg
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M17 3H6v22h16V8l-5-5Zm0 0v5h5" />
+                    <path d="M9 12h10v9H9zM9 15h10M13 12v9" /></svg
+                ></span>
+                <div class="source-copy">
+                  <div class="source-name">CSV</div>
+                  <div class="source-detail">.csv</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="file-parquet"
+                data-category="files"
+                data-search="parquet columnar data files"
+              >
+                <span
+                  class="source-icon source-icon--parquet"
+                  aria-hidden="true"
+                  ><svg
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M5 5h18v18H5zM5 11h18M11 5v18M17 5v18" />
+                    <path d="M8 15v5M14 15v5M20 15v5" /></svg
+                ></span>
+                <div class="source-copy">
+                  <div class="source-name">Parquet</div>
+                  <div class="source-detail">.parquet</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="file-json"
+                data-category="files"
+                data-search="json jsonl structured records data files"
+              >
+                <span class="source-icon source-icon--json" aria-hidden="true"
+                  ><svg
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  >
+                    <path
+                      d="M10 5H8v6l-3 3 3 3v6h2M18 5h2v6l3 3-3 3v6h-2M14 10v1M14 17v1"
+                    /></svg
+                ></span>
+                <div class="source-copy">
+                  <div class="source-name">JSON / JSONL</div>
+                  <div class="source-detail">.json · .jsonl</div>
+                </div>
+              </div>
+              <div
+                class="source-card"
+                data-source="file-excel"
+                data-category="files"
+                data-search="excel xlsx spreadsheet workbook worksheet files"
+              >
+                <span class="source-icon" aria-hidden="true"
+                  ><img
+                    src="assets/files/excel.svg?v=5bc26d575883"
+                    alt=""
+                    width="28"
+                    height="28"
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <div class="source-copy">
+                  <div class="source-name">Excel</div>
+                  <div class="source-detail">.xlsx</div>
+                </div>
               </div>
             </div>
-            <div
-              class="source-card"
-              data-source="file-json"
-              data-category="files"
-              data-search="json jsonl structured records data files"
-            >
-              <span class="source-icon source-icon--json" aria-hidden="true"
-                ><svg
-                  viewBox="0 0 28 28"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                >
-                  <path
-                    d="M10 5H8v6l-3 3 3 3v6h2M18 5h2v6l3 3-3 3v6h-2M14 10v1M14 17v1"
-                  /></svg
-              ></span>
-              <div class="source-copy">
-                <div class="source-name">JSON / JSONL</div>
-                <div class="source-detail">.json · .jsonl</div>
-              </div>
-            </div>
-            <div
-              class="source-card"
-              data-source="file-excel"
-              data-category="files"
-              data-search="excel xlsx spreadsheet workbook worksheet files"
-            >
-              <span class="source-icon" aria-hidden="true"
-                ><img
-                  src="assets/files/excel.svg?v=5bc26d575883"
-                  alt=""
-                  width="28"
-                  height="28"
-                  loading="lazy"
-                  decoding="async"
-              /></span>
-              <div class="source-copy">
-                <div class="source-name">Excel</div>
-                <div class="source-detail">.xlsx</div>
-              </div>
-            </div>
-          </div>
-          <p class="source-empty" id="source-empty" hidden>
-            No sources match. Try another name or choose All sources.
-          </p>
-          <p
-            class="source-count"
-            id="source-count"
-            role="status"
-            aria-live="polite"
-          >
-            19 connectors + local files
-          </p>
-          <div class="source-notes">
-            <p>
-              <b>Preview means available to try.</b> These connectors currently
-              provide read-only workflows with source-specific limits. Amazon
-              Redshift remains Preview.
+            <p class="source-empty" id="source-empty" hidden>
+              No sources match. Try another name or choose All sources.
             </p>
-            <p>
-              <b>DynamoDB:</b> read-only support is qualified on macOS. Windows
-              and Linux remain Preview. Keyed reads, indexes and opt-in scans
-              have their own limits; SQL joins and aggregates are not supported.
+            <p
+              class="source-count"
+              id="source-count"
+              role="status"
+              aria-live="polite"
+            >
+              19 connectors + local files
             </p>
-            <p><b>Neon &amp; Supabase:</b> connect through PostgreSQL.</p>
-          </div>
+            <div class="source-notes">
+              <p>
+                <b>Preview means available to try.</b> These connectors
+                currently provide read-only workflows with source-specific
+                limits. Amazon Redshift remains Preview.
+              </p>
+              <p>
+                <b>DynamoDB:</b> read-only support was qualified on macOS. Keyed
+                reads, indexes and opt-in scans have their own limits; SQL joins
+                and aggregates are not supported.
+              </p>
+              <p><b>Neon &amp; Supabase:</b> connect through PostgreSQL.</p>
+            </div>
+          </details>
         </div>
       </section>
       <section class="page-section" id="pricing">
         <div class="wrap">
           <div class="plan-intro">
             <div class="section-heading">
-              <span class="eyebrow">05 / Pricing</span>
-              <h2>All the tools.<br />One purchase.</h2>
+              <h2>One-time pricing</h2>
               <p class="section-lede">
-                Ask, AI-assisted SQL, MCP and every source connector in both
-                plans. Choose by device count, not feature limits.
+                Both plans include Ask, AI-assisted SQL, built-in MCP and all
+                source connectors. Personal covers two devices and Pro covers
+                five.
               </p>
             </div>
             <p class="launch-note">
-              <strong>Launch price until 31 December 2026.</strong>Buy by then
-              and keep lifetime updates. Every feature and source connector,
-              with no subscription. Bring your own AI keys.
+              <strong>Launch pricing through 31 December 2026</strong>
+              Buy by then to get lifetime updates.
             </p>
           </div>
           <div class="plans">
@@ -1665,7 +992,7 @@ ORDER BY 1;</pre>
               ></a>
             </article>
             <article class="plan featured">
-              <h3>Pro <span>Most flexible</span></h3>
+              <h3>Pro</h3>
               <p class="for">For every machine you work on</p>
               <div class="price">
                 $69<s aria-label="Regular price 99 dollars">$99</s
@@ -1698,8 +1025,8 @@ ORDER BY 1;</pre>
           ></p>
           <p class="pricing-foot">
             <strong data-checkout-closed>
-              Purchases are temporarily unavailable. The Mac trial is ready to
-              download.
+              Purchases are temporarily unavailable. You can still start the
+              free trial.
             </strong>
             <strong data-checkout-open hidden>
               Buy securely through Polar. Activate with the license key from
@@ -1722,8 +1049,7 @@ ORDER BY 1;</pre>
       <section class="page-section" id="faq">
         <div class="wrap faq-layout">
           <div>
-            <span class="eyebrow">06 / Good to know</span>
-            <h2>A few details,<br />before you start.</h2>
+            <h2>Frequently asked questions</h2>
             <p class="section-lede">
               More questions?
               <a class="text-link" href="mailto:support@rowwise.dev"
@@ -1739,10 +1065,8 @@ ORDER BY 1;</pre>
               <p>
                 libSQL / Turso, Elasticsearch, OpenSearch, Amazon Redshift,
                 Databricks and Trino are read-only Preview connectors. Amazon
-                DynamoDB read-only support is qualified on macOS; it remains
-                Preview on Windows and Linux. Snowflake and BigQuery are
-                available without a source Preview label. Capabilities vary by
-                engine.
+                DynamoDB read-only support was qualified on macOS. Capabilities
+                vary by engine.
               </p>
             </details>
             <details>
@@ -1791,7 +1115,9 @@ ORDER BY 1;</pre>
                 AI features use your own OpenAI, Anthropic, Gemini or compatible
                 API key, or a local model through Ollama. Provider charges are
                 separate; Rowwise adds no AI markup. Non-AI database workflows
-                work without an AI key.
+                work without an AI key. Built-in AI uses relevant schema and
+                saved business definitions. Query result rows stay out of that
+                AI flow.
               </p>
             </details>
             <details>
@@ -1807,8 +1133,8 @@ ORDER BY 1;</pre>
                 Existing license holders keep lifetime updates; connect once and
                 refresh your license in Settings → License.
                 <span data-checkout-closed>
-                  Purchases are temporarily unavailable. The Mac trial is ready
-                  to download.
+                  Purchases are temporarily unavailable. You can still start the
+                  free trial.
                 </span>
               </p>
             </details>
@@ -1826,9 +1152,9 @@ ORDER BY 1;</pre>
               <summary>Which platforms can I use?</summary>
               <p>
                 Rowwise 1.0.6 for macOS is signed, notarized, and runs on Apple
-                silicon and Intel. The <a href="#download">Preview downloads</a>
-                include an unsigned Windows x64 installer and a Linux x86-64
-                AppImage tested on Ubuntu 24.04.
+                silicon and Intel. The <a href="#download">desktop downloads</a>
+                also include an unsigned Windows x64 installer and a Linux
+                x86-64 AppImage tested on Ubuntu 24.04.
               </p>
             </details>
           </div>
@@ -1836,40 +1162,34 @@ ORDER BY 1;</pre>
       </section>
       <section class="page-section download" id="download">
         <div class="wrap">
-          <span class="eyebrow">Your next query starts here</span>
-          <h2>Make your next data task simpler.</h2>
-          <p class="section-lede">
-            Connect a database. Ask a question. Refine the SQL. Try Rowwise for
-            14 days with no card required.
-          </p>
-          <div class="ctas">
-            <a
-              href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg"
-              class="btn btn-primary"
-              ><svg class="icon" aria-hidden="true">
-                <use href="#i-download" /></svg
-              >Download for macOS</a
-            >
+          <h2>Download Rowwise 1.0.6</h2>
+          <p class="section-lede">Try it free for 14 days. No card required.</p>
+          <div class="platform-grid">
+            <div class="platform">
+              <a
+                class="btn btn-primary"
+                href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/stable%2Frowwise-macos.dmg"
+                >Download for macOS</a
+              >
+              <p>Apple silicon &amp; Intel · Signed and notarized</p>
+            </div>
+            <div class="platform">
+              <a
+                class="btn"
+                href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/releases%2F1.0.6%2Frowwise_1.0.6_x64-setup.exe"
+                >Download for Windows</a
+              >
+              <p>x64 · Setup installer</p>
+            </div>
+            <div class="platform">
+              <a
+                class="btn"
+                href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/releases%2F1.0.6%2Frowwise_1.0.6_amd64.AppImage"
+                >Download for Linux</a
+              >
+              <p>x86-64 · AppImage</p>
+            </div>
           </div>
-          <p class="platform-note">
-            macOS 1.0.6 · Apple silicon &amp; Intel · Signed &amp; notarized
-          </p>
-          <div class="ctas preview-downloads">
-            <a
-              class="btn btn-small"
-              href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/releases%2F1.0.6%2Frowwise_1.0.6_x64-setup.exe"
-              >Windows x64 Preview</a
-            >
-            <a
-              class="btn btn-small"
-              href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/releases%2F1.0.6%2Frowwise_1.0.6_amd64.AppImage"
-              >Linux AppImage Preview</a
-            >
-          </div>
-          <p class="platform-note">
-            Windows and Linux use manual downloads.
-            <a href="#sources">Check source-specific status</a>.
-          </p>
         </div>
       </section>
     </main>
