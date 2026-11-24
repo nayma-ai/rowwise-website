@@ -48,7 +48,7 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=fec4cebf309d" />
+    <link rel="stylesheet" href="styles.css?v=8be577de733a" />
     <script src="script.js?v=5c86defafe90" defer></script>
     <script src="billing-config.js?v=92ca0e8623fe" defer></script>
     <script src="checkout.js?v=a35e40710782" defer></script>
@@ -179,7 +179,7 @@
       <header class="hero">
         <div class="wrap">
           <a href="#download" class="release-pill"
-            ><span>Version 1.0.5</span>macOS universal
+            ><span>Version 1.0.6</span>macOS + desktop previews
             <svg class="icon" aria-hidden="true"><use href="#i-chevron" /></svg
           ></a>
           <h1>
@@ -199,7 +199,7 @@
               ><svg class="icon" aria-hidden="true">
                 <use href="#i-download" /></svg
               >Download for macOS</a
-            ><a class="btn" href="#tour"
+            ><a class="btn" href="#demos"
               ><svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg
               >See it in action
               <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
@@ -627,6 +627,102 @@ ORDER BY 1;</pre>
           </div>
         </div>
       </header>
+      <section
+        class="page-section workflow-clips"
+        id="demos"
+        aria-labelledby="demos-title"
+      >
+        <div class="wrap">
+          <div class="section-heading">
+            <h2 id="demos-title">See Rowwise in action</h2>
+            <p class="section-lede">
+              Short walkthroughs with sample invoice data.
+            </p>
+          </div>
+          <div class="workflow-clip-grid">
+            <figure class="workflow-clip workflow-clip--lead">
+              <video
+                controls
+                playsinline
+                preload="none"
+                width="1200"
+                height="736"
+                poster="assets/demos/ask-with-evidence.jpg"
+                aria-labelledby="ask-clip-title"
+                aria-describedby="ask-clip-description"
+              >
+                <source
+                  src="assets/demos/ask-with-evidence.mp4"
+                  type="video/mp4"
+                />
+                <a href="assets/demos/ask-with-evidence.mp4"
+                  >Download the Ask clip</a
+                >
+              </video>
+              <figcaption>
+                <h3 id="ask-clip-title">Ask a business question</h3>
+                <p id="ask-clip-description">
+                  Ask which customers brought in the most paid invoice revenue.
+                  Compare customers in a chart, check the supporting rows, and
+                  open the generated SQL in Query to refine it.
+                </p>
+                <a class="text-link" href="#ai">Explore Business Ask</a>
+              </figcaption>
+            </figure>
+            <figure class="workflow-clip">
+              <video
+                controls
+                playsinline
+                preload="none"
+                width="1200"
+                height="736"
+                poster="assets/demos/query-script.jpg"
+                aria-labelledby="query-clip-title"
+                aria-describedby="query-clip-description"
+              >
+                <source src="assets/demos/query-script.mp4" type="video/mp4" />
+                <a href="assets/demos/query-script.mp4"
+                  >Download the SQL script clip</a
+                >
+              </video>
+              <figcaption>
+                <h3 id="query-clip-title">Run a SQL script</h3>
+                <p id="query-clip-description">
+                  Run two statements, switch between their results, and expand
+                  the grid.
+                </p>
+              </figcaption>
+            </figure>
+            <figure class="workflow-clip">
+              <video
+                controls
+                playsinline
+                preload="none"
+                width="1200"
+                height="736"
+                poster="assets/demos/explore-row-details.jpg"
+                aria-labelledby="explore-clip-title"
+                aria-describedby="explore-clip-description"
+              >
+                <source
+                  src="assets/demos/explore-row-details.mp4"
+                  type="video/mp4"
+                />
+                <a href="assets/demos/explore-row-details.mp4"
+                  >Download the Row Details clip</a
+                >
+              </video>
+              <figcaption>
+                <h3 id="explore-clip-title">Inspect rows in place</h3>
+                <p id="explore-clip-description">
+                  Open Row Details, step to the next row, and return to Schema
+                  at the same scroll position.
+                </p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
       <section class="page-section ask-section" id="ai">
         <div class="wrap split">
           <div>
@@ -1729,11 +1825,10 @@ ORDER BY 1;</pre>
             <details>
               <summary>Which platforms can I use?</summary>
               <p>
-                Rowwise 1.0.5 for macOS is a universal download with Apple
-                silicon and Intel slices. NAYMA signs the app and DMG, and Apple
-                notarizes both. Windows and Linux remain Preview. Preview
-                installer availability is separate from macOS. Contact support
-                for Windows or Linux Preview access.
+                Rowwise 1.0.6 for macOS is signed, notarized, and runs on Apple
+                silicon and Intel. The <a href="#download">Preview downloads</a>
+                include an unsigned Windows x64 installer and a Linux x86-64
+                AppImage tested on Ubuntu 24.04.
               </p>
             </details>
           </div>
@@ -1757,10 +1852,22 @@ ORDER BY 1;</pre>
             >
           </div>
           <p class="platform-note">
-            macOS 1.0.5 · Universal macOS download · Signed &amp; notarized
+            macOS 1.0.6 · Apple silicon &amp; Intel · Signed &amp; notarized
           </p>
+          <div class="ctas preview-downloads">
+            <a
+              class="btn btn-small"
+              href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/releases%2F1.0.6%2Frowwise_1.0.6_x64-setup.exe"
+              >Windows x64 Preview</a
+            >
+            <a
+              class="btn btn-small"
+              href="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axsovnm3ueka/b/rowwise-releases/o/releases%2F1.0.6%2Frowwise_1.0.6_amd64.AppImage"
+              >Linux AppImage Preview</a
+            >
+          </div>
           <p class="platform-note">
-            Windows and Linux remain Preview.
+            Windows and Linux use manual downloads.
             <a href="#sources">Check source-specific status</a>.
           </p>
         </div>
