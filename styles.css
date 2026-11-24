@@ -729,6 +729,16 @@ h2 {
   font-size: 13px;
   line-height: 1.8;
 }
+.ai-provider-note {
+  margin-top: 26px;
+  color: var(--body);
+  font-size: 14px;
+  text-wrap: pretty;
+}
+.ai-provider-note strong {
+  color: var(--text);
+  font-weight: 600;
+}
 .plan-intro {
   display: flex;
   align-items: end;

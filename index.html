@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rowwise — Explore databases, write SQL, and get answers</title>
+    <title>Rowwise — Database client with AI-assisted SQL and MCP</title>
     <meta
       name="description"
-      content="Explore databases, run and refine SQL, and get answers with charts and supporting data. Try Rowwise on macOS, Windows, or Linux."
+      content="Browse databases, write SQL with AI, and inspect the evidence behind Ask answers. Connect your AI coding tools through built-in MCP."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rowwise.dev/" />
     <meta
       property="og:title"
-      content="Rowwise — Explore databases, write SQL, and get answers"
+      content="Rowwise — Database client with AI-assisted SQL and MCP"
     />
     <meta
       property="og:description"
-      content="Explore databases, write SQL, and ask questions of your data in one desktop workspace for macOS, Windows, and Linux."
+      content="Explore your databases, get AI answers backed by rows and SQL, and connect your coding assistant through built-in MCP."
     />
     <meta
       property="og:image"
@@ -52,7 +52,7 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=9793ba4ec5f9" />
+    <link rel="stylesheet" href="styles.css?v=901fa26ff884" />
     <script src="script.js?v=ddb3c05d4f6e" defer></script>
     <script src="billing-config.js?v=92ca0e8623fe" defer></script>
     <script src="checkout.js?v=a35e40710782" defer></script>
@@ -133,8 +133,9 @@
           />rowwise</a
         >
         <ul class="nav-links" id="nav-links">
-          <li><a href="#demos">Ask</a></li>
+          <li><a href="#demos">Ask AI</a></li>
           <li><a href="#features">Features</a></li>
+          <li><a href="#mcp">MCP</a></li>
           <li><a href="#sources">Sources</a></li>
           <li><a href="#pricing">Pricing</a></li>
         </ul>
@@ -169,13 +170,13 @@
           <div class="hero-copy">
             <h1>
               Explore your data.<br /><span class="accent"
-                >Get answers you can verify.</span
+                >Get answers with AI.</span
               >
             </h1>
             <p class="hero-lede">
-              Browse tables, run SQL and ask questions in plain language. With
-              Ask, you can inspect the rows and SQL behind an answer and refine
-              the query yourself.
+              Browse tables, write SQL with AI, or ask a question in plain
+              language. Rowwise Ask shows the rows and SQL behind its answers,
+              so you can check the results and refine the query.
             </p>
             <div class="ctas">
               <a class="btn btn-primary" href="#download">
@@ -211,7 +212,7 @@
               >
             </video>
             <figcaption id="ask-demo-caption">
-              See Ask turn a question into a chart, supporting rows and SQL. ·
+              See AI turn a question into a chart with supporting rows and SQL ·
               12 sec
             </figcaption>
           </figure>
@@ -231,10 +232,10 @@
             </article>
             <article class="workflow-card">
               <svg class="icon" aria-hidden="true"><use href="#i-query" /></svg>
-              <h3>Write and run SQL</h3>
+              <h3>AI-assisted SQL</h3>
               <p>
-                Run a script and switch between statement results. Use AI to
-                draft, explain or fix SQL, then review it before running.
+                Draft, explain or fix SQL with AI. Review the query before
+                running it, and switch between results when you run a script.
               </p>
             </article>
             <article class="workflow-card">
@@ -247,17 +248,22 @@
               </p>
             </article>
           </div>
+          <p class="ai-provider-note">
+            <strong>Choose your AI provider.</strong> Bring an OpenAI,
+            Anthropic, Gemini or compatible API key, or run a local model with
+            Ollama.
+          </p>
         </div>
       </section>
       <section class="page-section" id="mcp">
         <div class="wrap split">
           <div>
             <span class="eyebrow">Built-in MCP</span>
-            <h2>Give your coding assistant database context</h2>
+            <h2>Connect AI assistants to your databases</h2>
             <p class="section-lede">
-              Bring live database context into the tools you already use.
-              Rowwise connects your AI assistant to your schemas, query results
-              and saved queries through a built-in local MCP server.
+              Give Claude Code, Cursor, Codex and other AI tools access to your
+              connected sources through Rowwise’s local MCP server. It runs on
+              your machine and is read-only by default.
             </p>
             <ul class="client-chips" aria-label="MCP clients">
               <li>
