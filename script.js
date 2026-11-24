@@ -98,11 +98,37 @@
   const platformDownloads = document.querySelectorAll(
     "[data-platform-download]",
   );
+  function detectDownloadPlatform() {
+    const { userAgentData, userAgent, platform, maxTouchPoints } = navigator;
+    const platformHint = userAgentData?.platform || platform || "";
+    // Android and ChromeOS may expose Linux as their legacy platform.
+    if (
+      userAgentData?.mobile ||
+      /Android|iPhone|iPad|iPod|CrOS|Chrome OS|Mobile/i.test(
+        `${platformHint} ${userAgent}`,
+      )
+    )
+      return;
+
+    // iPadOS in desktop mode can identify itself as a Mac.
+    if (/^Mac/i.test(platformHint) && maxTouchPoints > 1) return;
+
+    const desktop = platformHint || userAgent;
+    if (/Windows|^Win32$|^Win64$/i.test(desktop)) return "windows";
+    if (/^Mac|Macintosh/i.test(desktop)) return "macos";
+    if (/Linux/i.test(desktop)) return "linux";
+  }
+
   function showSelectedDownload() {
     const selected = platformPicker.querySelector("input:checked").value;
     platformDownloads.forEach((link) => {
       link.hidden = link.dataset.platformDownload !== selected;
     });
+  }
+  const detectedPlatform = detectDownloadPlatform();
+  if (detectedPlatform) {
+    platformPicker.querySelector(`input[value="${detectedPlatform}"]`).checked =
+      true;
   }
   platformPicker.addEventListener("change", showSelectedDownload);
   window.addEventListener("pageshow", showSelectedDownload);
