@@ -52,7 +52,7 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=901fa26ff884" />
+    <link rel="stylesheet" href="styles.css?v=57828794ecbf" />
     <script src="script.js?v=ddb3c05d4f6e" defer></script>
     <script src="billing-config.js?v=92ca0e8623fe" defer></script>
     <script src="checkout.js?v=a35e40710782" defer></script>
@@ -92,6 +92,10 @@
       <symbol id="i-query" viewBox="0 0 24 24">
         <path d="m8 5-6 7 6 7m8-14 6 7-6 7m-2-16-4 18" />
       </symbol>
+      <symbol id="i-terminal" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <path d="m7 9 3 3-3 3m6 0h4" />
+      </symbol>
       <symbol id="i-grid" viewBox="0 0 24 24">
         <rect x="3" y="4" width="18" height="16" rx="2" />
         <path d="M3 10h18M9 4v16" />
@@ -104,10 +108,6 @@
       <symbol id="i-search" viewBox="0 0 24 24">
         <circle cx="10.5" cy="10.5" r="6.5" />
         <path d="m16 16 5 5" />
-      </symbol>
-      <symbol id="i-lock" viewBox="0 0 24 24">
-        <rect x="4" y="10" width="16" height="11" rx="2" />
-        <path d="M8 10V7a4 4 0 0 1 8 0v3" />
       </symbol>
       <symbol id="i-sun" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="4" />
@@ -174,9 +174,12 @@
               >
             </h1>
             <p class="hero-lede">
-              Browse tables, write SQL with AI, or ask a question in plain
-              language. Rowwise Ask shows the rows and SQL behind its answers,
-              so you can check the results and refine the query.
+              Browse tables, write SQL with AI, and inspect the rows and SQL
+              behind Ask answers.
+              <a href="#mcp"
+                >Connect Rowwise to Claude Code, Cursor, and Codex through
+                MCP</a
+              >.
             </p>
             <div class="ctas">
               <a class="btn btn-primary" href="#download">
@@ -220,31 +223,35 @@
       </header>
       <section class="page-section" id="features">
         <div class="wrap">
-          <h2>From browsing tables to running SQL</h2>
+          <h2>Tools for database development</h2>
           <div class="workflow-grid">
             <article class="workflow-card">
               <svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg>
               <h3>Explore tables</h3>
               <p>
-                Filter from a cell and inspect rows or schema beside the grid.
-                Save your view and review pending edits on supported sources.
+                Browse tables, views, and columns. Filter from a cell, inspect
+                row details beside the grid, and review staged edits on
+                supported sources.
               </p>
             </article>
             <article class="workflow-card">
               <svg class="icon" aria-hidden="true"><use href="#i-query" /></svg>
               <h3>AI-assisted SQL</h3>
               <p>
-                Draft, explain or fix SQL with AI. Review the query before
-                running it, and switch between results when you run a script.
+                Write SQL with autocomplete and formatting, or ask AI to draft,
+                explain, or fix it. Inspect execution plans on supported
+                engines.
               </p>
             </article>
             <article class="workflow-card">
-              <svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg>
-              <h3>Keep work organized</h3>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-terminal" />
+              </svg>
+              <h3>Scripts and transactions</h3>
               <p>
-                Group connections, label environments and set read-only access.
-                Return to saved queries, drafts and history in your local
-                workspace.
+                Run SQL scripts with separate results for each statement. Use
+                named parameters and commit or roll back work in a persistent
+                session on supported engines.
               </p>
             </article>
           </div>
@@ -261,9 +268,9 @@
             <span class="eyebrow">Built-in MCP</span>
             <h2>Connect AI assistants to your databases</h2>
             <p class="section-lede">
-              Give Claude Code, Cursor, Codex and other AI tools access to your
-              connected sources through Rowwise’s local MCP server. It runs on
-              your machine and is read-only by default.
+              Give Claude Code, Cursor, and Codex access to your connected
+              sources through Rowwise’s local MCP server. MCP access is
+              read-only by default.
             </p>
             <ul class="client-chips" aria-label="MCP clients">
               <li>
@@ -346,9 +353,11 @@
               </li>
             </ul>
             <ul class="feature-list">
-              <li>Explore schemas while building your next feature.</li>
-              <li>Investigate a bug with bounded, read-only queries.</li>
-              <li>Reuse saved queries and recent work from your workspace.</li>
+              <li>
+                Find tables, columns, and data types in connected sources.
+              </li>
+              <li>Sample rows and run bounded, read-only queries.</li>
+              <li>Reopen saved queries and look up recent SQL.</li>
             </ul>
 
             <p class="privacy-note">
