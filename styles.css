@@ -386,14 +386,6 @@ h2 {
   color: var(--muted);
   font-size: 12px;
 }
-.source-catalog {
-  margin-top: 24px;
-}
-.source-catalog summary {
-  width: fit-content;
-  color: var(--accent);
-  font-weight: 550;
-}
 .split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -884,31 +876,75 @@ h2 {
 .download {
   text-align: center;
 }
+.download-mark {
+  margin: 0 auto;
+}
 .download h2 {
-  font-size: clamp(36px, 4.8vw, 58px);
-  max-width: 690px;
-  margin: 15px auto 20px;
+  margin: 18px auto 10px;
 }
 .download .section-lede {
   margin: 0 auto 28px;
 }
-.platform-grid {
+.platform-picker {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 0;
+  margin: 0 auto 16px;
+  border: 0;
+}
+.platform-option {
+  cursor: pointer;
+}
+.platform-tile {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  max-width: 880px;
-  margin: auto;
-}
-.platform {
-  padding: 20px 14px;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  width: 76px;
+  height: 70px;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 12px;
+  color: var(--body);
+  background: var(--subtle);
+  font-size: 12px;
 }
-.platform .btn {
-  width: 100%;
+.platform-tile .icon {
+  width: 22px;
+  height: 22px;
 }
-.platform p {
-  margin-top: 12px;
+.platform-option:hover .platform-tile {
+  border-color: var(--line-strong);
+  background: var(--raised);
+}
+.platform-option input:checked + .platform-tile {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.platform-option input:focus-visible + .platform-tile {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.download-actions {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+.platform-download {
+  width: min(100%, 352px);
+  min-height: 48px;
+  padding-inline: 10px;
+}
+.download-format {
+  font-size: 11px;
+  font-weight: 500;
+  color: inherit;
+  opacity: 0.8;
+}
+.download-version {
+  margin-top: 16px;
   color: var(--muted);
   font-size: 12px;
 }
@@ -1021,10 +1057,6 @@ h2 {
   }
   .hero .ctas {
     justify-content: center;
-  }
-  .platform-grid {
-    grid-template-columns: 1fr;
-    max-width: 360px;
   }
   .page-section {
     padding: 52px 0;

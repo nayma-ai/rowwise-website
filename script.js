@@ -94,6 +94,21 @@
   );
   search.addEventListener("input", filterSources);
 
+  const platformPicker = document.getElementById("platform-picker");
+  const platformDownloads = document.querySelectorAll(
+    "[data-platform-download]",
+  );
+  function showSelectedDownload() {
+    const selected = platformPicker.querySelector("input:checked").value;
+    platformDownloads.forEach((link) => {
+      link.hidden = link.dataset.platformDownload !== selected;
+    });
+  }
+  platformPicker.addEventListener("change", showSelectedDownload);
+  window.addEventListener("pageshow", showSelectedDownload);
+  showSelectedDownload();
+  platformPicker.hidden = false;
+
   const copy = document.getElementById("copy-mcp");
   const command = document.getElementById("mcp-command");
   copy.addEventListener("click", async () => {
